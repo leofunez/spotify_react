@@ -1,0 +1,18 @@
+$white:  #ffffff;
+
+$dark:   #051023;
+$dark2:  #020c1f;
+$dark3:  #263349;
+$dark4:  #141d2d;
+
+$green:  #00ff62;
+$green2: #68FF00;
+$green3: #12ffb9;
+$green4: #00ff1c;
+
+$blue:   #2668fc;
+$gray:   #586782;
+
+$greenGradient: linear-gradient(to right, $green, $green2);
+$grayGradient: linear-gradient(to right, $dark2, $dark4);
+$blueGradient: linear-gradient(to right, $blue, $green2);

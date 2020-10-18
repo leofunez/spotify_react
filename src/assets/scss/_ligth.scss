@@ -1,0 +1,55 @@
+@import "./_colors.scss";
+
+.app {
+    &--is-light {
+        background-color: $white;
+        color: $dark;
+        
+        * {
+            // Scroll
+                // Firefox
+                    scrollbar-color: rgba($gray, 0.1) transparent;
+                // .Firefox
+
+                // Chrome
+                    ::-webkit-scrollbar-thumb {
+                        background: rgba($gray, 0.1);
+                    }
+                // .Chrome
+            // .Scroll
+        }
+
+        &:not(.app--is-login) {
+            .content {
+                background-color: rgba($gray, .05);
+            }
+        }
+
+        .logo {
+            background-position: -26px -354px;
+        }
+
+        .input {
+            background-color: $white;
+            color: $gray;
+        }
+
+        .button {
+            &__like {
+                background-position: -237px -31px;
+
+                &--active {
+                    background-position: -237px -87px;
+                }
+            }
+        }
+
+        // Page
+            .page {
+                &__title {
+                    color: $dark;
+                }
+            }
+        // .Page
+    }
+}
