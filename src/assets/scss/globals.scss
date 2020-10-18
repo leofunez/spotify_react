@@ -1,0 +1,310 @@
+@import "./_colors.scss";
+
+* {
+    box-sizing: border-box;
+    
+    // Scroll
+        // Firefox
+            scrollbar-color: $dark3 transparent;
+            scrollbar-width: thin;
+        // .Firefox
+
+        // Chrome
+            ::-webkit-scrollbar {
+                width: 2px;
+            }
+            
+            ::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background: $dark3;
+                border-radius: 15px;
+            }
+        // .Chrome
+    // .Scroll
+    
+    &:active,
+    &:focus {
+        outline: 0;
+    }
+}
+
+html, body {
+    background-color: $dark;
+}
+
+.app {
+    font-family: Roboto, "Libre Franklin", Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $white;
+    display: grid;
+    
+    font-weight: 500;
+    background-color: $dark;
+    min-height: 100vh;
+
+    &:not(.app--is-login) {
+        grid-template-columns:
+        [menu-start] 240px
+        [content-start] 1fr;
+        
+        grid-template-rows: 
+        [content-start] 1fr
+        [player-start] 80px;
+
+        .content {
+            padding: 40px 10px;
+            overflow: auto;
+            max-height: calc(100vh - 80px);
+            background-color: $dark2;
+            position: relative;
+        }
+    }
+
+    .logo {
+        background: url("./assets/img/icons/icons.svg") no-repeat -174px -354px / 1058px;
+        width: 132px;
+        height: 40px;
+        display: block;
+    }
+
+    .wrapper {
+        max-width: 1080px;
+        margin: 0 auto;
+
+        &--full {
+            max-width: initial;
+        }
+    }
+
+    .page {
+        padding-bottom: 60px;
+
+        &__title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+    }
+
+    .block-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .divider {
+        width: 100%;
+        height: 1px;
+        background: $gray;
+        margin: 40px 0;
+    }
+
+    .card-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 60px 30px;
+    }
+
+    .track-list {
+        display: grid;
+        grid-gap: 8px;
+    }
+
+    .profile-list {
+        display: grid;
+        grid-gap: 20px;
+    }
+
+    .message {
+        font-size: 14px;
+
+        i {
+            color: $green;
+        }
+    }
+
+    .input {
+        background: #0c1728;
+        border: 0;
+        border-radius: 10px;
+        height: 46px;
+        width: 100%;
+        padding: 10px 30px;
+        color: $white;
+        font-size: 14px;
+        font-weight: 500;
+        border: 1px solid transparent;
+
+        &__filter {
+            margin-bottom: 20px;
+            border-radius: 25px;
+        }
+
+        &--textarea {
+            resize: none;
+            height: 200px;
+            padding: 20px 30px;
+        }
+
+        &--error {
+            border-color: $green;
+        }
+    }
+
+    .form-item {
+        margin-bottom: 20px;
+
+        &__message {
+            font-size: 12px;
+            text-align: left;
+            display: none;
+            margin-top: 10px;
+            padding-left: 5px;
+            color: $green;
+
+            &--show {
+                display: block;
+            }
+        }
+    }
+
+    .button {
+        background: $green;
+        color: $dark;
+        border: 0;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 2px;
+        border: 0;
+        cursor: pointer;
+        transition: all 0.4s ease-in-out;
+
+        &:hover {
+            &:not(.button--dark, .button--text, .button__like) {
+                box-shadow: 0 0 5px $green;
+            }
+        }
+
+        &--outlined {
+            border: 2px solid $green;
+            background-color: transparent;
+            color: $green;
+        }
+
+        &--dark {
+            background-color: $dark;
+            color: $green;
+            padding: 12px 6px;
+
+            &:hover {
+                color: $white;
+            }
+        }
+
+        &--rounded {
+            border-radius: 20px;
+            padding: 10px 20px 9px;
+        }
+
+        &--text {
+            border: 0;
+            background-color: transparent;
+            color: $green;
+
+            &:hover {
+                box-shadow: none;
+                opacity: 0.8;
+            }
+        }
+
+        &__like {
+            background: none;
+            border-radius: 50%;
+            height: 36px;
+            width: 36px;
+            padding: 0;
+            background: url("./assets/img/icons/icons.svg") no-repeat -237px -59px / 494px;
+            transition: none;
+
+            &:hover {
+                opacity: 0.8;
+                box-shadow: none;
+            }
+
+            &--active {
+                background-position: -237px -115px;
+            }
+        }
+    }
+
+    /**** Media ****/
+        @media screen and (max-width: 1180px) {
+            &:not(.app--is-login) {
+                grid-template-columns:
+                [content-start] 1fr;
+
+                grid-template-rows:
+                [header-start] 80px
+                [content-start] 1fr
+                [player-start] 80px;
+
+                .content {
+                    grid-column: content-start / span 2;
+                    grid-row: content-start / player-start;
+                    padding: 20px 10px;
+                    max-height: calc(100vh - 160px);
+                }
+            }
+
+            .page {
+                padding-bottom: 40px;
+            }
+        }
+
+        @media screen and (max-width: 900px) {
+            .card-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media screen and (max-width: 780px) {
+            .logo {
+                width: 38px;
+                height: 38px;
+            }
+        }
+
+        @media screen and (max-width: 680px) {
+            .card-list {
+                grid-template-columns: repeat(2, 1fr);
+                grid-gap: 30px 10px;
+            }
+        }
+
+        @media screen and (max-width: 540px) {
+            .logo {
+                width: 92px;
+                background-size: 800px;
+                background-position: -132px -268px;
+                height: 28px;
+            }
+
+            .input {
+                height: 36px;
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .card-list {
+                grid-template-columns: 1fr;
+                grid-gap: 40px;
+            }
+        }
+    /**** .Media ****/
+}
