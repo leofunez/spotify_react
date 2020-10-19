@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+@import "../css/normalize.css";
 @import "./_colors.scss";
 
 * {
@@ -65,7 +69,7 @@ html, body {
     }
 
     .logo {
-        background: url("./assets/img/icons/icons.svg") no-repeat -174px -354px / 1058px;
+        background: url("../img/icons/icons.svg") no-repeat -174px -354px / 1058px;
         width: 132px;
         height: 40px;
         display: block;
@@ -227,7 +231,7 @@ html, body {
             height: 36px;
             width: 36px;
             padding: 0;
-            background: url("./assets/img/icons/icons.svg") no-repeat -237px -59px / 494px;
+            background: url("../img/icons/icons.svg") no-repeat -237px -59px / 494px;
             transition: none;
 
             &:hover {

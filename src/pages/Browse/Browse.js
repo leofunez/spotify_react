@@ -1,0 +1,114 @@
+import React, { useState, useEffect } from "react"
+import ApiSpotify from "../../config/api"
+
+// Styles
+import {
+    Tabs,
+    TabsButtons,
+    TabButton,
+    TabsContent,
+    TabBody
+} from "./Browse.styles"
+
+// Global Styles
+import {
+    PageContainer,
+    PageTitle,
+    CardList
+} from "../../components/Globals/Globals.styles"
+
+// Components
+import Card from "../../components/Card/Card"
+
+const Browse = () => {
+    const [title] = useState("Browse")
+    const [tabFeatured, setTabFeatured] = useState(true)
+    const [featuredPlaylist, setFeaturedPlaylist] = useState([])
+    const [newReleases, setNewReleases] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+
+    // Methods
+        const getNewReleases = async () => {
+            try {
+                const response   = await ApiSpotify.getNewReleases()
+                const { albums } = response.data
+                
+                setNewReleases(albums.items)
+            } catch (err) {
+                // err.response.status === 401 && (window.location.href = "/login")
+                console.log("NewReleases API Error!", err.response)
+            }
+
+            // this.SET_IS_LOADING(false)
+        }
+
+        const getFeaturedPlaylists = async () => {
+            try {
+                const response      = await ApiSpotify.getFeaturedPlaylists()
+                const { playlists } = response.data
+                
+                setFeaturedPlaylist(playlists.items)
+            } catch (err) {
+                // err.response.status === 401 && (window.location.href = "/login")
+                console.log("FeaturedPlaylists API Error!", err.response)
+            }
+        }
+
+        const changeTab = state => {
+            setTabFeatured(state)
+        }
+    // .Methods
+
+    useEffect(() => {
+        // this.SET_IS_LOADING(true)
+        getNewReleases()
+        getFeaturedPlaylists()
+    }, [])
+
+    return (
+        <PageContainer>
+            <PageTitle>{title}</PageTitle>
+
+            <Tabs>
+                <TabsButtons>
+                    <TabButton onClick={() => changeTab(true)} isActive={tabFeatured}>Featured Playlist</TabButton>
+                    <TabButton onClick={() => changeTab(false)} isActive={!tabFeatured}>New Releases</TabButton>
+                </TabsButtons>
+
+                <TabsContent>
+                    <TabBody isActive={tabFeatured}>
+                        <CardList>
+                            {featuredPlaylist.map( (playlist, index) => (
+                                <Card
+                                    key      ={index}
+                                    id       ={playlist.id}
+                                    title    ={playlist.name}
+                                    subtitle ={`${playlist.tracks.total} tracks`}
+                                    image    ={playlist.images[0].url}
+                                    link     ={`/playlist/${playlist.id}`}
+                                />
+                            ))}
+                        </CardList>
+                    </TabBody>
+
+                    <TabBody isActive={!tabFeatured}>
+                        <CardList>
+                            {newReleases.map( (album, index) => (
+                                <Card
+                                    key      ={index}
+                                    id       ={album.id}
+                                    title    ={album.name}
+                                    subtitle ={`${album.total_tracks} tracks`}
+                                    image    ={album.images[0].url}
+                                    link     ={`/album/${album.id}`}
+                                />
+                            ))}
+                        </CardList>
+                    </TabBody>
+                </TabsContent>
+            </Tabs>
+        </PageContainer>
+    )
+}
+
+export default Browse

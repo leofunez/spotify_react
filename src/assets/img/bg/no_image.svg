@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="640px" height="640px" viewBox="0 0 640 640" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#0A1C38" x="0" y="0" width="640" height="640"></rect>
+        <rect id="Rectangle" fill="#0B1F3E" fill-rule="nonzero" transform="translate(68.844088, 58.935301) rotate(39.000000) translate(-68.844088, -58.935301) " x="-19.155912" y="-205.564699" width="176" height="529"></rect>
+        <rect id="Rectangle-Copy" fill="#0C2346" fill-rule="nonzero" transform="translate(223.470937, 227.122964) rotate(39.000000) translate(-223.470937, -227.122964) " x="129.335092" y="-243.542761" width="188.27169" height="941.331448"></rect>
+        <rect id="Rectangle-Copy-2" fill="#0A2043" fill-rule="nonzero" transform="translate(262.356830, 253.017574) rotate(39.000000) translate(-262.356830, -253.017574) " x="168.220984" y="-217.648151" width="188.27169" height="941.331448"></rect>
+        <rect id="Rectangle-Copy-3" fill="#0A2043" fill-rule="nonzero" transform="translate(474.356830, 464.017574) rotate(39.000000) translate(-474.356830, -464.017574) " x="380.220984" y="-6.64815054" width="188.27169" height="941.331448"></rect>
+        <rect id="Rectangle-Copy-4" fill="#081D3F" fill-rule="nonzero" transform="translate(592.356830, 562.017574) rotate(39.000000) translate(-592.356830, -562.017574) " x="498.220984" y="91.3518495" width="188.27169" height="941.331448"></rect>
+        <rect id="Rectangle-Copy-5" fill="#061A38" fill-rule="nonzero" transform="translate(631.356830, 593.017574) rotate(39.000000) translate(-631.356830, -593.017574) " x="537.220984" y="122.351849" width="188.27169" height="941.331448"></rect>
+        <g id="playlist_white" transform="translate(245.000000, 245.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <path d="M100.047043,90.3346426 L64.8178073,66.7400406 C63.4723721,65.838656 61.7419003,65.754656 60.3160664,66.5212294 C58.8902326,67.2878029 58,68.780712 58,70.4057889 L58,117.594699 C58,119.219482 58.8902326,120.712392 60.3160664,121.478965 C60.9645183,121.827301 61.6755349,122 62.3850897,122 C63.2358538,122 64.0842791,121.751524 64.8178073,121.25986 L100.047043,97.6655519 C101.267056,96.8487546 102,95.4730343 102,94.0000972 C102,92.5271601 101.267056,91.1517335 100.047043,90.3346426 Z M66.7707641,109.362993 L66.7707641,78.6377892 L89.7086512,94.0003909 L66.7707641,109.362993 Z" id="Shape"></path>
+            <path d="M145.605469,38 L4.39453125,38 C1.96757812,38 0,39.961556 0,42.381081 L0,145.618919 C0,148.038444 1.96757812,150 4.39453125,150 L145.605469,150 C148.032422,150 150,148.038444 150,145.618919 L150,42.381081 C150,39.961556 148.032422,38 145.605469,38 Z M141.210938,141.237838 L8.7890625,141.237838 L8.7890625,46.7621621 L141.210938,46.7621621 L141.210938,141.237838 Z" id="Shape"></path>
+            <path d="M131.596728,19 L18.4032724,19 C15.9714918,19 14,21.0148 14,23.5 C14,25.9852 15.9714918,28 18.4032724,28 L131.596728,28 C134.028508,28 136,25.9852 136,23.5 C136,21.0148 134.028508,19 131.596728,19 Z" id="Shape"></path>
+            <path d="M117.582707,0 L32.4172932,0 C29.9777694,0 28,2.0148 28,4.5 C28,6.9852 29.9777694,9 32.4172932,9 L117.582707,9 C120.022231,9 122,6.9852 122,4.5 C122,2.0148 120.022231,0 117.582707,0 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>
