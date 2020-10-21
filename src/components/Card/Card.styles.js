@@ -4,6 +4,8 @@ import { COLORS } from "../../helpers/colors"
 
 export const Container = styled.article``;
 
+export const Link = styled(NavLink)``;
+
 export const Image = styled.div`
     height: 250px;
     width: 100%;

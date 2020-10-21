@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { NavLink } from "react-router-dom"
 import { COLORS } from "../../helpers/colors"
-import { Wrapper } from "../../components/Globals/Globals.styles"
+import { Wrapper, Input } from "../../components/Globals/Globals.styles"
 import AvatarIcon from "../../assets/img/icons/profile_green.svg"
 
 export const Container = styled.section`
@@ -19,18 +19,7 @@ export const Search = styled.div`
     width: 60%;
 `;
 
-export const SearchInput = styled.input`
-    background-color: #0c1728;
-    border: 0;
-    border-radius: 10px;
-    height: 46px;
-    width: 100%;
-    padding: 10px 30px;
-    color: ${COLORS.white};
-    font-size: 14px;
-    font-weight: 500;
-    border: 1px solid transparent;
-`;
+export const SearchInput = styled(Input)``;
 
 export const User = styled(NavLink)`
     display: flex;

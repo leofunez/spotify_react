@@ -29,15 +29,15 @@ export const TabButton = styled.div`
         margin-right: 20px;
     }
 
-    &:hover {
-        &:after {
-            width: 10px;
-        }
-    }
-
-    ${({isActive}) => isActive && `
+    ${({isActive}) => isActive ? `
         &:after {
             width: 40px;
+        }
+    ` : `
+        &:hover {
+            &:after {
+                width: 10px;
+            }
         }
     `}
 `;

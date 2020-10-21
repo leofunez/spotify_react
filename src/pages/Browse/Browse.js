@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react"
+
+// Api
 import ApiSpotify from "../../config/api"
 
 // Styles
@@ -85,7 +87,7 @@ const Browse = () => {
                                     title    ={playlist.name}
                                     subtitle ={`${playlist.tracks.total} tracks`}
                                     image    ={playlist.images[0].url}
-                                    link     ={`/playlist/${playlist.id}`}
+                                    url      ={`/playlist/${playlist.id}`}
                                 />
                             ))}
                         </CardList>
@@ -100,7 +102,7 @@ const Browse = () => {
                                     title    ={album.name}
                                     subtitle ={`${album.total_tracks} tracks`}
                                     image    ={album.images[0].url}
-                                    link     ={`/album/${album.id}`}
+                                    url      ={`/album/${album.id}`}
                                 />
                             ))}
                         </CardList>
