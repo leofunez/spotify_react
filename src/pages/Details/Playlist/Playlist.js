@@ -6,13 +6,13 @@ import ApiSpotify from "../../../config/api"
 // Global Styles
 import {
     PageContainer,
-    Input
+    Input,
+    TrackList
 } from "../../../components/Globals/Globals.styles"
 
 // Components
-import {
-    TopDetail
-} from "../../../components/TopDetail/TopDetail"
+import {TopDetail} from "../../../components/TopDetail/TopDetail"
+import {Track} from "../../../components/Track/Track"
 
 const Playlist = props => {
     const [playlistId] = useState(props.match.params.id)
@@ -53,9 +53,9 @@ const Playlist = props => {
                 // Show "Remove from this Playlist" option on Track component menu
                 // this.GET_USER[0] && (data.owner.id === this.GET_USER[0].id) && (this.its_my_playlist = true)
 
-                const tracks_with_audio = data_tracks.filter( track => track.track.preview_url !== null )
-                
-                tracks_with_audio.forEach( (track, index) => {
+                // const tracks_with_audio = data_tracks.filter( track => track.track.preview_url !== null )
+
+                const trackList = data_tracks.map( (track, index) => {
                     let _track = track.track
 
                     const new_track = {
@@ -71,9 +71,11 @@ const Playlist = props => {
                         album_photo   : data.images[0].url || ""
                     }
 
-                    setTracks(new_track)
-                    setFilterTracks(new_track)
+                    return new_track
                 })
+
+                setTracks(trackList)
+                setFilterTracks(trackList)
 
                 // this.fillTrackList()
             } else {
@@ -81,7 +83,7 @@ const Playlist = props => {
             }
         } catch (err) {
             // err.response.status === 401 && (window.location.href = "/login")
-            // err.response.status === 404 && (setNotFound(true))
+            err.response.status === 404 && (setNotFound(true))
             console.log("PlaylistDetail API Error!", err.response)
         }
 
@@ -112,6 +114,28 @@ const Playlist = props => {
                     />
 
                     <Input type="search" placeholder="Filter" />
+
+                    <TrackList>
+                        {tracks.map( (track, index) => (
+                            <Track
+                                key            ={`${track.track_id}-${index}`}
+                                track_index    ={track.track_index}
+                                track_id       ={track.track_id}
+                                track_name     ={track.track_name}
+                                track_url      ={track.track_url}
+                                track_duration ={track.track_duration}
+                                artist_id      ={track.artist_id}
+                                artist_name    ={track.artist_name}
+                                album_id       ={track.album_id}
+                                album_name     ={track.album_name}
+                                album_photo    ={track.album_photo}
+                                show_remove    ={isMyPlaylist}
+
+                                tracklist_id   ={playlistId}
+                                tracklist_type ="playlist"
+                            />
+                        ))}
+                    </TrackList>
                 </>
             {/* )} */}
         </PageContainer>

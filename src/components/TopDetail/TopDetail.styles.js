@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import { COLORS } from "../../helpers/colors"
 import { NavLink } from "react-router-dom"
-import { Input } from "../../components/Globals/Globals.styles"
 import IconsImage from "../../assets/img/icons/icons.svg"
 
 // Components

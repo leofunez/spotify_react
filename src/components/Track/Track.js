@@ -1,9 +1,17 @@
 import React from "react"
 
-const Track = () => {
+// Styles
+import {
+    Container,
+    Play,
+    Pause
+} from "./Track.styles"
+
+export const Track = () => {
     return (
-        <div></div>
+        <Container>
+            <Play />
+            <Pause />
+        </Container>
     )
 }
-
-export default Track
