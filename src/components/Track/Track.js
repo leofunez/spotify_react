@@ -20,6 +20,7 @@ export const Track = props => {
     const [trackName, setTrackName]         = useState("")
     const [trackArtistId, setTrackArtistId] = useState("")
     const [trackArtist, setTrackArtist]     = useState("")
+    const [trackAlbumId, setTrackAlbumId]   = useState("")
     const [trackDuration, setTrackDuration] = useState("")
     const [trackListType, setTrackListType] = useState("")
 
@@ -44,6 +45,7 @@ export const Track = props => {
         setTrackName(props.track_name)
         setTrackArtistId(props.artist_id)
         setTrackArtist(props.artist_name)
+        setTrackAlbumId(props.album_id)
         setTrackDuration(getTrackTime(props.track_duration))
         setTrackListType(props.tracklist_type)
     }, [props])
@@ -62,7 +64,7 @@ export const Track = props => {
                         <MoreLinkItem to={`/artist/${trackArtistId}`}>Go to Artist</MoreLinkItem>
                         
                         {trackListType !== "album" && (
-                            <MoreLinkItem to="">Go to Album</MoreLinkItem>
+                            <MoreLinkItem to={`/album/${trackAlbumId}`}>Go to Album</MoreLinkItem>
                         )}
                         
                         <MoreListItem>

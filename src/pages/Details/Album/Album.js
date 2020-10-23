@@ -100,7 +100,7 @@ const Album = props => {
             {/* {!notFound && !isLoading && ( */}
                 <>
                     <TopDetail
-                        pretitle    ="Playlist"
+                        pretitle    ="Album"
                         title       ={albumTitle}
                         description ={albumDescription}
                         owner       ={owner}
