@@ -78,7 +78,7 @@ export const MoreList = styled.ul`
     left: 25px;
     margin: 0;
     padding: 5px 0;
-    background-color: $dark4;
+    background-color: ${COLORS.dark4};
     min-width: 150px;
     width: max-content;
     z-index: 1;
@@ -99,7 +99,7 @@ export const MoreListItem = styled.li`
     &:hover {
         background-color: ${COLORS.dark3};
 
-        .track__more-list {
+        ul {
             display: block;
         }
     }
@@ -113,6 +113,15 @@ export const MoreListItem = styled.li`
         max-height: 260px;
         overflow-y: auto;
         width: 180px;
+    }
+`;
+
+export const MoreLinkItem = styled(NavLink)`
+    display: block;
+    padding: 8px 20px;
+
+    &:hover {
+        background-color: ${COLORS.dark3};
     }
 `;
 

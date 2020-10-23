@@ -8,6 +8,7 @@ import {
     More,
     MoreList,
     MoreListItem,
+    MoreLinkItem,
     MoreText,
     Name,
     Artist,
@@ -20,6 +21,13 @@ export const Track = props => {
     const [trackArtistId, setTrackArtistId] = useState("")
     const [trackArtist, setTrackArtist]     = useState("")
     const [trackDuration, setTrackDuration] = useState("")
+    const [trackListType, setTrackListType] = useState("")
+
+    const [isPlaying, setIsPlaying]         = useState(false)
+    const [isLiked, setIsLiked]             = useState(false)
+    const [isCurrent, setIsCurrent]         = useState(false)
+    const [myPlaylists, setMyPlaylists]     = useState([])
+    const [openMenu, setOpenMenu]           = useState(false)
 
     const getTrackTime = (duration) => {
         let minutes = Math.floor(duration / 60000)
@@ -28,31 +36,42 @@ export const Track = props => {
         return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
     }
 
+    const openCloseMenu = (state) => {
+        setOpenMenu(state)
+    }
+
     useEffect(() => {
         setTrackName(props.track_name)
         setTrackArtistId(props.artist_id)
         setTrackArtist(props.artist_name)
         setTrackDuration(getTrackTime(props.track_duration))
-    }, [])
+        setTrackListType(props.tracklist_type)
+    }, [props])
 
     return (
         <Container>
-            <Play />
-            {/* <Pause /> */}
+            {!isPlaying ? (
+                <Play />
+            ) : (
+                <Pause />
+            )}
 
             {/* More Menu */}
-                <More>
-                    <MoreList>
-                        <MoreListItem>Go to Artist</MoreListItem>
-                        <MoreListItem>Go to Album</MoreListItem>
+                <More onClick={() => openCloseMenu(!openMenu)} onMouseLeave={() => openCloseMenu(false)}>
+                    <MoreList isOpen={openMenu}>
+                        <MoreLinkItem to={`/artist/${trackArtistId}`}>Go to Artist</MoreLinkItem>
+                        
+                        {trackListType !== "album" && (
+                            <MoreLinkItem to="">Go to Album</MoreLinkItem>
+                        )}
                         
                         <MoreListItem>
                             Add to Playlist
                             
                             <MoreList>
-                                <MoreListItem>
+                                <MoreLinkItem to="">
                                     <MoreText>Item 1</MoreText>
-                                </MoreListItem>
+                                </MoreLinkItem>
                             </MoreList>
                         </MoreListItem>
 
@@ -61,7 +80,7 @@ export const Track = props => {
                 </More>
             {/* .More Menu */}
 
-            <Name>{trackName}</Name>
+            <Name isActive={isCurrent}>{trackName}</Name>
 
             <Artist to={`/artist/${trackArtistId}`}>{trackArtist}</Artist>
 
