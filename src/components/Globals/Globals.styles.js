@@ -121,4 +121,9 @@ export const Input = styled.input`
     font-size: 14px;
     font-weight: 500;
     border: 1px solid transparent;
+
+    ${({isFilter}) => isFilter && `
+        margin-bottom: 20px;
+        border-radius: 25px;
+    `}
 `;

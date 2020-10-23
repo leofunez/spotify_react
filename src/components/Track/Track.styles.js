@@ -168,3 +168,5 @@ export const Like = styled(ButtonLike)`
         }
     `}
 `;
+
+export const Duration = styled.p``;

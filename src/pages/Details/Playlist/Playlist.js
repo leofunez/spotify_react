@@ -11,8 +11,8 @@ import {
 } from "../../../components/Globals/Globals.styles"
 
 // Components
-import {TopDetail} from "../../../components/TopDetail/TopDetail"
-import {Track} from "../../../components/Track/Track"
+import { TopDetail } from "../../../components/TopDetail/TopDetail"
+import { Track } from "../../../components/Track/Track"
 
 const Playlist = props => {
     const [playlistId] = useState(props.match.params.id)
@@ -113,7 +113,7 @@ const Playlist = props => {
                         showLike    ={!isMyPlaylist}
                     />
 
-                    <Input type="search" placeholder="Filter" />
+                    <Input type="search" placeholder="Filter" isFilter={true} />
 
                     <TrackList>
                         {tracks.map( (track, index) => (
