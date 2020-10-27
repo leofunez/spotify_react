@@ -179,7 +179,7 @@ const Artist = props => {
                     is_liked    ={isLiked}
                 />
 
-                <TopContent isFullWidth={false}>
+                <TopContent isFullWidth={related.length === 0}>
                     <TopPopular>
                         <BlockTitle>Popular Tracks</BlockTitle>
                         <TrackList>
@@ -203,22 +203,24 @@ const Artist = props => {
                             ))}
                         </TrackList>
                     </TopPopular>
+                    
+                    {related.length > 0 && (
+                        <TopRelated>
+                            <BlockTitle>Fans Also Like</BlockTitle>
 
-                    <TopRelated>
-                        <BlockTitle>Fans Also Like</BlockTitle>
-
-                        <ProfileList>
-                            {related.map( (artist, index) => (
-                                <MiniCard
-                                    key    ={`${artist.id}-${index}`}
-                                    id     ={artist.id}
-                                    name   ={artist.name}
-                                    avatar ={artist.images[2].url}
-                                    type   ="artist"
-                                />
-                            ))}
-                        </ProfileList>
-                    </TopRelated>
+                            <ProfileList>
+                                {related.map( (artist, index) => (
+                                    <MiniCard
+                                        key    ={`${artist.id}-${index}`}
+                                        id     ={artist.id}
+                                        name   ={artist.name}
+                                        avatar ={artist.images[2].url}
+                                        type   ="artist"
+                                    />
+                                ))}
+                            </ProfileList>
+                        </TopRelated>
+                    )}
                 </TopContent>
                 
                 {/* Albums */}
