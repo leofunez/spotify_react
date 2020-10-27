@@ -25,7 +25,8 @@ import {
     AlbumTop,
     AlbumPhoto,
     AlbumDate,
-    AlbumTitle
+    AlbumTitle,
+    AlbumTracks
 } from "./Artist.styles"
 
 // Components
@@ -113,14 +114,16 @@ const Artist = props => {
         try {
             const response = await ApiSpotify.getArtistAlbums(artistId)
             const albums   = response.data.items
-
-            const albumList = albums.map(async album => {
+            
+            let albumList = []
+            
+            albums.forEach( async album => {
                 const response = await ApiSpotify.getAlbumTracks(album.id)
-                const { data } = response
+                const { items } = response.data
 
-                // const tracksWithAudio = data.items.filter( track => track.preview_url !== undefined || track.preview_url !== null  )
+                // const tracksWithAudio = items.filter( track => track.preview_url !== undefined || track.preview_url !== null  )
 
-                const trackList = await data.items.map( (track, index) => {
+                const trackList = await items.map( (track, index) => {
                     const newTrack = {
                         track_index   : index,
                         track_id      : track.id,
@@ -146,10 +149,10 @@ const Artist = props => {
                     total_tracks: album.total_tracks
                 }
 
-                return newAlbum
+                albumList = [...albumList, newAlbum]
             })
 
-            setArtistAlbums(albumList)
+            setTimeout(() => setArtistAlbums(albumList), 500)
 
             // this.SET_IS_LOADING(false)
         } catch (err) {
@@ -217,24 +220,50 @@ const Artist = props => {
                         </ProfileList>
                     </TopRelated>
                 </TopContent>
+                
+                {/* Albums */}
+                    <AlbumList>
+                        <BlockTitle>Albums</BlockTitle>
 
-                <AlbumList>
-                    <BlockTitle>Albums</BlockTitle>
+                        {artistAlbums.map( (item, index) => (
+                            <Album key={`${item.id}-${index}`}>
+                                <AlbumTop>
+                                    <AlbumPhoto
+                                        to={`/album/${item.id}`}
+                                        src={item.image}
+                                    />
+                                    <AlbumDate>{item.date}</AlbumDate>
+                                    <AlbumTitle to={`/album/${item.id}`}>{item.name}</AlbumTitle>
+                                </AlbumTop>
 
-                    {artistAlbums.map( (item, index) => (
-                        <Album key={`${item.id}-${index}`}>
-                            <pre>{JSON.stringify(item)}</pre>
-                            {/* <AlbumTop>
-                                <AlbumPhoto
-                                    to={`/album/${item.id}`}
-                                    src={item.image}
-                                />
-                                <AlbumDate>{item.date}</AlbumDate>
-                                <AlbumTitle to={`/album/${item.id}`}>{item.name}</AlbumTitle>
-                            </AlbumTop> */}
-                        </Album>
-                    ))}
-                </AlbumList>
+                                {/* Tracks */}
+                                    <AlbumTracks>
+                                        <TrackList>
+                                            {item.tracks.map( (track, index) => (
+                                                <Track
+                                                    key            ={`${track.track_id}-${index}`}
+                                                    track_index    ={track.track_index}
+                                                    track_id       ={track.track_id}
+                                                    track_name     ={track.track_name}
+                                                    track_url      ={track.track_url}
+                                                    track_duration ={track.track_duration}
+                                                    artist_id      ={track.artist_id}
+                                                    artist_name    ={track.artist_name}
+                                                    album_id       ={track.album_id}
+                                                    album_name     ={track.album_name}
+                                                    album_photo    ={track.album_photo}
+                                                    
+                                                    tracklist_id   ={track.album_id}
+                                                    tracklist_type ="album"
+                                                />
+                                            ))}
+                                        </TrackList>
+                                    </AlbumTracks>
+                                {/* .Tracks */}
+                            </Album>
+                        ))}
+                    </AlbumList>
+                {/* .Albums */}
             {/* )} */}
         </PageContainer>
     )

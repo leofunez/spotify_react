@@ -66,3 +66,9 @@ export const AlbumTitle = styled(NavLink)`
     overflow: hidden;
     text-overflow: ellipsis;
 `;
+
+export const AlbumTracks = styled.div`
+    align-self: start;
+    font-size: 14px;
+    color: ${COLORS.green};
+`;
