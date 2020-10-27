@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react"
 import ApiSpotify from "../../../config/api"
 
 // Helpers
-import { numFormatter } from "../../../helpers/numFormatter"
+import { numFormatter }  from "../../../helpers/numFormatter"
 import { dateFormatter } from "../../../helpers/dateFormatter"
 
 // Global Styles
@@ -31,8 +31,8 @@ import {
 
 // Components
 import { TopDetail } from "../../../components/TopDetail/TopDetail"
-import { Track } from "../../../components/Track/Track"
-import { MiniCard } from "../../../components/MiniCard/MiniCard"
+import { Track }     from "../../../components/Track/Track"
+import { MiniCard }  from "../../../components/MiniCard/MiniCard"
 
 const Artist = props => {
     const [artistId]                      = useState(props.match.params.id)
