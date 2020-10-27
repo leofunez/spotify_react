@@ -1,6 +1,4 @@
 import styled from "styled-components"
-import { COLORS } from "../../../helpers/colors"
-import { NavLink } from "react-router-dom"
 import IconsImage from "../../../assets/img/icons/icons.svg"
 
 export const UserTop = styled.div`
