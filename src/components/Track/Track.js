@@ -31,10 +31,14 @@ export const Track = props => {
     const [openMenu, setOpenMenu]           = useState(false)
 
     const getTrackTime = (duration) => {
-        let minutes = Math.floor(duration / 60000)
-        let seconds = ((duration % 60000) / 1000).toFixed(0)
-        
-        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
+        if (duration) {
+            let minutes = Math.floor(duration / 60000)
+            let seconds = ((duration % 60000) / 1000).toFixed(0)
+            
+            return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
+        } else {
+            return "00:00"
+        }
     }
 
     const openCloseMenu = (state) => {

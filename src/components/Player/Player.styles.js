@@ -35,6 +35,8 @@ export const Photo = styled.div`
     width: 55px;
     border-radius: 30%;
     margin-right: 10px;
+
+    ${({src}) => src && `background: url(${src}) no-repeat center / cover;`}
 `;
 
 export const Info = styled.div`
@@ -92,3 +94,5 @@ export const Control = styled.button`
         background-color: rgba(${COLORS.white}, $alpha: 0.3);
     }
 `;
+
+export const Volume = styled.div``;

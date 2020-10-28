@@ -41,7 +41,7 @@ const Routes = (
                         <Route component={Login}       path="/login" />
                         <Route component={Browse}      path="/" exact />
 
-                        <Route component={Track}       path="/track:id" />
+                        <Route component={Track}       path="/track/:id" />
                         <Route component={Album}       path="/album/:id" />
                         <Route component={Artist}      path="/artist/:id" />
                         <Route component={Playlist}    path="/playlist/:id" />
