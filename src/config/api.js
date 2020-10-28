@@ -1,7 +1,7 @@
 import axios from "axios"
 
 // const spotifyToken = localStorage.getItem("spotifyToken")
-const spotifyToken = "BQD4uYmISXtV1ZdR-O51ArtFxEaoK_BAfYt6Yn-K9VmyXvFhY8NmMvIQs3ONTN0m0-ufAgz5VgRVrCTC6xlmSbHRQmNNfg8U0yp1PU4ymnL8beOfVUxhRSCXkpkgTQOCfJ3OuCzC7QNP7WGtfQLyuHRh7YVQWiiepqiE3CNBEheKmgl3VOqT14UGGxL1ulhdLWP8IxMGPAbedQgBdryVfza6phG80LqYlvc54XKo0rWaDwSfUdsESrvk0x77n1B60iO8kfufXgWRvJnhDXk"
+const spotifyToken = "BQAd371LVspee8wEY4LFRnO40Zr8gWAS0mp8BYZfz2fuk0He5fyHW8ggVBmoYzvx3T61CsCFAbTKJRYA0mS2x30MIfBdRH4k4FQBkJCMC8aAxd9-tQueo8BZ999WZZ1tUli-hjv61O2Luh02wLNPGbhX1E-Mz5nr5-QaWKd7ggeLq0xyuVGRVh0LO5I-Cp5XDZiXWI3cthaqk-1uMH3OjzygOwzFxBttmW-CuWkvAe0_Y5cpLxmyu_BqvDPP2Q2JfTObj_jjCU9OWp4NHG4"
 
 const headers = {
     Accept: "application/json",

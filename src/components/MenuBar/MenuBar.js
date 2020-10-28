@@ -1,6 +1,12 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
+
 import { NavLink } from "react-router-dom"
 
+// Redux Actions
+import { getPlaylists } from "../../redux/actions/action_playlists"
+
+// Styles
 import {
     Container,
     Group,
@@ -12,6 +18,17 @@ import {
 } from "./MenuBar.styles"
 
 const MenuBar = () => {
+    const [playlists, setPlaylists] = useState([])
+    
+    const dispatch  = useDispatch()
+    const storeData = useSelector( state => {
+        console.log(state)
+    })
+
+    useEffect(() => {
+        // console.log(dispatch(getPlaylists()))
+    }, []);
+
     return (
         <Container>
             <NavLink to="/" className="logo" />
