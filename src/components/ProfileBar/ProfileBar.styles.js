@@ -37,6 +37,10 @@ export const Avatar = styled.div`
     margin-left: 10px;
     filter: contrast(130%);
     cursor: pointer;
+    
+    ${({src}) => src && `
+        background: url(${src}) no-repeat center / cover;
+    `}
 
     ${({isEmpty}) => {
         if (isEmpty) {

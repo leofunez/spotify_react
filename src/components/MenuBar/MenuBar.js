@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
-
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
 
 // Redux Actions
-import { getPlaylists } from "../../redux/actions/action_playlists"
+import { fetchPlaylists } from "../../redux/actions/playlistsAction"
 
 // Styles
 import {
@@ -18,15 +17,11 @@ import {
 } from "./MenuBar.styles"
 
 const MenuBar = () => {
-    const [playlists, setPlaylists] = useState([])
-    
     const dispatch  = useDispatch()
-    const storeData = useSelector( state => {
-        console.log(state)
-    })
+    const playlists = useSelector( state => state.playlists.playlists || [])
 
     useEffect(() => {
-        // console.log(dispatch(getPlaylists()))
+        dispatch(fetchPlaylists())
     }, []);
 
     return (
@@ -63,9 +58,11 @@ const MenuBar = () => {
                 <GroupTitle>Playlists</GroupTitle>
                 
                 <GroupScroll>
-                    <MenuItem type="playlist" to="/test">
-                        <Icon size="360" posX="-203" posY="-25" />Baladas
-                    </MenuItem>
+                    {playlists && playlists.map( (playlist, index) => (
+                        <MenuItem type="playlist" to={`/playlist/${playlist.id}`} key={`${playlist.id}-${index}`}>
+                            <Icon size="360" posX="-203" posY="-25" />{playlist.name}
+                        </MenuItem>
+                    ))}
                 </GroupScroll>
             </Group>
 
