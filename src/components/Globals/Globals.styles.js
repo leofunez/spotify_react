@@ -127,3 +127,47 @@ export const Input = styled.input`
         border-radius: 25px;
     `}
 `;
+
+export const Slider = styled.input.attrs({ type: "range" })`
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    background: transparent;
+    outline: none;
+    border-radius: 2px;
+    width: 100%;
+    cursor: pointer;
+    position: relative;
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 8px;
+        height: 8px;
+        background: ${COLORS.white};
+        border: 0;
+        box-shadow: 0 0 5px ${COLORS.dark};
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    &::-moz-range-thumb {
+        width: 8px;
+        height: 8px;
+        background: ${COLORS.white};
+        border: 0;
+        box-shadow: 0 0 5px ${COLORS.dark};
+        border-radius: 50%;
+        cursor: pointer;
+    }
+`;
+
+export const SliderBar = styled.div`
+    position: absolute;
+    height: 2px;
+    width: calc(100% - 33px);
+    background-color: ${COLORS.dark};
+    right: 0;
+    top: calc(50% - 1px);
+    border-radius: 2px;
+`;

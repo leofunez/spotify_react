@@ -1,3 +1,7 @@
 export const FETCH_PLAYLISTS = "FETCH_PLAYLISTS"
 export const NEW_PLAYLIST    = "NEW_PLAYLIST"
 export const FETCH_USER      = "FETCH_USER"
+export const CURRENT_TRACK   = "CURRENT_TRACK"
+export const IS_PLAYING      = "IS_PLAYING"
+export const IS_REPEATING    = "IS_REPEATING"
+export const IS_RANDOM       = "IS_RANDOM"
