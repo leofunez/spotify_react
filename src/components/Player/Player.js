@@ -1,9 +1,18 @@
 import React, { useState } from "react"
 
-// Redux
-import { useDispatch, useSelector }  from "react-redux"
-import { setIsRandom } from "../../redux/actions/isRandomAction"
-import { setIsRepeating } from "../../redux/actions/isRepeatingAction"
+// Redux Hooks
+import { 
+    useDispatch, 
+    useSelector 
+}  from "react-redux"
+
+// Redux Actions
+import { 
+    setPlayerPlaying,
+    setPlayerShuffle,
+    setPlayerRepeat,
+    setPlayerCurrentTrack
+} from "../../redux/actions/playerActions"
 
 // Styles
 import {
@@ -36,10 +45,10 @@ const Player = () => {
     const [currentBar,    setCurrentBar ]   = useState("0")
     const [volume,        setVolume]        = useState(50)
     const [isMuted,       setIsMuted]       = useState(false)
-    const [isPlaying,     setIsPlaying]     = useState(false)
     
-    const isShuffle = useSelector( state => state.is_random )
-    const isRepeat  = useSelector( state => state.is_repeating )
+    const isPlaying = useSelector( state => state.player.is_playing )
+    const isShuffle = useSelector( state => state.player.shuffle )
+    const isRepeat  = useSelector( state => state.player.repeat )
 
     const setCurrentTrack = () => {
         // let track = this.GET_CURRENT_TRACK[0]
@@ -183,13 +192,12 @@ const Player = () => {
     }
 
     const shuffleTrackList = () => {
-        // setIsShuffle(!isShuffle)
-        dispatch(setIsRandom(!isShuffle))
+        dispatch(setPlayerShuffle(!isShuffle))
 		// this.SET_SHUFFLE(isShuffle)
     }
 
     const repeatTrack = () => {
-        dispatch(setIsRepeating(!isRepeat))
+        dispatch(setPlayerRepeat(!isRepeat))
         // setIsRepeat(!isRepeat)
         // this.SET_REPEAT(isRepeat)
     }
@@ -223,11 +231,14 @@ const Player = () => {
                 <Control posX="-118" posY="-4" size="340" title="Shuffle" isShuffle={isShuffle} onClick={() => shuffleTrackList()}/> 
                 <Control posX="-73"  posY="-4" size="340" title="Previous" />
                 
-                <Control posX="-53"  posY="-8" size="650" noPadding={true} title="Play" />
-                <Control posX="-97"  posY="-8" size="650" noPadding={true} title="Pause" />
+                {isPlaying ? (
+                    <Control posX="-97"  posY="-8" size="650" noPadding={true} title="Pause" />
+                ) : (
+                    <Control posX="-53"  posY="-8" size="650" noPadding={true} title="Play" />
+                )}
                 
                 <Control posX="-95"  posY="-4" size="340" title="Next" />
-                <Control posX="-140" posY="-4" size="340" title="Repeat" isRepeat={isRepeat} />
+                <Control posX="-140" posY="-4" size="340" title="Repeat" isRepeat={isRepeat} onClick={() => repeatTrack()} />
             </Controls>
 
             <Volume>
