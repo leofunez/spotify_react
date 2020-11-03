@@ -105,7 +105,7 @@ export const ButtonPlay = styled(Button)`
         top: 11px;
     }
 
-    ${({isActive}) => isActive && `
+    ${({isPlaying}) => isPlaying && `
         &:before {
             background: url(${IconsImage}) no-repeat -111px -58px / 657px;
         }

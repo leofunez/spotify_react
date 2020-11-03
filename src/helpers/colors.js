@@ -10,4 +10,6 @@ export const COLORS = {
     green4: "#00ff1c",
     blue  : "#2668fc",
     gray  : "#586782",
+    
+    greenGradient: "linear-gradient(to right, #00ff62, #68FF00)",
 }

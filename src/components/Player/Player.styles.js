@@ -8,7 +8,7 @@ export const Container = styled.section`
     grid-column: menu-start / span 2;
     background-color: ${COLORS.green};
     background-image: ${COLORS.greenGradient};
-    box-shadow: inset 0 7px 18px -7px rgba(${COLORS.dark}, $alpha: 1.0);
+    box-shadow: inset 0 7px 18px -7px rgba(0, 0, 0, .8);
     display: grid;
     grid-template-columns: 1fr 300px 1fr;
     color: ${COLORS.dark};
@@ -33,13 +33,12 @@ export const Track = styled.div`
 `;
 
 export const Photo = styled.div`
-    background-color: rgba(${COLORS.white}, $alpha: 0.7);
     height: 55px;
     width: 55px;
     border-radius: 30%;
     margin-right: 10px;
 
-    ${({src}) => src && `background: url(${src}) no-repeat center / cover;`}
+    ${({src}) => src && `background: url(${src}) no-repeat center / cover ${COLORS.white};`}
 `;
 
 export const Info = styled.div`

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 // Redux Hooks
 import { 
@@ -34,66 +34,50 @@ import {
 const Player = () => {
     const dispatch = useDispatch()
 
-    const [track]                           = useState(new Audio())
-    const [trackName,     setTrackName]     = useState("")
-    const [trackArtistId, setTrackArtistId] = useState("")
-    const [trackArtist,   setTrackArtist]   = useState("")
-    const [trackPhoto,    setTrackPhoto]    = useState("")
-    const [trackSrc,      setTrackSrc]      = useState("")
+    // Redux Store
+    const { 
+        current_track: storeCurrentTrack,
+        tracklist    : storeTracklist,
+        is_playing   : storeIsPlaying,
+        shuffle      : storeIsShuffle,
+        repeat       : storeIsRepeat
+    } = useSelector( state => state.player )
 
-    const [currentTime,   setCurrentTime]   = useState(0)
-    const [currentBar,    setCurrentBar ]   = useState("0")
-    const [volume,        setVolume]        = useState(50)
-    const [isMuted,       setIsMuted]       = useState(false)
-    
-    const isPlaying = useSelector( state => state.player.is_playing )
-    const isShuffle = useSelector( state => state.player.shuffle )
-    const isRepeat  = useSelector( state => state.player.repeat )
+    // State
+    let track = new Audio()
 
-    const setCurrentTrack = () => {
-        // let track = this.GET_CURRENT_TRACK[0]
-        let track = {}
-        
-        trackName     = track.track_name
-        trackArtistId = track.artist_id
-        trackArtist   = track.artist_name
-        trackPhoto    = track.album_photo
-        trackSrc      = track.track_url
-
-        // isPlaying     = this.GET_PLAYING
-    }
+    const [currentBar, setCurrentBar ] = useState("0")
+    const [volume    , setVolume]      = useState(50)
+    const [isMuted   , setIsMuted]     = useState(false)
 
     const playPromise = async () => {
         await track.load()
+        console.log(track.paused)
         track.play()
+        dispatch(setPlayerPlaying(true))
     }
 
     const playTrack = () => {
-        if (this.GET_CURRENT_TRACK.album_id !== "") {
-            // this.SET_PLAYING(true)
-            track.src    = this.GET_CURRENT_TRACK[0].track_url
-            track.volume = (volume / 10)
-            
+        if (storeCurrentTrack.album_id !== undefined) {
+            // dispatch(setPlayerPlaying(true))
+            track.src = storeCurrentTrack.track_url
+            // track.volume = volume
+        
             playPromise()
-            
-            isPlaying = true
 
             track.ontimeupdate = () => {
-                currentTime = getTrackTime(track.currentTime) || "0:00"
-                currentBar  = parseInt(track.currentTime * 33 / 10) + 1
+                let trackProgress = parseInt(track.currentTime * 33 / 10) + 1
+                setCurrentBar(trackProgress)
                 
-                if(currentBar === 100){
-                    // this.SET_PLAYING(false)
+                if (trackProgress === 100) {
                     resetPlayer()
+                    dispatch(setPlayerPlaying(false))
                     
-                    if (this.GET_REPEAT) {
+                    if (storeIsRepeat) {
                         setTimeout( () => {
-                            track.volume = (volume / 10)
+                            // track.volume = (volume / 10)
                             
                             playPromise()
-                            
-                            isPlaying = true
-                            // this.SET_PLAYING(true)
                         }, 500)
                     } else {
                         nextTrack()
@@ -101,6 +85,11 @@ const Player = () => {
                 }
             }
         }
+    }
+
+    const pauseTrack = () => {
+        dispatch(setPlayerPlaying(false))
+        track.pause()
     }
 
     const getTrackTime = (duration) => {
@@ -111,95 +100,86 @@ const Player = () => {
         return m + ":" + s
     }
 
-    const resetPlayer = () => {
-        currentBar = "0"
-        isPlaying  = false
-        // this.SET_PLAYING(false)
-    }
-
     const prevTrack = () => {
-        let current_track = this.GET_CURRENT_TRACK[0]
-        
-        if (current_track !== undefined) {
-            let index_next_track = ""
-            let prev_track       = ""
-            let new_track        = ""
+        if (storeCurrentTrack.track_index !== undefined) {
+            let indexNextTrack = ""
+            let prevTrack      = ""
+            let newTrack       = ""
 
-            current_track.track_index === 0 ? index_next_track = this.GET_TRACK_LIST[0].length -1 : index_next_track = current_track.track_index - 1
+            storeCurrentTrack.track_index === 0 ? indexNextTrack = storeTracklist.length -1 : indexNextTrack = storeCurrentTrack.track_index - 1
 
-            if (!this.GET_SHUFFLE) {
-                prev_track = this.GET_TRACK_LIST[0][index_next_track]
+            if (!storeIsShuffle) {
+                prevTrack = storeTracklist[indexNextTrack]
             } else {
-                prev_track = this.GET_TRACK_LIST[0][Math.floor(Math.random() * this.GET_TRACK_LIST[0].length)]
+                prevTrack = storeTracklist[Math.floor(Math.random() * storeTracklist.length)]
             }
 
-            new_track = {
-                track_index: index_next_track,
-                track_id   : prev_track.track_id,
-                track_name : prev_track.track_name,
-                track_url  : prev_track.track_url,
-                artist_id  : prev_track.artist_id,
-                artist_name: prev_track.artist_name,
-                album_id   : prev_track.album_id    ? prev_track.album_id    : current_track.album_id,
-                album_name : prev_track.album_name  ? prev_track.album_name  : current_track.album_name,
-                album_photo: prev_track.album_photo ? prev_track.album_photo : current_track.album_photo,
+            newTrack = {
+                track_index: indexNextTrack,
+                track_id   : prevTrack.track_id,
+                track_name : prevTrack.track_name,
+                track_url  : prevTrack.track_url,
+                artist_id  : prevTrack.artist_id,
+                artist_name: prevTrack.artist_name,
+                album_id   : prevTrack.album_id    ? prevTrack.album_id    : storeCurrentTrack.album_id,
+                album_name : prevTrack.album_name  ? prevTrack.album_name  : storeCurrentTrack.album_name,
+                album_photo: prevTrack.album_photo ? prevTrack.album_photo : storeCurrentTrack.album_photo,
             }
 
-            changeTrack(new_track)
+            changeTrack(newTrack)
         } 
     }
 
     const nextTrack = () => {
-        let current_track = this.GET_CURRENT_TRACK[0]
-        
-        if (current_track !== undefined) {
-            let index_next_track = ""
-            let next_track       = ""
-            let new_track        = ""
+        if (storeCurrentTrack.track_index !== undefined) {
+            let indexNextTrack = ""
+            let next_track     = ""
+            let newTrack       = ""
             
-            current_track.track_index === this.GET_TRACK_LIST[0].length -1 ? index_next_track = 0 : index_next_track = current_track.track_index + 1
+            storeCurrentTrack.track_index === storeTracklist.length -1 ? indexNextTrack = 0 : indexNextTrack = storeCurrentTrack.track_index + 1
 
-            if (!this.GET_SHUFFLE) {
-                next_track = this.GET_TRACK_LIST[0][index_next_track]
+            if (!storeIsShuffle) {
+                next_track = storeTracklist[indexNextTrack]
             }else {
-                next_track = this.GET_TRACK_LIST[0][Math.floor(Math.random() * this.GET_TRACK_LIST[0].length)]
+                next_track = storeTracklist[Math.floor(Math.random() * storeTracklist.length)]
             }
             
-            new_track = {
-                track_index: index_next_track,
+            newTrack = {
+                track_index: indexNextTrack,
                 track_id   : next_track.track_id,
                 track_name : next_track.track_name,
                 track_url  : next_track.track_url,
                 artist_id  : next_track.artist_id,
                 artist_name: next_track.artist_name,
-                album_id   : next_track.album_id    ? next_track.album_id    : current_track.album_id,
-                album_name : next_track.album_name  ? next_track.album_name  : current_track.album_name,
-                album_photo: next_track.album_photo ? next_track.album_photo : current_track.album_photo,
+                album_id   : next_track.album_id    ? next_track.album_id    : storeCurrentTrack.album_id,
+                album_name : next_track.album_name  ? next_track.album_name  : storeCurrentTrack.album_name,
+                album_photo: next_track.album_photo ? next_track.album_photo : storeCurrentTrack.album_photo,
             }
 
-            changeTrack(new_track)
+            changeTrack(newTrack)
         }
     }
 
-    const changeTrack = (track) => {
+    const resetPlayer = () => {
+        setCurrentBar("0")
+        dispatch(setPlayerPlaying(false))
+    }
+
+    const changeTrack = track => {
         resetPlayer()
+        track.currentTime = 0
         track.src = track.track_url
         
+        dispatch(setPlayerCurrentTrack(track))
         playPromise()
-
-        // this.SET_CURRENT_TRACK(track)
-        // this.SET_PLAYING(true)
     }
 
     const shuffleTrackList = () => {
-        dispatch(setPlayerShuffle(!isShuffle))
-		// this.SET_SHUFFLE(isShuffle)
+        dispatch(setPlayerShuffle(!storeIsShuffle))
     }
 
     const repeatTrack = () => {
-        dispatch(setPlayerRepeat(!isRepeat))
-        // setIsRepeat(!isRepeat)
-        // this.SET_REPEAT(isRepeat)
+        dispatch(setPlayerRepeat(!storeIsRepeat))
     }
     
     const muteVolume = () => {
@@ -209,36 +189,39 @@ const Player = () => {
 
     const changeVolume = (e) => {
         const intValue = parseInt(e.target.value)
-        console.log(intValue)
         
         setVolume(intValue)
         track.volume = intValue / 100
     }
+
+    useEffect(() => {
+        playTrack()
+    }, [storeCurrentTrack])
 
     return (
         <Container>
             <ProgressBar widthBar={currentBar}/>
 
             <Track>
-                <Photo src={trackPhoto} />
+                <Photo src={storeCurrentTrack.album_photo} />
                 <Info>
-                    <SongName>{trackName}</SongName>
-                    <ArtistName to={`/artist/${trackArtistId}`}>{trackArtist}</ArtistName>
+                    <SongName>{storeCurrentTrack.track_name}</SongName>
+                    <ArtistName to={`/artist/${storeCurrentTrack.artist_id}`}>{storeCurrentTrack.artist_name}</ArtistName>
                 </Info>
             </Track>
 
             <Controls>
-                <Control posX="-118" posY="-4" size="340" title="Shuffle" isShuffle={isShuffle} onClick={() => shuffleTrackList()}/> 
-                <Control posX="-73"  posY="-4" size="340" title="Previous" />
+                <Control posX="-118" posY="-4" size="340" title="Shuffle" isShuffle={storeIsShuffle} onClick={() => shuffleTrackList()}/> 
+                <Control posX="-73"  posY="-4" size="340" title="Previous" onClick={() => prevTrack()} />
                 
-                {isPlaying ? (
+                {storeIsPlaying ? (
                     <Control posX="-97"  posY="-8" size="650" noPadding={true} title="Pause" />
                 ) : (
                     <Control posX="-53"  posY="-8" size="650" noPadding={true} title="Play" />
                 )}
                 
-                <Control posX="-95"  posY="-4" size="340" title="Next" />
-                <Control posX="-140" posY="-4" size="340" title="Repeat" isRepeat={isRepeat} onClick={() => repeatTrack()} />
+                <Control posX="-95"  posY="-4" size="340" title="Next" onClick={() => nextTrack()} />
+                <Control posX="-140" posY="-4" size="340" title="Repeat" isRepeat={storeIsRepeat} onClick={() => repeatTrack()} />
             </Controls>
 
             <Volume>

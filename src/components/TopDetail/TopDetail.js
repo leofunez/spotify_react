@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react"
 
+// Redux Hooks
+import { useDispatch, useSelector } from "react-redux"
+
+// Redux Actions
+import { setPlayerPlaying } from "../../redux/actions/playerActions"
+
 // Styles
 import {
     Container,
@@ -22,11 +28,21 @@ import {
 } from "../Globals/Globals.styles"
 
 export const TopDetail = props => {
+    const dispatch = useDispatch()
+
+    // Redux Store
+    const { is_playing: storePlayerIsPlaying } = useSelector( state => state.player)
+
+    //State
     const [pretitle, setPretitle] = useState("")
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [owner, setOwner] = useState({})
     const [showLike, setShowLike] = useState(true)
+
+    const playAll = () => {
+        dispatch(setPlayerPlaying(!storePlayerIsPlaying))
+    }
 
     useEffect(() => {
         setPretitle(props.pretitle)
@@ -53,7 +69,11 @@ export const TopDetail = props => {
 
                 {!props.noButtons && (
                     <Buttons>
-                        <ButtonPlay isRounded={true}>Play</ButtonPlay>
+                        <ButtonPlay
+                            isRounded={true}
+                            isPlaying={storePlayerIsPlaying}
+                            onClick={() => playAll()}
+                        >Play</ButtonPlay>
                         
                         {showLike && (
                             <ButtonLike isActive={true}></ButtonLike>

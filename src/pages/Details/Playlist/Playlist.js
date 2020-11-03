@@ -15,47 +15,47 @@ import { TopDetail } from "../../../components/TopDetail/TopDetail"
 import { Track } from "../../../components/Track/Track"
 
 const Playlist = props => {
-    const [playlistId] = useState(props.match.params.id)
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-    const [image, setImage] = useState("")
-    const [owner, setOwner] = useState([])
+    const [playlistId]                    = useState(props.match.params.id)
+    const [title, setTitle]               = useState("")
+    const [description, setDescription]   = useState("")
+    const [image, setImage]               = useState("")
+    const [owner, setOwner]               = useState([])
     
-    const [tracks, setTracks] = useState([])
+    const [tracks, setTracks]             = useState([])
     const [filterTracks, setFilterTracks] = useState([])
     
-    const [isLoading, setIsLoading] = useState(true)
-    const [isPlaying, setIsPlaying] = useState(false)
-    const [isLiked, setIsLiked] = useState(false)
+    const [isLoading, setIsLoading]       = useState(true)
+    const [isPlaying, setIsPlaying]       = useState(false)
+    const [isLiked, setIsLiked]           = useState(false)
     const [isMyPlaylist, setIsMyPlaylist] = useState(false)
-    const [notFound, setNotFound] = useState(false)
+    const [notFound, setNotFound]         = useState(false)
 
     const getPlaylistDetail = async () => {
         try {
             const response = await ApiSpotify.getPlaylist(playlistId)
-            const response_tracks = await ApiSpotify.getPlaylistTracks(playlistId)
+            const responseTracks = await ApiSpotify.getPlaylistTracks(playlistId)
             
-            const { data }    = response
-            const data_tracks = response_tracks.data.items
+            const { data }   = response
+            const dataTracks = responseTracks.data.items
 
             setTitle(data.name)
             setDescription(data.description)
             setImage(data.images.length > 0 && data.images[0].url)
 
-            if (data_tracks.length > 0) {
+            if (dataTracks.length > 0) {
                 setOwner({
                     id    : data.owner.id,
                     name  : data.owner.display_name,
                     type  : "user",
-                    tracks: response_tracks.data.items.length
+                    tracks: responseTracks.data.items.length
                 })
                 
                 // Show "Remove from this Playlist" option on Track component menu
                 // this.GET_USER[0] && (data.owner.id === this.GET_USER[0].id) && (this.its_my_playlist = true)
 
-                // const tracks_with_audio = data_tracks.filter( track => track.track.preview_url !== null )
+                const tracksWithAudio = dataTracks.filter( track => track.track.preview_url !== null )
 
-                const trackList = data_tracks.map( (track, index) => {
+                const trackList = tracksWithAudio.map( (track, index) => {
                     let _track = track.track
 
                     const new_track = {
@@ -118,7 +118,7 @@ const Playlist = props => {
                     <TrackList>
                         {tracks.map( (track, index) => (
                             <Track
-                                key            ={`${track.track_id}-${index}`}
+                                key            ={`${track.track_id}`}
                                 track_index    ={track.track_index}
                                 track_id       ={track.track_id}
                                 track_name     ={track.track_name}

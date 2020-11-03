@@ -2,14 +2,18 @@ import {
     PLAYER_IS_PLAYING, 
     PLAYER_SHUFFLE, 
     PLAYER_REPEAT, 
-    PLAYER_CURRENT_TRACK 
+    PLAYER_CURRENT_TRACK,
+    PLAYER_TRACKLIST,
+    PLAYER_TRACKLIST_INFO
 } from "../actions/types"
 
 const initialState = {
-    is_playing   : true,
-    shuffle      : false,
-    repeat       : false,
-    current_track: {}
+    is_playing    : false,
+    shuffle       : false,
+    repeat        : false,
+    current_track : {},
+    tracklist     : [],
+    tracklist_info: {}
 }
 
 export default (state = initialState, action) => {
@@ -33,6 +37,16 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 current_track: action.current_track
+            }
+        case PLAYER_TRACKLIST:
+            return {
+                ...state,
+                tracklist: action.tracklist
+            }
+        case PLAYER_TRACKLIST_INFO:
+            return {
+                ...state,
+                tracklist_info: action.tracklist_info
             }
         default:
             return state
