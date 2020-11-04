@@ -33,15 +33,15 @@ import {
 export const Track = props => {
     const dispatch = useDispatch()
 
-    // Redux Store
-    const storePlaylists = useSelector( state => state.playlists.playlists )
+    // Redux State
     const {
         current_track : storeCurrentTrack,
         tracklist     : storeTrackList,
-        tracklist_info: storeTracklistInfo
+        tracklist_info: storeTracklistInfo,
+        is_playing    : storeIsPlaying,
     } = useSelector( state => state.player )
 
-    // State
+    // Local State
     const [trackId]                         = useState(props.track_id)
     const [trackIndex]                      = useState(props.track_index)
     const [trackName    , setTrackName]     = useState("")
@@ -50,6 +50,7 @@ export const Track = props => {
     const [trackAlbumId , setTrackAlbumId]  = useState("")
     const [trackDuration, setTrackDuration] = useState("")
     const [trackListType, setTrackListType] = useState("")
+    const [myPlaylists]                     = useState(props.my_playlists)
 
     const [isPlaying, setIsPlaying]         = useState(false)
     const [isLiked  , setIsLiked]           = useState(false)
@@ -59,7 +60,6 @@ export const Track = props => {
     const playTrack = () => {
         // Setting new tracklist
         (props.tracklist_id !== storeTracklistInfo.id) && newTrackList(props.tracklist_type, props.tracklist_id) 
-        console.log("PLAY!")
 
         // Play new track
         let track = storeTrackList[trackIndex]
@@ -79,14 +79,6 @@ export const Track = props => {
             }
             dispatch(setPlayerCurrentTrack(trackToPlay))
             dispatch(setPlayerPlaying(true))
-            
-            if (track.track_id === trackId) {
-                setIsCurrent(true)
-                setIsPlaying(true)
-            } else {
-                setIsCurrent(false)
-                setIsPlaying(false)
-            }
         }
     }
 
@@ -246,6 +238,16 @@ export const Track = props => {
         setOpenMenu(state)
     }
 
+    const isCurrentTrack = () => {
+        if (trackId === storeCurrentTrack.track_id) {
+            setIsPlaying(true)
+            setIsCurrent(true)
+        } else {
+            setIsPlaying(false)
+            setIsCurrent(false)
+        }
+    }
+
     useEffect(() => {
         setTrackName(props.track_name)
         setTrackArtistId(props.artist_id)
@@ -253,7 +255,9 @@ export const Track = props => {
         setTrackAlbumId(props.album_id)
         setTrackDuration(getTrackTime(props.track_duration))
         setTrackListType(props.tracklist_type)
-    }, [props])
+
+        isCurrentTrack()
+    }, [props, storeCurrentTrack])
 
     return (
         <Container>
@@ -272,17 +276,17 @@ export const Track = props => {
                             <MoreLinkItem to={`/album/${trackAlbumId}`}>Go to Album</MoreLinkItem>
                         )}
                         
-                        <MoreListItem>
+                        {/* <MoreListItem>
                             Add to Playlist
                             
                             <MoreList>
-                                {storePlaylists.map( (playlist, index) => (
+                                {myPlaylists.map( (playlist, index) => (
                                     <MoreLinkItem to="" key={`${playlist.id}-${index}`}>
                                         <MoreText>{playlist.name}</MoreText>
                                     </MoreLinkItem>
                                 ))}
                             </MoreList>
-                        </MoreListItem>
+                        </MoreListItem> */}
                         
                         {props.showRemove && (
                             <MoreListItem>Remove from this Playlist</MoreListItem>

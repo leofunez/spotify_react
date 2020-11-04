@@ -31,6 +31,8 @@ import {
     VolumeSlider
 } from "./Player.styles"
 
+const track = new Audio()
+
 const Player = () => {
     const dispatch = useDispatch()
 
@@ -43,25 +45,19 @@ const Player = () => {
         repeat       : storeIsRepeat
     } = useSelector( state => state.player )
 
-    // State
-    let track = new Audio()
-
     const [currentBar, setCurrentBar ] = useState("0")
     const [volume    , setVolume]      = useState(50)
     const [isMuted   , setIsMuted]     = useState(false)
 
     const playPromise = async () => {
         await track.load()
-        console.log(track.paused)
         track.play()
         dispatch(setPlayerPlaying(true))
     }
 
     const playTrack = () => {
         if (storeCurrentTrack.album_id !== undefined) {
-            // dispatch(setPlayerPlaying(true))
             track.src = storeCurrentTrack.track_url
-            // track.volume = volume
         
             playPromise()
 
@@ -71,7 +67,6 @@ const Player = () => {
                 
                 if (trackProgress === 100) {
                     resetPlayer()
-                    dispatch(setPlayerPlaying(false))
                     
                     if (storeIsRepeat) {
                         setTimeout( () => {
@@ -215,9 +210,9 @@ const Player = () => {
                 <Control posX="-73"  posY="-4" size="340" title="Previous" onClick={() => prevTrack()} />
                 
                 {storeIsPlaying ? (
-                    <Control posX="-97"  posY="-8" size="650" noPadding={true} title="Pause" />
+                    <Control posX="-97"  posY="-8" size="650" noPadding={true} title="Pause" onClick={() => pauseTrack()} />
                 ) : (
-                    <Control posX="-53"  posY="-8" size="650" noPadding={true} title="Play" />
+                    <Control posX="-53"  posY="-8" size="650" noPadding={true} title="Play" onClick={() => playTrack()}/>
                 )}
                 
                 <Control posX="-95"  posY="-4" size="340" title="Next" onClick={() => nextTrack()} />

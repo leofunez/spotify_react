@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react"
 
+// Redux Hooks
+import { useSelector } from "react-redux"
+
 // Api
 import ApiSpotify from "../../../config/api"
 
@@ -15,6 +18,11 @@ import { TopDetail } from "../../../components/TopDetail/TopDetail"
 import { Track } from "../../../components/Track/Track"
 
 const Playlist = props => {
+    // Redux State
+    const myPlaylists = useSelector( state => state.playlists.playlists )
+    const { user }    = useSelector( state => state.user )
+
+    // Local State
     const [playlistId]                    = useState(props.match.params.id)
     const [title, setTitle]               = useState("")
     const [description, setDescription]   = useState("")
@@ -27,63 +35,71 @@ const Playlist = props => {
     const [isLoading, setIsLoading]       = useState(true)
     const [isPlaying, setIsPlaying]       = useState(false)
     const [isLiked, setIsLiked]           = useState(false)
+    
     const [isMyPlaylist, setIsMyPlaylist] = useState(false)
+    
     const [notFound, setNotFound]         = useState(false)
 
     const getPlaylistDetail = async () => {
         try {
             const response = await ApiSpotify.getPlaylist(playlistId)
-            const responseTracks = await ApiSpotify.getPlaylistTracks(playlistId)
-            
-            const { data }   = response
-            const dataTracks = responseTracks.data.items
+            const { data } = response
 
             setTitle(data.name)
             setDescription(data.description)
             setImage(data.images.length > 0 && data.images[0].url)
+            
+            const responseTracks = await ApiSpotify.getPlaylistTracks(playlistId)
+            const dataTracks     = responseTracks.data.items
 
+            setOwner({
+                id    : data.owner.id,
+                name  : data.owner.display_name,
+                type  : "user",
+                tracks: dataTracks.length
+            })
+ 
             if (dataTracks.length > 0) {
-                setOwner({
-                    id    : data.owner.id,
-                    name  : data.owner.display_name,
-                    type  : "user",
-                    tracks: responseTracks.data.items.length
-                })
-                
                 // Show "Remove from this Playlist" option on Track component menu
-                // this.GET_USER[0] && (data.owner.id === this.GET_USER[0].id) && (this.its_my_playlist = true)
-
+                user.id && (data.owner.id === user.id) && (setIsMyPlaylist(true))
+                
+                // Filter tracks that have preview_url value
                 const tracksWithAudio = dataTracks.filter( track => track.track.preview_url !== null )
-
-                const trackList = tracksWithAudio.map( (track, index) => {
-                    let _track = track.track
-
-                    const new_track = {
+                
+                let index = 0
+                let trackList = []
+                while (index < tracksWithAudio.length) {
+                    let trackItem = tracksWithAudio[index].track
+                    
+                    let newTrack = {
                         track_index   : index,
-                        track_id      : _track.id,
-                        track_name    : _track.name,
-                        track_duration: _track.duration_ms,
-                        track_url     : _track.preview_url || "",
-                        artist_id     : _track.artists[0].id,
-                        artist_name   : _track.artists[0].name,
-                        album_id      : _track.album.id,
-                        album_name    : _track.album.name,
+                        track_id      : trackItem.id,
+                        track_name    : trackItem.name,
+                        track_duration: trackItem.duration_ms,
+                        track_url     : trackItem.preview_url || "",
+                        artist_id     : trackItem.artists[0].id,
+                        artist_name   : trackItem.artists[0].name,
+                        album_id      : trackItem.album.id,
+                        album_name    : trackItem.album.name,
                         album_photo   : data.images[0].url || ""
                     }
-
-                    return new_track
-                })
-
+                    
+                    trackList = [...trackList, newTrack]
+                    index++
+                }
+                
                 setTracks(trackList)
                 setFilterTracks(trackList)
 
-                // this.fillTrackList()
+                console.log(myPlaylists)
+
+                // fillTrackList()
             } else {
                 // this.SET_IS_LOADING(false)
             }
         } catch (err) {
             // err.response.status === 401 && (window.location.href = "/login")
-            err.response.status === 404 && (setNotFound(true))
+            // err.response.status === 404 && (setNotFound(true))
             console.log("PlaylistDetail API Error!", err.response)
         }
 
@@ -118,7 +134,7 @@ const Playlist = props => {
                     <TrackList>
                         {tracks.map( (track, index) => (
                             <Track
-                                key            ={`${track.track_id}`}
+                                key            ={`${track.track_id}-${index}`}
                                 track_index    ={track.track_index}
                                 track_id       ={track.track_id}
                                 track_name     ={track.track_name}
@@ -130,6 +146,7 @@ const Playlist = props => {
                                 album_name     ={track.album_name}
                                 album_photo    ={track.album_photo}
                                 show_remove    ={isMyPlaylist}
+                                my_playlists   ={myPlaylists}
 
                                 tracklist_id   ={playlistId}
                                 tracklist_type ="playlist"

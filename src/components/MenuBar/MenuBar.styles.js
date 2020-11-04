@@ -21,7 +21,7 @@ export const Group = styled.div `
         if (hasScroll) {
             return `
                 overflow: hidden;
-                padding-bottom: 25px;
+                padding-bottom: 0;
             `
         }
     }}
