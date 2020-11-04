@@ -24,22 +24,23 @@ const Playlist = props => {
 
     // Local State
     const [playlistId]                    = useState(props.match.params.id)
-    const [title, setTitle]               = useState("")
+    const [title      , setTitle]         = useState("")
     const [description, setDescription]   = useState("")
-    const [image, setImage]               = useState("")
-    const [owner, setOwner]               = useState([])
+    const [image      , setImage]         = useState("")
+    const [owner      , setOwner]         = useState([])
     
-    const [tracks, setTracks]             = useState([])
+    const [tracks      , setTracks]       = useState([])
     const [filterTracks, setFilterTracks] = useState([])
     
-    const [isLoading, setIsLoading]       = useState(true)
-    const [isPlaying, setIsPlaying]       = useState(false)
-    const [isLiked, setIsLiked]           = useState(false)
+    const [isLoading   , setIsLoading]    = useState(true)
+    const [isPlaying   , setIsPlaying]    = useState(false)
+    const [isLiked     , setIsLiked]      = useState(false)
     
     const [isMyPlaylist, setIsMyPlaylist] = useState(false)
     
-    const [notFound, setNotFound]         = useState(false)
+    const [notFound    , setNotFound]     = useState(false)
 
+    // Methods
     const getPlaylistDetail = async () => {
         try {
             const response = await ApiSpotify.getPlaylist(playlistId)
@@ -90,8 +91,6 @@ const Playlist = props => {
                 
                 setTracks(trackList)
                 setFilterTracks(trackList)
-
-                console.log(myPlaylists)
 
                 // fillTrackList()
             } else {
@@ -147,6 +146,7 @@ const Playlist = props => {
                                 album_photo    ={track.album_photo}
                                 show_remove    ={isMyPlaylist}
                                 my_playlists   ={myPlaylists}
+                                is_liked       ={true}
 
                                 tracklist_id   ={playlistId}
                                 tracklist_type ="playlist"

@@ -35,41 +35,63 @@ const Album = props => {
             const response = await ApiSpotify.getAlbumInfo(albumId)
             const response_tracks = await ApiSpotify.getAlbumTracks(albumId)
 
-            const { data }    = response
-            const data_tracks = response_tracks.data.items
+            const { data }   = response
+            const dataTracks = response_tracks.data.items
             
             setAlbumTitle(data.name)
             setAlbumDescription(data.label)
             setAlbumImage(data.images.length > 0 && data.images[0].url)
 
-            if (data_tracks.length > 0) {
+            if (dataTracks.length > 0) {
                 setOwner({
                     id    : data.artists[0].id,
                     name  : data.artists[0].name,
-                    track : data_tracks.length,
+                    track : dataTracks.length,
                     type  : "artist"
                 })
 
-                // const tracks_with_audio = data_tracks.filter( track => track.preview_url !== null )
+                const tracksWithAudio = dataTracks.filter( track => track.preview_url !== null )
 
-                const trackList = data_tracks.map( (track, index) => {
-                    if (track.id && track.name && track.preview_url && track.artists[0].name) {
-                        const new_track = {
-                            track_index   : index,
-                            track_id      : track.id,
-                            track_name    : track.name,
-                            track_duration: track.duration_ms,
-                            track_url     : track.preview_url || "",
-                            artist_id     : track.artists[0].id,
-                            artist_name   : track.artists[0].name,
-                            album_id      : albumId,
-                            album_name    : albumTitle,
-                            album_photo   : data.images[1].url || ""
-                        }
+                // const trackList = tracksWithAudio.map( (track, index) => {
+                //     if (track.id && track.name && track.preview_url && track.artists[0].name) {
+                //         const new_track = {
+                //             track_index   : index,
+                //             track_id      : track.id,
+                //             track_name    : track.name,
+                //             track_duration: track.duration_ms,
+                //             track_url     : track.preview_url || "",
+                //             artist_id     : track.artists[0].id,
+                //             artist_name   : track.artists[0].name,
+                //             album_id      : albumId,
+                //             album_name    : albumTitle,
+                //             album_photo   : data.images[1].url || ""
+                //         }
 
-                        return new_track
+                //         return new_track
+                //     }
+                // })
+
+                let index = 0
+                let trackList = []
+                while (index < tracksWithAudio.length) {
+                    let trackItem = tracksWithAudio[index]
+                    
+                    let newTrack = {
+                        track_index   : index,
+                        track_id      : trackItem.id,
+                        track_name    : trackItem.name,
+                        track_duration: trackItem.duration_ms,
+                        track_url     : trackItem.preview_url || "",
+                        artist_id     : trackItem.artists[0].id,
+                        artist_name   : trackItem.artists[0].name,
+                        album_id      : albumId,
+                        album_name    : albumTitle,
+                        album_photo   : data.images[0].url || ""
                     }
-                })
+                    
+                    trackList = [...trackList, newTrack]
+                    index++
+                }
 
                 setAlbumTracks(trackList)
                 setFilterTracks(trackList)

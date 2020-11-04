@@ -31,6 +31,7 @@ import {
     VolumeSlider
 } from "./Player.styles"
 
+// Track element
 const track = new Audio()
 
 const Player = () => {
@@ -45,14 +46,18 @@ const Player = () => {
         repeat       : storeIsRepeat
     } = useSelector( state => state.player )
 
+    // Local State
     const [currentBar, setCurrentBar ] = useState("0")
     const [volume    , setVolume]      = useState(50)
     const [isMuted   , setIsMuted]     = useState(false)
 
+    // Methods
     const playPromise = async () => {
         await track.load()
-        track.play()
-        dispatch(setPlayerPlaying(true))
+        setTimeout(() => {
+            track.play()
+            dispatch(setPlayerPlaying(true))
+        }, 500)
     }
 
     const playTrack = () => {

@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom"
 
 // Redux Actions
 import { fetchPlaylists } from "../../redux/actions/playlistsAction"
+import { fetchFavoriteTracks } from "../../redux/actions/favoritesAction"
 
 // Styles
 import {
@@ -18,10 +19,13 @@ import {
 
 const MenuBar = () => {
     const dispatch  = useDispatch()
-    const playlists = useSelector( state => state.playlists.playlists || [])
+
+    // Redux State
+    const storePlaylists = useSelector( state => state.playlists.playlists || [])
 
     useEffect(() => {
         dispatch(fetchPlaylists())
+        dispatch(fetchFavoriteTracks())
     }, []);
 
     return (
@@ -58,7 +62,7 @@ const MenuBar = () => {
                 <GroupTitle>Playlists</GroupTitle>
                 
                 <GroupScroll>
-                    {playlists && playlists.map( (playlist, index) => (
+                    {storePlaylists && storePlaylists.map( (playlist, index) => (
                         <MenuItem type="playlist" to={`/playlist/${playlist.id}`} key={`${playlist.id}-${index}`}>
                             <Icon size="360" posX="-203" posY="-25" />{playlist.name}
                         </MenuItem>

@@ -10,6 +10,7 @@ import {
     setTrackList,
     setTrackListInfo
 } from "../../redux/actions/playerActions"
+import { setFavoriteTracks } from "../../redux/actions/favoritesAction"
 
 // Api
 import ApiSpotify from "../../config/api"
@@ -40,6 +41,9 @@ export const Track = props => {
         tracklist_info: storeTracklistInfo,
         is_playing    : storeIsPlaying,
     } = useSelector( state => state.player )
+    const {
+        fav_tracks    :storeFavTracks
+    } = useSelector( state => state.favorites )
 
     // Local State
     const [trackId]                         = useState(props.track_id)
@@ -248,6 +252,41 @@ export const Track = props => {
         }
     }
 
+    // Like Track
+        const isAlreadyLiked = () => {
+            let index = 0
+            while (index < storeFavTracks.length) {
+                let track = storeFavTracks[index].track
+                
+                if (track.id && (track.id === trackId)) {
+                    setIsLiked(track.id === trackId)
+                }
+                
+                index++
+            }
+        }
+
+        const likeTrack = async () => {
+            let favTracks = []
+            
+            if (isLiked) {
+                await ApiSpotify.deleteSavedTrack(trackId)
+                const newFavTracks = favTracks.filter( track_id => track_id !== trackId)
+                favTracks = newFavTracks
+            } else {
+                await ApiSpotify.putSavedTrack(trackId)
+                favTracks = [...favTracks, trackId]
+            }
+
+            dispatch(setFavoriteTracks(favTracks))
+            
+            setIsLiked(!isLiked)
+            
+            // This Emit is to listen on Favorite Tracks page this event to update the track list
+            // this.$emit("toggleLike", trackId)
+        }
+    // .Like Track
+
     useEffect(() => {
         setTrackName(props.track_name)
         setTrackArtistId(props.artist_id)
@@ -256,6 +295,7 @@ export const Track = props => {
         setTrackDuration(getTrackTime(props.track_duration))
         setTrackListType(props.tracklist_type)
 
+        isAlreadyLiked()
         isCurrentTrack()
     }, [props, storeCurrentTrack])
 
@@ -299,7 +339,7 @@ export const Track = props => {
 
             <Artist to={`/artist/${trackArtistId}`}>{trackArtist}</Artist>
 
-            <Like></Like>
+            <Like isActive={isLiked} onClick={() => likeTrack()}></Like>
 
             <Duration>{trackDuration}</Duration>
         </Container>
