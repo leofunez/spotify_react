@@ -73,7 +73,7 @@ export const TopDetail = props => {
                             isRounded={true}
                             isPlaying={storePlayerIsPlaying}
                             onClick={() => playAll()}
-                        >Play</ButtonPlay>
+                        >{storePlayerIsPlaying ? "Pause" : "Play"}</ButtonPlay>
                         
                         {showLike && (
                             <ButtonLike isActive={true}></ButtonLike>
