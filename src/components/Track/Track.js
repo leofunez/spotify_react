@@ -257,7 +257,8 @@ export const Track = props => {
             if (storeFavTracks.length > 0) {
                 let index = 0
                 while (index < storeFavTracks.length) {
-                    let track = storeFavTracks[index].track
+                    let { track } = storeFavTracks[index]
+                    
                     if (track !== undefined) {
                         if (track.id === trackId) {
                             setIsLiked(track.id === trackId)
