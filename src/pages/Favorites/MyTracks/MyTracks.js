@@ -11,6 +11,7 @@ import {
 // Components
 import { TopDetail } from "../../../components/TopDetail/TopDetail"
 import { Track } from "../../../components/Track/Track"
+import { Message } from "../../../components/Message/Message"
 
 const MyTracks = () => {
     // Redux State
@@ -18,6 +19,9 @@ const MyTracks = () => {
 
     // Local State
     const [tracks, setTracks] = useState([])
+    const [filTerTracks, setFilterTracks] = useState([])
+    const [showMessage, setShowMessage] = useState(false)
+    const [messageText, setMessageText] = useState("")
 
     // Methods
     const getFavTracks = () => {
@@ -48,7 +52,27 @@ const MyTracks = () => {
             }
 
             setTracks(trackList)
+            setFilterTracks(trackList)
         }
+    }
+
+    const filter = (filterString) => {
+        let trackListFiltered = filTerTracks.filter( track => {
+            const trackName = track.track_name.toLowerCase()
+            const trackArtistName = track.artist_name.toLowerCase()
+            return trackName.includes(filterString.toLowerCase()) || trackArtistName.includes(filterString.toLowerCase())
+        })
+
+        if (trackListFiltered.length === 0) {
+            setShowMessage(true)
+            setMessageText(["There is no track with ", <i key={false}>{filterString}</i>, " name"])
+        } else {
+            setShowMessage(false)
+            setMessageText("")
+        }
+
+        setTracks([])
+        setTracks(trackListFiltered)
     }
 
     useEffect(() => {
@@ -64,7 +88,7 @@ const MyTracks = () => {
                 no_buttons  ={true}
             />
 
-            <Input type="search" placeholder="Filter" isFilter={true} />
+            <Input type="search" placeholder="Filter" isFilter={true} onKeyUp={(e) => filter(e.target.value)} />
 
             <TrackList>
                 {tracks.map( (track, index) => (
@@ -86,6 +110,8 @@ const MyTracks = () => {
                     />
                 ))}
             </TrackList>
+            
+            {showMessage && <Message text={messageText} />}
         </PageContainer>
     )
 }
