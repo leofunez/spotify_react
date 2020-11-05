@@ -52,25 +52,6 @@ const Album = props => {
 
                 const tracksWithAudio = dataTracks.filter( track => track.preview_url !== null )
 
-                // const trackList = tracksWithAudio.map( (track, index) => {
-                //     if (track.id && track.name && track.preview_url && track.artists[0].name) {
-                //         const new_track = {
-                //             track_index   : index,
-                //             track_id      : track.id,
-                //             track_name    : track.name,
-                //             track_duration: track.duration_ms,
-                //             track_url     : track.preview_url || "",
-                //             artist_id     : track.artists[0].id,
-                //             artist_name   : track.artists[0].name,
-                //             album_id      : albumId,
-                //             album_name    : albumTitle,
-                //             album_photo   : data.images[1].url || ""
-                //         }
-
-                //         return new_track
-                //     }
-                // })
-
                 let index = 0
                 let trackList = []
                 while (index < tracksWithAudio.length) {

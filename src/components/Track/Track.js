@@ -150,24 +150,23 @@ export const Track = props => {
                 console.log("Album tracks API Errors", e)
             }
         } else if (type === "saved_tracks") {
-            const response        = await ApiSpotify.getSavedTracks()
-            const { data }        = response
-            const tracksWithAudio = data.items.filter( track => track.track.preview_url !== null )
+            const tracksWithAudio = storeFavTracks.filter( track => track.track.preview_url !== null )
 
             let index = 0
             while (index < tracksWithAudio.length) {
-                let track = tracksWithAudio[index]
+                let { track } = tracksWithAudio[index]
+                
                 const trackObj = {
                     track_index   : index,
-                    track_id      : track.track.id,
-                    track_name    : track.track.name,
-                    track_duration: track.track.duration_ms,
-                    track_url     : track.track.preview_url || "",
-                    artist_id     : track.track.artists[0].id,
-                    artist_name   : track.track.artists[0].name,
-                    album_id      : track.track.album.id,
-                    album_name    : track.track.album.name,
-                    album_photo   : track.track.album.images[1].url || ""
+                    track_id      : track.id,
+                    track_name    : track.name,
+                    track_duration: track.duration_ms,
+                    track_url     : track.preview_url || "",
+                    artist_id     : track.artists[0].id,
+                    artist_name   : track.artists[0].name,
+                    album_id      : track.album.id,
+                    album_name    : track.album.name,
+                    album_photo   : track.album.images[1].url || ""
                 }
 
                 newTracksList = [...newTracksList, trackObj]
@@ -258,7 +257,7 @@ export const Track = props => {
                 let index = 0
                 while (index < storeFavTracks.length) {
                     let { track } = storeFavTracks[index]
-                    
+
                     if (track !== undefined) {
                         if (track.id === trackId) {
                             setIsLiked(track.id === trackId)

@@ -22,10 +22,11 @@ const MyTracks = () => {
     // Methods
     const getFavTracks = () => {
         if (storeFavTracks.length > 0) {
-            const tracksWithAudio = storeFavTracks.filter( track => track.preview_url !== null )
+            const tracksWithAudio = storeFavTracks.filter( track => track.track.preview_url !== null )
             
             let index = 0
             let trackList = []
+
             while (index < tracksWithAudio.length) {
                 let { track } = tracksWithAudio[index]
 
