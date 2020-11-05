@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react"
 
+// Redux Hooks
+import { useDispatch } from "react-redux"
+
+// Redux Actions
+import { setLoading } from "../../../redux/actions/loadingAction"
+
 // Api
 import ApiSpotify from "../../../config/api"
 
@@ -26,12 +32,16 @@ import {
 import Card from "../../../components/Card/Card"
 
 const User = props => {
+    const dispatch = useDispatch()
+
+    // Local State
     const [userId]                          = useState(props.match.params.id)
     const [userPhoto, setUserPhoto]         = useState("")
     const [userName, setUserName]           = useState("")
     const [userFollowers, setUserFollowers] = useState("")
     const [userPlaylists, setUserPlaylists] = useState([])
 
+    // Methods
     const getUserInfo = async () => {
         try {
             const response = await ApiSpotify.getUserInfo(userId)
@@ -45,10 +55,6 @@ const User = props => {
             // err.response.status === 404 && (this.not_found = true)
             console.log("PlaylistDetail API Error!", err.response)
         }
-
-        // setTimeout(() => {
-        //     this.SET_IS_LOADING(false)
-        // }, 1000)
     }
 
     const getUserPlaylists = async () => {
@@ -67,11 +73,19 @@ const User = props => {
         })
 
         setUserPlaylists(newPlaylist)
+        
+        // Turn off Loading
+        setTimeout(() => dispatch(setLoading(false)), 1000)
     }
 
     useEffect(() => {
         getUserInfo()
         getUserPlaylists()
+        
+        // Turn on Loading
+        return () => {
+            dispatch(setLoading(true))
+        }
     }, [props])
 
     return (

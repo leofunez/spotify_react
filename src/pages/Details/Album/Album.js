@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react"
 
+// Redux Hooks
+import { useDispatch } from "react-redux"
+
+// Redux Actions
+import { setLoading } from "../../../redux/actions/loadingAction"
+
 // Api
 import ApiSpotify from "../../../config/api"
 
@@ -15,6 +21,9 @@ import { TopDetail } from "../../../components/TopDetail/TopDetail"
 import { Track } from "../../../components/Track/Track"
 
 const Album = props => {
+    const dispatch = useDispatch()
+
+    // Local State
     const [albumId]                               = useState(props.match.params.id)
     const [albumTitle, setAlbumTitle]             = useState("")
     const [albumDescription, setAlbumDescription] = useState("")
@@ -30,6 +39,7 @@ const Album = props => {
     const [isMyPlaylist, setIsMyPlaylist]         = useState(false)
     const [notFound, setNotFound]                 = useState(false)
 
+    // Methods
     const getAlbumDetail = async () => {
         try {
             const response = await ApiSpotify.getAlbumInfo(albumId)
@@ -79,7 +89,7 @@ const Album = props => {
 
                 // this.fillTrackList()
             } else {
-                // this.SET_IS_LOADING(false)
+                setTimeout(() => dispatch(setLoading(false)), 1000)
             }
         } catch (err) {
             // err.response.status === 401 && (window.location.href = "/login")
@@ -87,13 +97,17 @@ const Album = props => {
             console.log("AlbumDetail API Error!", err.response)
         }
 
-        // this.SET_IS_LOADING(false)
+        setTimeout(() => dispatch(setLoading(false)), 1000)
     }
 
     useEffect(() => {
-        // this.SET_IS_LOADING(true)
         // this.isLiked()
         getAlbumDetail()
+
+        // Turn on Loading
+        return () => {
+            dispatch(setLoading(true))
+        }
 
         // this.SET_PLAYING && this.SET_CURRENT_TRACKLIST === this.playlist_id && (this.is_playing = true)
     }, [])

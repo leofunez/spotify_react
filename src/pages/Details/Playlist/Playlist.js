@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react"
 
 // Redux Hooks
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+
+// Redux Actions
+import { setLoading } from "../../../redux/actions/loadingAction"
 
 // Api
 import ApiSpotify from "../../../config/api"
@@ -18,6 +21,8 @@ import { TopDetail } from "../../../components/TopDetail/TopDetail"
 import { Track } from "../../../components/Track/Track"
 
 const Playlist = props => {
+    const dispatch = useDispatch()
+
     // Redux State
     const myPlaylists = useSelector( state => state.playlists.playlists )
     const { user }    = useSelector( state => state.user )
@@ -94,7 +99,7 @@ const Playlist = props => {
 
                 // fillTrackList()
             } else {
-                // this.SET_IS_LOADING(false)
+                dispatch(setLoading(false))
             }
         } catch (err) {
             // err.response.status === 401 && (window.location.href = "/login")
@@ -102,14 +107,18 @@ const Playlist = props => {
             console.log("PlaylistDetail API Error!", err.response)
         }
 
-        // this.SET_IS_LOADING(false)
+        dispatch(setLoading(false))
     }
 
     useEffect(() => {
-        // this.SET_IS_LOADING(true)
         // this.isLiked()
         getPlaylistDetail()
-
+        
+        // Turn on Loading
+        return () => {
+            dispatch(setLoading(true))
+        }
+        
         // this.SET_PLAYING && this.SET_CURRENT_TRACKLIST === this.playlist_id && (this.is_playing = true)
     }, [])
 

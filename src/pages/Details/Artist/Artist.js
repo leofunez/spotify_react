@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react"
 
+// Redux Hooks
+import { useDispatch } from "react-redux"
+
+// Redux Actions
+import { setLoading } from "../../../redux/actions/loadingAction"
+
 // Api
 import ApiSpotify from "../../../config/api"
 
@@ -35,6 +41,9 @@ import { Track }     from "../../../components/Track/Track"
 import { MiniCard }  from "../../../components/MiniCard/MiniCard"
 
 const Artist = props => {
+    const dispatch = useDispatch()
+
+    // Local State
     const [artistId]                      = useState(props.match.params.id)
     const [artistName, setArtistName]     = useState("")
     const [artistDesc, setArtistDesc]     = useState("")
@@ -49,6 +58,7 @@ const Artist = props => {
     const [isPlaying, setIsPlaying]       = useState(false)
     const [notFound, setNotFound]         = useState(false)
 
+    // Methods
     const getArtistInfo = async () => {
         try {
             const response = await ApiSpotify.getArtistInfo(artistId)
@@ -63,7 +73,7 @@ const Artist = props => {
             console.log("GetArtist API Error!", err.response)
         }
 
-        // this.SET_IS_LOADING(false)
+        setTimeout(() => dispatch(setLoading(false)), 1000)
     }
 
     const getTopTracks = async () => {
@@ -165,6 +175,11 @@ const Artist = props => {
         getTopTracks()
         getRelatedArtists()
         getAlbums()
+
+        // Turn on Loading
+        return () => {
+            dispatch(setLoading(true))
+        }
     }, [props])
 
     return (

@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react"
-import { useSelector } from "react-redux"
+
+// Redux Hooks
+import { useDispatch, useSelector } from "react-redux"
+
+// Redux Actions
+import { setLoading } from "../../../redux/actions/loadingAction"
 
 // Global Styles
 import {
@@ -14,14 +19,18 @@ import { Track } from "../../../components/Track/Track"
 import { Message } from "../../../components/Message/Message"
 
 const MyTracks = () => {
+    const dispatch = useDispatch()
+
     // Redux State
     const { fav_tracks: storeFavTracks } = useSelector( state => state.favorites )
+    const { loading   : storeLoading }   = useSelector( state => state.loading )
 
     // Local State
     const [tracks, setTracks] = useState([])
     const [filTerTracks, setFilterTracks] = useState([])
     const [showMessage, setShowMessage] = useState(false)
     const [messageText, setMessageText] = useState("")
+    const [isLoading, setIsLoading] = useState(true)
 
     // Methods
     const getFavTracks = () => {
@@ -53,7 +62,15 @@ const MyTracks = () => {
 
             setTracks(trackList)
             setFilterTracks(trackList)
+        } else {
+            if (!storeLoading) {
+                setShowMessage(true)
+                setMessageText("You have no favorite tracks :(")
+            }
         }
+
+        // Turn off Loading
+        setTimeout(() => dispatch(setLoading(false)), 1000)
     }
 
     const filter = (filterString) => {
@@ -77,6 +94,11 @@ const MyTracks = () => {
 
     useEffect(() => {
         getFavTracks()
+
+        // Turn on Loading
+        return () => {
+            dispatch(setLoading(true))
+        }
     }, [storeFavTracks])
 
     return (

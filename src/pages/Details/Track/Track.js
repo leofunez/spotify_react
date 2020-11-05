@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react"
 
+// Redux Hooks
+import { useDispatch } from "react-redux"
+
+// Redux Actions
+import { setLoading } from "../../../redux/actions/loadingAction"
+
 // Api
 import ApiSpotify from "../../../config/api"
 
@@ -32,6 +38,9 @@ import {
 } from "./Track.styles"
 
 const Track = props => {
+    const dispatch = useDispatch()
+
+    // Local State
     const [trackId]                       = useState(props.match.params.id)
     const [trackName, setTrackName]       = useState("")
     const [trackImage, setTrackImage]     = useState("")
@@ -47,6 +56,7 @@ const Track = props => {
     const [isPlaying, setIsPlaying]       = useState(false)
     const [notFound, setNotFound]         = useState(false)
 
+    // Methods
     const getTrack = async () => {
         try {
             const response = await ApiSpotify.getTrack(trackId)
@@ -78,9 +88,7 @@ const Track = props => {
             console.log("Error getting track!", err.response)
         }
 
-        setTimeout(() => {
-            // this.SET_IS_LOADING(false)
-        }, 1500)
+        setTimeout(() => dispatch(setLoading(false)), 1000)
     }
 
     const getAlbums = async author_id =>  {
@@ -96,6 +104,11 @@ const Track = props => {
 
     useEffect(() => {
         getTrack()
+
+        // Turn on Loading
+        return () => {
+            dispatch(setLoading(true))
+        }
     }, [])
 
     return (
