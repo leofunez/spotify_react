@@ -10,7 +10,7 @@ import {
     setTrackList,
     setTrackListInfo
 } from "../../redux/actions/playerActions"
-import { setFavoriteTracks } from "../../redux/actions/favoritesAction"
+import { fetchFavoriteTracks, setFavoriteTracks } from "../../redux/actions/favoritesAction"
 
 // Api
 import ApiSpotify from "../../config/api"
@@ -254,36 +254,39 @@ export const Track = props => {
 
     // Like Track
         const isAlreadyLiked = () => {
-            let index = 0
-            while (index < storeFavTracks.length) {
-                let track = storeFavTracks[index].track
-                
-                if (track.id && (track.id === trackId)) {
-                    setIsLiked(track.id === trackId)
+            if (storeFavTracks.length > 0) {
+                let index = 0
+                while (index < storeFavTracks.length) {
+                    let track = storeFavTracks[index].track
+                    if (track !== undefined) {
+                        if (track.id === trackId) {
+                            setIsLiked(track.id === trackId)
+                        }
+                    }
+                    
+                    index++
                 }
-                
-                index++
             }
         }
 
         const likeTrack = async () => {
-            let favTracks = []
+            let favTracks = storeFavTracks
             
-            if (isLiked) {
-                await ApiSpotify.deleteSavedTrack(trackId)
-                const newFavTracks = favTracks.filter( track_id => track_id !== trackId)
-                favTracks = newFavTracks
-            } else {
-                await ApiSpotify.putSavedTrack(trackId)
-                favTracks = [...favTracks, trackId]
-            }
+            if (favTracks.length > 0) {
+                if (isLiked) {
+                    await ApiSpotify.deleteSavedTrack(trackId)
+                    const newFavTracks = favTracks.filter( track => track.track && track.track.id !== trackId )
+                    favTracks = newFavTracks
+                } else {
+                    await ApiSpotify.putSavedTrack(trackId)
+                    favTracks = [...favTracks, trackId]
+                }
 
-            dispatch(setFavoriteTracks(favTracks))
-            
-            setIsLiked(!isLiked)
-            
-            // This Emit is to listen on Favorite Tracks page this event to update the track list
-            // this.$emit("toggleLike", trackId)
+                dispatch(setFavoriteTracks(favTracks))
+                dispatch(fetchFavoriteTracks())
+                
+                setIsLiked(!isLiked)
+            }
         }
     // .Like Track
 
@@ -297,7 +300,7 @@ export const Track = props => {
 
         isAlreadyLiked()
         isCurrentTrack()
-    }, [props, storeCurrentTrack])
+    }, [props, storeCurrentTrack, storeFavTracks])
 
     return (
         <Container>
@@ -335,7 +338,7 @@ export const Track = props => {
                 </More>
             {/* .More Menu */}
 
-            <Name isActive={isCurrent}>{trackName}</Name>
+                        <Name isActive={isCurrent}>{trackName}</Name>
 
             <Artist to={`/artist/${trackArtistId}`}>{trackArtist}</Artist>
 
