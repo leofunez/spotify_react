@@ -19,6 +19,7 @@ import {
 // Components
 import { TopDetail } from "../../../components/TopDetail/TopDetail"
 import { Track } from "../../../components/Track/Track"
+import { Message } from "../../../components/Message/Message"
 
 const Playlist = props => {
     const dispatch = useDispatch()
@@ -43,6 +44,8 @@ const Playlist = props => {
     
     const [isMyPlaylist, setIsMyPlaylist] = useState(false)
     
+    const [showMessage , setShowMessage]  = useState(false)
+    const [messageText , setMessageText]  = useState("")
     const [notFound    , setNotFound]     = useState(false)
 
     // Methods
@@ -67,16 +70,16 @@ const Playlist = props => {
  
             if (dataTracks.length > 0) {
                 // Show "Remove from this Playlist" option on Track component menu
-                user.id && (data.owner.id === user.id) && (setIsMyPlaylist(true))
+                // user.id && (data.owner.id === user.id) && (setIsMyPlaylist(true))
                 
                 // Filter tracks that have preview_url value
-                const tracksWithAudio = dataTracks.filter( track => track.track.preview_url !== null )
+                const tracksWithAudio = dataTracks.filter( track => (track.track !== null) && (track.track.preview_url !== null) )
                 
                 let index = 0
                 let trackList = []
                 while (index < tracksWithAudio.length) {
-                    let trackItem = tracksWithAudio[index].track
-                    
+                    let trackItem = tracksWithAudio[index].track || []
+
                     let newTrack = {
                         track_index   : index,
                         track_id      : trackItem.id,
@@ -99,18 +102,39 @@ const Playlist = props => {
 
                 // fillTrackList()
             } else {
-                dispatch(setLoading(false))
+                // Turn off Loading
+                setTimeout(() => dispatch(setLoading(false)), 1000)
             }
         } catch (err) {
             // err.response.status === 401 && (window.location.href = "/login")
             // err.response.status === 404 && (setNotFound(true))
             console.log("PlaylistDetail API Error!", err.response)
         }
+        
+        // Turn off Loading
+        setTimeout(() => dispatch(setLoading(false)), 1000)
+    }
 
-        dispatch(setLoading(false))
+    const filter = (filterString) => {
+        let trackListFiltered = filterTracks.filter( track => {
+            const trackName = track.track_name.toLowerCase()
+            const trackArtistName = track.artist_name.toLowerCase()
+            return trackName.includes(filterString.toLowerCase()) || trackArtistName.includes(filterString.toLowerCase())
+        })
+
+        if (trackListFiltered.length === 0) {
+            setShowMessage(true)
+            setMessageText(["There is no track with ", <i key={false}>{filterString}</i>, " name"])
+        } else {
+            setShowMessage(false)
+            setMessageText("")
+        }
+
+        setTracks(trackListFiltered)
     }
 
     useEffect(() => {
+        console.log("Playlist")
         // this.isLiked()
         getPlaylistDetail()
         
@@ -137,7 +161,7 @@ const Playlist = props => {
                         showLike    ={!isMyPlaylist}
                     />
 
-                    <Input type="search" placeholder="Filter" isFilter={true} />
+                    <Input type="search" placeholder="Filter" isFilter={true} onKeyUp={(e) => filter(e.target.value)} />
 
                     <TrackList>
                         {tracks.map( (track, index) => (
@@ -153,15 +177,14 @@ const Playlist = props => {
                                 album_id       ={track.album_id}
                                 album_name     ={track.album_name}
                                 album_photo    ={track.album_photo}
-                                show_remove    ={isMyPlaylist}
-                                my_playlists   ={myPlaylists}
-                                is_liked       ={true}
 
                                 tracklist_id   ={playlistId}
                                 tracklist_type ="playlist"
                             />
                         ))}
                     </TrackList>
+
+                    {showMessage && <Message text={messageText} />}
                 </>
             {/* )} */}
         </PageContainer>

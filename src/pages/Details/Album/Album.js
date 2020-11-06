@@ -89,6 +89,7 @@ const Album = props => {
 
                 // this.fillTrackList()
             } else {
+                // Turn off Loading
                 setTimeout(() => dispatch(setLoading(false)), 1000)
             }
         } catch (err) {

@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react"
 
+// Redux Hooks
+import { useDispatch, useSelector } from "react-redux"
+
+// Redux Actions
+import { setLoading } from "../../redux/actions/loadingAction"
+
 // Api
 import ApiSpotify from "../../config/api"
 
@@ -23,6 +29,9 @@ import {
 import Card from "../../components/Card/Card"
 
 const Browse = () => {
+    const dispatch = useDispatch()
+
+    // Local state
     const [title] = useState("Browse")
     const [tabFeatured, setTabFeatured] = useState(true)
     const [featuredPlaylist, setFeaturedPlaylist] = useState([])
@@ -41,7 +50,8 @@ const Browse = () => {
                 console.log("NewReleases API Error!", err.response)
             }
 
-            // this.SET_IS_LOADING(false)
+            // Turn off Loading
+            setTimeout(() => dispatch(setLoading(false)), 1000)
         }
 
         const getFeaturedPlaylists = async () => {
@@ -62,9 +72,13 @@ const Browse = () => {
     // .Methods
 
     useEffect(() => {
-        // this.SET_IS_LOADING(true)
         getNewReleases()
         getFeaturedPlaylists()
+
+        // Turn on Loading
+        return () => {
+            dispatch(setLoading(true))
+        }
     }, [])
 
     return (

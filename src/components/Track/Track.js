@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { memo, useState, useEffect } from "react"
 
 // Redux Hooks
 import { useDispatch, useSelector } from "react-redux"
@@ -31,7 +31,7 @@ import {
     Duration
 } from "./Track.styles"
 
-export const Track = props => {
+export const Track = memo(props => {
     const dispatch = useDispatch()
 
     // Redux State
@@ -300,6 +300,7 @@ export const Track = props => {
 
         isAlreadyLiked()
         isCurrentTrack()
+        console.log("Track")
     }, [props, storeCurrentTrack, storeFavTracks])
 
     return (
@@ -338,7 +339,7 @@ export const Track = props => {
                 </More>
             {/* .More Menu */}
 
-                        <Name isActive={isCurrent}>{trackName}</Name>
+            <Name isActive={isCurrent}>{trackName}</Name>
 
             <Artist to={`/artist/${trackArtistId}`}>{trackArtist}</Artist>
 
@@ -347,4 +348,4 @@ export const Track = props => {
             <Duration>{trackDuration}</Duration>
         </Container>
     )
-}
+})

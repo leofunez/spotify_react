@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { memo, useState, useEffect } from "react"
 
 // Redux Hooks
 import { useDispatch, useSelector } from "react-redux"
@@ -27,7 +27,7 @@ import {
     ButtonLike
 } from "../Globals/Globals.styles"
 
-export const TopDetail = props => {
+export const TopDetail = memo(props => {
     const dispatch = useDispatch()
 
     // Redux Store
@@ -50,6 +50,7 @@ export const TopDetail = props => {
         setDescription(props.description)
         setOwner(props.owner)
         setShowLike(props.showLike)
+        console.log("Top")
     }, [props])
 
     return (
@@ -87,4 +88,4 @@ export const TopDetail = props => {
             </Bg>
         </Container>
     )
-}
+})

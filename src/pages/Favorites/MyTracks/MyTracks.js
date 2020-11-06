@@ -27,7 +27,7 @@ const MyTracks = () => {
 
     // Local State
     const [tracks, setTracks] = useState([])
-    const [filTerTracks, setFilterTracks] = useState([])
+    const [filterTracks, setFilterTracks] = useState([])
     const [showMessage, setShowMessage] = useState(false)
     const [messageText, setMessageText] = useState("")
     const [isLoading, setIsLoading] = useState(true)
@@ -74,7 +74,7 @@ const MyTracks = () => {
     }
 
     const filter = (filterString) => {
-        let trackListFiltered = filTerTracks.filter( track => {
+        let trackListFiltered = filterTracks.filter( track => {
             const trackName = track.track_name.toLowerCase()
             const trackArtistName = track.artist_name.toLowerCase()
             return trackName.includes(filterString.toLowerCase()) || trackArtistName.includes(filterString.toLowerCase())
@@ -88,7 +88,6 @@ const MyTracks = () => {
             setMessageText("")
         }
 
-        setTracks([])
         setTracks(trackListFiltered)
     }
 

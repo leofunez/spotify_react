@@ -164,7 +164,7 @@ const Artist = props => {
 
             setTimeout(() => setArtistAlbums(albumList), 500)
 
-            // this.SET_IS_LOADING(false)
+            setTimeout(() => dispatch(setLoading(false)), 1000)
         } catch (err) {
             console.log("GetArtistAlbums API Error!", err.response)
         }
