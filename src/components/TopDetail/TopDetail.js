@@ -58,7 +58,7 @@ export const TopDetail = memo(props => {
             <Info>
                 <Pretitle>{pretitle}</Pretitle>
                 <Title>{title}</Title>
-                <Description>{description}</Description>
+                <Description dangerouslySetInnerHTML={{__html: description}} />
                 
                 {owner && owner.tracks && (
                     <Owner>

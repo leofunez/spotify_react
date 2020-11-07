@@ -65,6 +65,14 @@ export const Title = styled.h1`
 export const Description = styled.p`
     font-size: 16px;
     margin-bottom: 10px;
+
+    a {
+        color: ${COLORS.green};
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 `;
 
 export const Owner = styled.div`
