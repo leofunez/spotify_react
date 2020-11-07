@@ -34,11 +34,11 @@ export const TopDetail = memo(props => {
     const { is_playing: storePlayerIsPlaying } = useSelector( state => state.player)
 
     //State
-    const [pretitle, setPretitle] = useState("")
-    const [title, setTitle] = useState("")
+    const [pretitle   , setPretitle]    = useState("")
+    const [title      , setTitle]       = useState("")
     const [description, setDescription] = useState("")
-    const [owner, setOwner] = useState({})
-    const [showLike, setShowLike] = useState(true)
+    const [owner      , setOwner]       = useState({})
+    const [showLike   , setShowLike]    = useState(true)
 
     const playAll = () => {
         dispatch(setPlayerPlaying(!storePlayerIsPlaying))
@@ -50,7 +50,6 @@ export const TopDetail = memo(props => {
         setDescription(props.description)
         setOwner(props.owner)
         setShowLike(props.showLike)
-        console.log("Top")
     }, [props])
 
     return (

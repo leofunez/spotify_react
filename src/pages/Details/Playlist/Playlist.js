@@ -18,8 +18,8 @@ import {
 
 // Components
 import { TopDetail } from "../../../components/TopDetail/TopDetail"
-import { Track } from "../../../components/Track/Track"
-import { Message } from "../../../components/Message/Message"
+import { Track }     from "../../../components/Track/Track"
+import { Message }   from "../../../components/Message/Message"
 
 const Playlist = props => {
     const dispatch = useDispatch()
@@ -37,8 +37,8 @@ const Playlist = props => {
     
     const [tracks      , setTracks]       = useState([])
     const [filterTracks, setFilterTracks] = useState([])
+    // const [filterString, setFilterString] = useState("")
     
-    const [isLoading   , setIsLoading]    = useState(true)
     const [isPlaying   , setIsPlaying]    = useState(false)
     const [isLiked     , setIsLiked]      = useState(false)
     
@@ -115,6 +115,7 @@ const Playlist = props => {
         setTimeout(() => dispatch(setLoading(false)), 1000)
     }
 
+    // Computed
     const filter = (filterString) => {
         let trackListFiltered = filterTracks.filter( track => {
             const trackName = track.track_name.toLowerCase()
@@ -124,7 +125,7 @@ const Playlist = props => {
 
         if (trackListFiltered.length === 0) {
             setShowMessage(true)
-            setMessageText(["There is no track with ", <i key={false}>{filterString}</i>, " name"])
+            setMessageText(["There is no track with ", <i key="0">{filterString}</i>, " name"])
         } else {
             setShowMessage(false)
             setMessageText("")
@@ -134,7 +135,6 @@ const Playlist = props => {
     }
 
     useEffect(() => {
-        console.log("Playlist")
         // this.isLiked()
         getPlaylistDetail()
         
