@@ -18,7 +18,8 @@ import {
 
 // Components
 import { TopDetail } from "../../../components/TopDetail/TopDetail"
-import { Track } from "../../../components/Track/Track"
+import { Track }     from "../../../components/Track/Track"
+import { Message }   from "../../../components/Message/Message"
 
 const Album = props => {
     const dispatch = useDispatch()
@@ -32,6 +33,9 @@ const Album = props => {
 
     const [albumTracks, setAlbumTracks]           = useState([])
     const [filterTracks, setFilterTracks]         = useState([])
+
+    const [showMessage , setShowMessage]          = useState(false)
+    const [messageText , setMessageText]          = useState("")
 
     const [isLoading, setIsLoading]               = useState(true)
     const [isPlaying, setIsPlaying]               = useState(false)
@@ -101,6 +105,24 @@ const Album = props => {
         setTimeout(() => dispatch(setLoading(false)), 1000)
     }
 
+    const filter = (filterString) => {
+        let trackListFiltered = filterTracks.filter( track => {
+            const trackName = track.track_name.toLowerCase()
+            const trackArtistName = track.artist_name.toLowerCase()
+            return trackName.includes(filterString.toLowerCase()) || trackArtistName.includes(filterString.toLowerCase())
+        })
+
+        if (trackListFiltered.length === 0) {
+            setShowMessage(true)
+            setMessageText(["There is no track with ", <i key="0">{filterString}</i>, " name"])
+        } else {
+            setShowMessage(false)
+            setMessageText("")
+        }
+
+        setAlbumTracks(trackListFiltered)
+    }
+
     useEffect(() => {
         // this.isLiked()
         getAlbumDetail()
@@ -127,7 +149,7 @@ const Album = props => {
                         isLiked     ={isLiked}
                     />
 
-                    <Input type="search" placeholder="Filter" isFilter={true} />
+                    <Input type="search" placeholder="Filter" isFilter={true} onKeyUp={(e) => filter(e.target.value)} />
 
                     <TrackList>
                         {albumTracks.map( (track, index) => (
@@ -150,6 +172,8 @@ const Album = props => {
                             />
                         ))}
                     </TrackList>
+
+                    {showMessage && <Message text={messageText} />}
                 </>
             {/* )} */}
         </PageContainer>
