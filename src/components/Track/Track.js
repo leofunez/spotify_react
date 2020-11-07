@@ -31,7 +31,21 @@ import {
     Duration
 } from "./Track.styles"
 
-export const Track = memo(props => {
+export const Track = memo(({
+    track_id      : trackId, 
+    track_index   : trackIndex, 
+    track_name    : trackName,
+    artist_id     : artistId,
+    artist_name   : artistName,
+    album_id      : albumId,
+    album_name    : albumName,
+    album_photo   : albumPhoto,
+    tracklist_type: tracklistType,
+    tracklist_id  : tracklistId,
+    my_playlists  : myPlaylists,
+    show_remove   : showRemove,
+    track_duration
+}) => {
     const dispatch = useDispatch()
 
     // Redux State
@@ -46,24 +60,15 @@ export const Track = memo(props => {
     } = useSelector( state => state.favorites )
 
     // Local State
-    const [trackId]                         = useState(props.track_id)
-    const [trackIndex]                      = useState(props.track_index)
-    const [trackName    , setTrackName]     = useState("")
-    const [trackArtistId, setTrackArtistId] = useState("")
-    const [trackArtist  , setTrackArtist]   = useState("")
-    const [trackAlbumId , setTrackAlbumId]  = useState("")
     const [trackDuration, setTrackDuration] = useState("")
-    const [trackListType, setTrackListType] = useState("")
-    const [myPlaylists]                     = useState(props.my_playlists)
-
-    const [isPlaying, setIsPlaying]         = useState(false)
-    const [isLiked  , setIsLiked]           = useState(false)
-    const [isCurrent, setIsCurrent]         = useState(false)
-    const [openMenu , setOpenMenu]          = useState(false)
+    const [isPlaying    , setIsPlaying]     = useState(false)
+    const [isLiked      , setIsLiked]       = useState(false)
+    const [isCurrent    , setIsCurrent]     = useState(false)
+    const [openMenu     , setOpenMenu]      = useState(false)
 
     const playTrack = () => {
         // Setting new tracklist
-        (props.tracklist_id !== storeTracklistInfo.id) && newTrackList(props.tracklist_type, props.tracklist_id) 
+        (tracklistId !== storeTracklistInfo.id) && newTrackList(tracklistType, tracklistId) 
 
         // Play new track
         let track = storeTrackList[trackIndex]
@@ -122,7 +127,7 @@ export const Track = memo(props => {
             }
         } else if (type === "album") {
             try {
-                const album_tracks    = await ApiSpotify.getAlbumTracks(props.album_id)
+                const album_tracks    = await ApiSpotify.getAlbumTracks(albumId)
                 const { data }        = album_tracks
                 const tracksWithAudio = data.items.filter( track => track.preview_url !== null )
                 
@@ -138,9 +143,9 @@ export const Track = memo(props => {
                         track_url:      track.preview_url || "",
                         artist_id:      track.artists[0].id,
                         artist_name:    track.artists[0].name,
-                        album_id:       props.album_id,
-                        album_name:     props.album_name,
-                        album_photo:    props.album_photo
+                        album_id:       albumId,
+                        album_name:     albumName,
+                        album_photo:    albumPhoto
                     }
 
                     newTracksList = [...newTracksList, trackObj]
@@ -291,17 +296,12 @@ export const Track = memo(props => {
     // .Like Track
 
     useEffect(() => {
-        setTrackName(props.track_name)
-        setTrackArtistId(props.artist_id)
-        setTrackArtist(props.artist_name)
-        setTrackAlbumId(props.album_id)
-        setTrackDuration(getTrackTime(props.track_duration))
-        setTrackListType(props.tracklist_type)
+        setTrackDuration(getTrackTime(track_duration))
 
         isAlreadyLiked()
         isCurrentTrack()
-        console.log("Track")
-    }, [props, storeCurrentTrack, storeFavTracks])
+        console.log("3. Track!")
+    }, [storeCurrentTrack, storeFavTracks])
 
     return (
         <Container>
@@ -314,10 +314,10 @@ export const Track = memo(props => {
             {/* More Menu */}
                 <More onClick={() => openCloseMenu(!openMenu)} onMouseLeave={() => openCloseMenu(false)}>
                     <MoreList isOpen={openMenu}>
-                        <MoreLinkItem to={`/artist/${trackArtistId}`}>Go to Artist</MoreLinkItem>
+                        <MoreLinkItem to={`/artist/${artistId}`}>Go to Artist</MoreLinkItem>
                         
-                        {trackListType !== "album" && (
-                            <MoreLinkItem to={`/album/${trackAlbumId}`}>Go to Album</MoreLinkItem>
+                        {tracklistType !== "album" && (
+                            <MoreLinkItem to={`/album/${albumId}`}>Go to Album</MoreLinkItem>
                         )}
                         
                         {/* <MoreListItem>
@@ -332,7 +332,7 @@ export const Track = memo(props => {
                             </MoreList>
                         </MoreListItem> */}
                         
-                        {props.showRemove && (
+                        {showRemove && (
                             <MoreListItem>Remove from this Playlist</MoreListItem>
                         )}
                     </MoreList>
@@ -341,7 +341,7 @@ export const Track = memo(props => {
 
             <Name isActive={isCurrent}>{trackName}</Name>
 
-            <Artist to={`/artist/${trackArtistId}`}>{trackArtist}</Artist>
+            <Artist to={`/artist/${artistId}`}>{artistName}</Artist>
 
             <Like isActive={isLiked} onClick={() => likeTrack()}></Like>
 
