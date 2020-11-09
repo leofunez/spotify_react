@@ -9,6 +9,9 @@ import { setLoading } from "../../../redux/actions/loadingAction"
 // Api
 import ApiSpotify from "../../../config/api"
 
+// Helpers
+import { numFormatter }  from "../../../helpers/numFormatter"
+
 // Global Styles
 import {
     PageContainer,
@@ -18,21 +21,74 @@ import {
 // Components
 import TopDetail from "../../../components/TopDetail/TopDetail"
 import Card      from "../../../components/Card/Card"
+import Message   from "../../../components/Message/Message"
 
 const MyArtists = () => {
     const dispatch = useDispatch()
 
     // Local State
-    const [artists, setArtists]         = useState([])
+    const [artists    , setArtists]     = useState([])
     const [description, setDescription] = useState("")
 
-    const getSavedArtists = () => {
+    const [showMessage, setShowMessage] = useState(false)
+    const [messageText]                 = useState("You have no favorite Artists yet :(")
+
+    // Methods
+    const getSavedArtistIds = () => {
+        let JSONStorageArtists = JSON.parse(localStorage.getItem("spotifyReactArtists"))
+        JSONStorageArtists === null && localStorage.setItem("spotifyReactArtists", JSON.stringify([]))
+        
+        if (JSONStorageArtists.length > 0) {
+            let ids = ""
+            
+            JSONStorageArtists.forEach( (id, index) => {
+                ids = (index < JSONStorageArtists.length-1) ? `${ids}${id}%2C` : `${ids}${id}`
+            })
+            
+            getArtists(ids)
+        } else {
+            setShowMessage(true)
+            
+            // Turn off Loading
+            dispatch(setLoading(false))
+        }
+    }
+
+    const getArtists = async ids => {
+        try {
+            const response    = await ApiSpotify.getArtists(ids)
+            const { artists } = response.data
+
+            let index      = 0
+            let artistList = []
+            
+            while (index < artists.length ) {
+                let artist = artists[index]
+
+                const newArtist = {
+                    id       : artist.id,
+                    name     : artist.name,
+                    image    : artist.images[1].url,
+                    followers: `${numFormatter(parseInt(artist.followers.total))} Followers`
+                }
+
+                artistList = [...artistList, newArtist]
+
+                index++
+            }
+
+            setArtists(artistList)
+        } catch(err) {
+            // err.response.status === 401 && (window.location.href = "/login")
+            console.log("Error getting Artists!", err.response)
+        }
+
         // Turn off Loading
-            setTimeout(() => dispatch(setLoading(false)), 1000)
+        setTimeout(() => dispatch(setLoading(false)), 1000)
     }
 
     useEffect(() => {
-        getSavedArtists()
+        getSavedArtistIds()
 
         return () => {
             // Turn on Loading
@@ -46,7 +102,7 @@ const MyArtists = () => {
                 pretitle    ="Library"
                 title       ="Favorite artists"
                 description ={description}
-                no_buttons  ={true}
+                noButtons   ={true}
             />
 
             <CardList>
@@ -57,10 +113,12 @@ const MyArtists = () => {
                         title    ={artist.name}
                         subtitle ={artist.followers}
                         image    ={artist.image}
-                        link     ={`/artist/${artist.id}`}
+                        url      ={`/artist/${artist.id}`}
                     />
                 ))}
             </CardList>
+
+            {showMessage && <Message text={messageText} />}
         </PageContainer>
     )
 }
