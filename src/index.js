@@ -10,6 +10,13 @@ import * as serviceWorker from "./serviceWorker"
 
 const store = storeFn()
 
+// Create Playlists & Artists Storage
+let JSONStoragePlaylists = JSON.parse(localStorage.getItem("spotifyReactPlaylists"))
+JSONStoragePlaylists === null && localStorage.setItem("spotifyReactPlaylists", JSON.stringify([]))
+
+let JSONStorageArtists = JSON.parse(localStorage.getItem("spotifyReactArtists"))
+JSONStorageArtists === null && localStorage.setItem("spotifyReactArtists", JSON.stringify([]))
+
 ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={store}>
