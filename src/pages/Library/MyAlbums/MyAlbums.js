@@ -33,7 +33,9 @@ const MyAlbums = () => {
             const { items } = response.data
             
             setAlbums(items)
-            setDescription(`${albums.length} albums`)
+
+            // Set Description
+            setDescription(`${items.length} ${items.length === 1 ? `album` : `albums`}`)
         } catch (err) {
             console.log("Error getting MyAlbums!", err.response)
         }
@@ -57,7 +59,7 @@ const MyAlbums = () => {
                 pretitle    ="Library"
                 title       ="Favorite albums"
                 description ={description}
-                no_buttons  ={true}
+                noButtons   ={true}
             />
 
             <CardList>
