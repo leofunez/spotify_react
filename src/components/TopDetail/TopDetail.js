@@ -31,42 +31,78 @@ const TopDetail = memo(({
     pretitle,
     title,
     description,
-    no_buttons
+    owner     = {},
+    noButtons = false,
+    showLike  = true,
+    type      = "",
+    typeId    = ""
 }, props) => {
     const dispatch = useDispatch()
 
-    // Redux Store
+    // Redux State
     const { is_playing: storePlayerIsPlaying } = useSelector( state => state.player)
 
-    //State
-    const [owner   , setOwner]    = useState({})
-    const [showLike, setShowLike] = useState(true)
+    // Local State
+    const [isLiked, setIsLiked] = useState(false)
 
+    // Methods
     const playAll = () => {
         dispatch(setPlayerPlaying(!storePlayerIsPlaying))
     }
 
+    const isAlreadyLiked = () => {
+        if (type === "artist") {
+            let JSONStorageArtists = JSON.parse(localStorage.getItem("spotifyReactArtists"))
+            JSONStorageArtists.includes(typeId) && setIsLiked(true)
+        }
+    }
+
+    const likeThis = () => {
+        if (type === "artist") {
+            let JSONStorageArtists = JSON.parse(localStorage.getItem("spotifyReactArtists"))
+            localStorage.removeItem("spotifyReactArtists")
+
+            if (JSONStorageArtists.includes(typeId)) {
+                let indexItem = JSONStorageArtists.indexOf(typeId)
+                JSONStorageArtists.splice(indexItem, 1)
+                setIsLiked(false)
+            } else {
+                JSONStorageArtists = [...JSONStorageArtists, typeId]
+                setIsLiked(true)
+            }
+
+            localStorage.setItem("spotifyReactArtists", JSON.stringify(JSONStorageArtists))
+        } else if (type === "album") {
+
+        } else if (type === "playlist") {
+
+        }
+        
+        setIsLiked(!isLiked)
+    }
+
     useEffect(() => {
-        setOwner(props.owner)
-        setShowLike(props.showLike)
+        isAlreadyLiked()
     }, [props])
 
     return (
-        <Container noButtons={no_buttons}>
+        <Container noButtons={noButtons}>
             <Info>
                 <Pretitle>{pretitle}</Pretitle>
                 <Title>{title}</Title>
                 <Description dangerouslySetInnerHTML={{__html: description}} />
                 
-                {owner && owner.tracks && (
-                    <Owner>
-                        <OwnerText>{owner.type === 'user' ? 'Created by ' : 'By '}</OwnerText>
-                        <OwnerLink to={`/${owner.type}/${owner.id}`}>{owner.name}</OwnerLink>
-                        <OwnerText>{` . ${owner.tracks} tracks`}</OwnerText>
-                    </Owner>
-                )}
+                <Owner>
+                    {owner.name && (
+                        <>
+                            <OwnerText>{owner.type === 'user' ? 'Created by ' : 'By '}</OwnerText>
+                            <OwnerLink to={`/${owner.type}/${owner.id}`}>{owner.name}</OwnerLink>
+                        </>
+                    )}
+                    {owner.tracks && <OwnerText>{` . ${owner.tracks} tracks`}</OwnerText>}
+                </Owner>
 
-                {!no_buttons && (
+                {!noButtons && (
                     <Buttons>
                         <ButtonPlay
                             isRounded={true}
@@ -75,7 +111,7 @@ const TopDetail = memo(({
                         >{storePlayerIsPlaying ? "Pause" : "Play"}</ButtonPlay>
                         
                         {showLike && (
-                            <ButtonLike isActive={true}></ButtonLike>
+                            <ButtonLike isActive={isLiked} onClick={() => likeThis()}></ButtonLike>
                         )}
                     </Buttons>
                 )}
