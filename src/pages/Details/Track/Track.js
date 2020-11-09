@@ -19,6 +19,7 @@ import {
 // Components
 import { Track as TrackComp } from "../../../components/Track/Track"
 import Card from "../../../components/Card/Card"
+import { NotFound }  from "../../../components/NotFound/NotFound"
 
 // Helpers
 import { timeFormatter } from "../../../helpers/timeFormatter"
@@ -42,19 +43,19 @@ const Track = props => {
 
     // Local State
     const [trackId]                       = useState(props.match.params.id)
-    const [trackName, setTrackName]       = useState("")
-    const [trackImage, setTrackImage]     = useState("")
-    const [trackTime, setTrackTime]       = useState("")
-    const [trackDetail, setTrackDetail]   = useState({})
+    const [trackName   , setTrackName]    = useState("")
+    const [trackImage  , setTrackImage]   = useState("")
+    const [trackTime   , setTrackTime]    = useState("")
+    const [trackDetail , setTrackDetail]  = useState({})
 
-    const [authorId, setAuthorId]         = useState("")
-    const [authorName, setAuthorName]     = useState("")
+    const [authorId    , setAuthorId]     = useState("")
+    const [authorName  , setAuthorName]   = useState("")
     const [authorAlbums, setAuthorAlbums] = useState([])
 
-    const [isLoading, setIsLoading]       = useState(true)
-    const [isLiked, setIsLiked]           = useState(false)
-    const [isPlaying, setIsPlaying]       = useState(false)
-    const [notFound, setNotFound]         = useState(false)
+    const [isLoading   , setIsLoading]    = useState(true)
+    const [isLiked     , setIsLiked]      = useState(false)
+    const [isPlaying   , setIsPlaying]    = useState(false)
+    const [notFound    , setNotFound]     = useState(false)
 
     // Methods
     const getTrack = async () => {
@@ -84,8 +85,15 @@ const Track = props => {
 
             getAlbums(data.artists[0].id)
         } catch(err) {
-            // err.response.status === 404 && (setNotFound(true))
-            console.log("Error getting track!", err.response)
+            let { status } = err.response
+            
+            if (status === 400 || status === 404) {
+                setNotFound(true)
+            } else if(status === 401) {
+                // window.location.href = "/login"
+            } else {
+                console.log("TrackDetail API Error!")
+            }
         }
 
         setTimeout(() => dispatch(setLoading(false)), 1000)
@@ -113,57 +121,61 @@ const Track = props => {
 
     return (
         <PageContainer>
-            {/* {!notFound && !isLoading && ( */}
-                <TopContent>
-                    <Photo src={trackImage} />
+            {notFound ? (
+                <NotFound type="track" />
+            ) : (
+                <>
+                    <TopContent>
+                        <Photo src={trackImage} />
 
-                    <Info>
-                        <Pretitle>Track</Pretitle>
-                        <Title>{trackName}</Title>
-                        <Author>
-                            By <AuthorLink to={`/artist/${authorId}`}>{authorName}</AuthorLink> . {trackTime}
-                        </Author>
-                    </Info>
-                </TopContent>
+                        <Info>
+                            <Pretitle>Track</Pretitle>
+                            <Title>{trackName}</Title>
+                            <Author>
+                                By <AuthorLink to={`/artist/${authorId}`}>{authorName}</AuthorLink> . {trackTime}
+                            </Author>
+                        </Info>
+                    </TopContent>
 
-                <TrackList>
-                    <TrackComp
-                        key            ={trackDetail.track_id}
-                        track_index    ={trackDetail.track_index}
-                        track_id       ={trackDetail.track_id}
-                        track_name     ={trackDetail.track_name}
-                        track_url      ={trackDetail.track_url}
-                        track_duration ={trackDetail.track_duration}
-                        artist_id      ={trackDetail.artist_id}
-                        artist_name    ={trackDetail.artist_name}
-                        album_id       ={trackDetail.album_id}
-                        album_name     ={trackDetail.album_name}
-                        album_photo    ={trackDetail.album_photo}
+                    <TrackList>
+                        <TrackComp
+                            key            ={trackDetail.track_id}
+                            track_index    ={trackDetail.track_index}
+                            track_id       ={trackDetail.track_id}
+                            track_name     ={trackDetail.track_name}
+                            track_url      ={trackDetail.track_url}
+                            track_duration ={trackDetail.track_duration}
+                            artist_id      ={trackDetail.artist_id}
+                            artist_name    ={trackDetail.artist_name}
+                            album_id       ={trackDetail.album_id}
+                            album_name     ={trackDetail.album_name}
+                            album_photo    ={trackDetail.album_photo}
 
-                        tracklist_id   ={trackDetail.track_id}
-                        tracklist_type ="track"
-                    />
-                </TrackList>
+                            tracklist_id   ={trackDetail.track_id}
+                            tracklist_type ="track"
+                        />
+                    </TrackList>
 
-                <Albums>
-                    <AlbumsTitle>
-                        More by <AlbumsAuthor to={`/artist/${authorId}`}>{authorName}</AlbumsAuthor>
-                    </AlbumsTitle>
+                    <Albums>
+                        <AlbumsTitle>
+                            More by <AlbumsAuthor to={`/artist/${authorId}`}>{authorName}</AlbumsAuthor>
+                        </AlbumsTitle>
 
-                    <CardList>
-                        {authorAlbums && authorAlbums.map( (album, index) => (
-                            <Card
-                                key      ={index}
-                                id       ={album.id}
-                                title    ={album.name}
-                                subtitle ={album.total_tracks + ' tracks'}
-                                image    ={album.images[0].url}
-                                url     ={`/album/${album.id}`}
-                            />
-                        ))}
-                    </CardList>
-                </Albums>
-            {/* )} */}
+                        <CardList>
+                            {authorAlbums && authorAlbums.map( (album, index) => (
+                                <Card
+                                    key      ={index}
+                                    id       ={album.id}
+                                    title    ={album.name}
+                                    subtitle ={album.total_tracks + ' tracks'}
+                                    image    ={album.images[0].url}
+                                    url     ={`/album/${album.id}`}
+                                />
+                            ))}
+                        </CardList>
+                    </Albums>
+                </>
+            )}
         </PageContainer>
     )
 }

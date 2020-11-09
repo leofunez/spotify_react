@@ -191,7 +191,7 @@ const Artist = props => {
     return (
         <PageContainer>
             {notFound ? (
-                <NotFound type="album" />
+                <NotFound type="artist" />
             ) : (
                 <>
                     <TopDetail
