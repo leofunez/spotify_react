@@ -37,12 +37,15 @@ const MyArtists = () => {
     const getSavedArtistIds = () => {
         let JSONStorageArtists = JSON.parse(localStorage.getItem("spotifyReactArtists"))
         JSONStorageArtists === null && localStorage.setItem("spotifyReactArtists", JSON.stringify([]))
-        
-        if (JSONStorageArtists.length > 0) {
-            let ids = ""
+
+        let storeArtistslength = JSONStorageArtists.length
+        if (storeArtistslength > 0) {
+            // Set Description
+            setDescription(`${storeArtistslength} ${storeArtistslength === 1 ? `artist` : `artists`}`)
             
+            let ids = ""
             JSONStorageArtists.forEach( (id, index) => {
-                ids = (index < JSONStorageArtists.length-1) ? `${ids}${id}%2C` : `${ids}${id}`
+                ids = (index < storeArtistslength-1) ? `${ids}${id}%2C` : `${ids}${id}`
             })
             
             getArtists(ids)
