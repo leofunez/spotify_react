@@ -18,11 +18,11 @@ import Artist   from "../pages/Details/Artist/Artist"
 import Playlist from "../pages/Details/Playlist/Playlist"
 import User     from "../pages/Details/User/User"
 
-// Favorites
-import MyAlbums    from "../pages/Favorites/MyAlbums/MyAlbums"
-import MyTracks    from "../pages/Favorites/MyTracks/MyTracks"
-import MyPlaylists from "../pages/Favorites/MyPlaylists/MyPlaylists"
-import MyArtists   from "../pages/Favorites/MyArtists/MyArtists"
+// Library
+import MyAlbums    from "../pages/Library/MyAlbums/MyAlbums"
+import MyTracks    from "../pages/Library/MyTracks/MyTracks"
+import MyPlaylists from "../pages/Library/MyPlaylists/MyPlaylists"
+import MyArtists   from "../pages/Library/MyArtists/MyArtists"
 
 // Errors
 import ErrorPage from "../pages/Error/Error"

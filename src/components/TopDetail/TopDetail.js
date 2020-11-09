@@ -27,33 +27,32 @@ import {
     ButtonLike
 } from "../Globals/Globals.styles"
 
-export const TopDetail = memo(props => {
+export const TopDetail = memo(({
+    pretitle,
+    title,
+    description,
+    no_buttons
+}, props) => {
     const dispatch = useDispatch()
 
     // Redux Store
     const { is_playing: storePlayerIsPlaying } = useSelector( state => state.player)
 
     //State
-    const [pretitle   , setPretitle]    = useState("")
-    const [title      , setTitle]       = useState("")
-    const [description, setDescription] = useState("")
-    const [owner      , setOwner]       = useState({})
-    const [showLike   , setShowLike]    = useState(true)
+    const [owner   , setOwner]    = useState({})
+    const [showLike, setShowLike] = useState(true)
 
     const playAll = () => {
         dispatch(setPlayerPlaying(!storePlayerIsPlaying))
     }
 
     useEffect(() => {
-        setPretitle(props.pretitle)
-        setTitle(props.title)
-        setDescription(props.description)
         setOwner(props.owner)
         setShowLike(props.showLike)
     }, [props])
 
     return (
-        <Container noButtons={props.noButtons}>
+        <Container noButtons={no_buttons}>
             <Info>
                 <Pretitle>{pretitle}</Pretitle>
                 <Title>{title}</Title>
@@ -67,7 +66,7 @@ export const TopDetail = memo(props => {
                     </Owner>
                 )}
 
-                {!props.noButtons && (
+                {!no_buttons && (
                     <Buttons>
                         <ButtonPlay
                             isRounded={true}
