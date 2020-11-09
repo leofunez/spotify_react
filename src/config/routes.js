@@ -38,21 +38,21 @@ const Routes = (
 
                 <div className="wrapper">
                     <Switch>
-                        <Route component={Login}       path="/login" />
                         <Route component={Browse}      path="/" exact />
+                        <Route component={Login}       path="/login" />
 
-                        <Route component={Track}       path="/track/:id" />
-                        <Route component={Album}       path="/album/:id" />
-                        <Route component={Artist}      path="/artist/:id" />
-                        <Route component={Playlist}    path="/playlist/:id" />
-                        <Route component={User}        path="/user/:id" />
+                        <Route component={Track}       path="/track/:id"/>
+                        <Route component={Album}       path="/album/:id"/>
+                        <Route component={Artist}      path="/artist/:id"/>
+                        <Route component={Playlist}    path="/playlist/:id"/>
+                        <Route component={User}        path="/user/:id"/>
 
-                        <Route component={MyAlbums}    path="/favorites/albums" />
-                        <Route component={MyTracks}    path="/favorites/tracks" />
-                        <Route component={MyPlaylists} path="/favorites/playlists" />
-                        <Route component={MyArtists}   path="/favorites/artists" />
+                        <Route component={MyAlbums}    path="/favorites/albums"/>
+                        <Route component={MyTracks}    path="/favorites/tracks"/>
+                        <Route component={MyPlaylists} path="/favorites/playlists"/>
+                        <Route component={MyArtists}   path="/favorites/artists"/>
                         
-                        <Route path="*" component={ErrorPage} />
+                        <Route component={ErrorPage}   path="*"/>
                     </Switch>
                 </div>
             </section>
