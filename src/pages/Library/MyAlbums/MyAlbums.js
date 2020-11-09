@@ -26,6 +26,7 @@ const MyAlbums = () => {
     const [albums, setAlbums]           = useState([])
     const [description, setDescription] = useState("")
 
+    // Methods
     const getSavedAlbums = async () => {
         try {
             const response  = await ApiSpotify.getSavedAlbums()
