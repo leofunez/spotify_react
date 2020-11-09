@@ -20,13 +20,14 @@ import {
 import { TopDetail } from "../../../components/TopDetail/TopDetail"
 import { Track }     from "../../../components/Track/Track"
 import { Message }   from "../../../components/Message/Message"
+import { NotFound }  from "../../../components/NotFound/NotFound"
 
 const Playlist = props => {
     const dispatch = useDispatch()
 
     // Redux State
-    const myPlaylists = useSelector( state => state.playlists.playlists )
-    const { user }    = useSelector( state => state.user )
+    const { playlists : storeMyPlaylists } = useSelector( state => state.playlists )
+    const { user } = useSelector( state => state.user )
 
     // Local State
     const [playlistId]                    = useState(props.match.params.id)
@@ -41,9 +42,7 @@ const Playlist = props => {
     
     const [isPlaying   , setIsPlaying]    = useState(false)
     const [isLiked     , setIsLiked]      = useState(false)
-    
     const [isMyPlaylist, setIsMyPlaylist] = useState(false)
-    
     const [showMessage , setShowMessage]  = useState(false)
     const [messageText , setMessageText]  = useState("")
     const [notFound    , setNotFound]     = useState(false)
@@ -70,7 +69,7 @@ const Playlist = props => {
  
             if (dataTracks.length > 0) {
                 // Show "Remove from this Playlist" option on Track component menu
-                // user.id && (data.owner.id === user.id) && (setIsMyPlaylist(true))
+                user.id && (data.owner.id === user.id) && (setIsMyPlaylist(true))
                 
                 // Filter tracks that have preview_url value
                 const tracksWithAudio = dataTracks.filter( track => (track.track !== null) && (track.track.preview_url !== null) )
@@ -106,9 +105,16 @@ const Playlist = props => {
                 setTimeout(() => dispatch(setLoading(false)), 1000)
             }
         } catch (err) {
-            // err.response.status === 401 && (window.location.href = "/login")
-            // err.response.status === 404 && (setNotFound(true))
-            console.log("PlaylistDetail API Error!", err.response)
+            let { status } = err.response
+            console.log(status)
+            
+            if (status === 400 || status === 404) {
+                setNotFound(true)
+            } else if(status === 401) {
+                // window.location.href = "/login"
+            } else {
+                console.log("PlaylistDetail API Error!")
+            }
         }
         
         // Turn off Loading
@@ -144,11 +150,13 @@ const Playlist = props => {
         }
         
         // this.SET_PLAYING && this.SET_CURRENT_TRACKLIST === this.playlist_id && (this.is_playing = true)
-    }, [])
+    }, [user])
 
     return (
         <PageContainer>
-            {/* {!notFound && !isLoading && ( */}
+            {notFound ? (
+                <NotFound type="playlist" />
+            ) : (
                 <>
                     <TopDetail
                         pretitle    ="Playlist"
@@ -177,6 +185,8 @@ const Playlist = props => {
                                 album_id       ={track.album_id}
                                 album_name     ={track.album_name}
                                 album_photo    ={track.album_photo}
+                                my_playlists   ={storeMyPlaylists}
+                                is_my_playlist ={isMyPlaylist}
 
                                 tracklist_id   ={playlistId}
                                 tracklist_type ="playlist"
@@ -186,7 +196,7 @@ const Playlist = props => {
 
                     {showMessage && <Message text={messageText} />}
                 </>
-            {/* )} */}
+            )}
         </PageContainer>
     )
 }

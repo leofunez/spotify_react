@@ -1,9 +1,19 @@
 import React from "react"
 
-const NotFound = () => {
+// Styles
+import {
+    Container,
+    Title,
+    Description,
+    LinkButton
+} from "./NotFound.styles"
+
+export const NotFound = ({ type }) => {
     return (
-        <div></div>
+        <Container>
+            <Title>404</Title>
+            <Description>{`This ${type} couldn't be found`}</Description>
+            <LinkButton to="/">Go to Browse</LinkButton>
+        </Container>
     )
 }
-
-export default NotFound

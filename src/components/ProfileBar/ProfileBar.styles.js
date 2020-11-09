@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import { NavLink } from "react-router-dom"
-import { COLORS } from "../../helpers/colors"
 import { Wrapper, Input } from "../../components/Globals/Globals.styles"
 import AvatarIcon from "../../assets/img/icons/profile_green.svg"
 

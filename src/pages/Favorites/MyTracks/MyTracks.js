@@ -30,7 +30,6 @@ const MyTracks = () => {
     const [filterTracks, setFilterTracks] = useState([])
     const [showMessage, setShowMessage] = useState(false)
     const [messageText, setMessageText] = useState("")
-    const [isLoading, setIsLoading] = useState(true)
 
     // Methods
     const getFavTracks = () => {

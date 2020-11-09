@@ -20,6 +20,7 @@ import {
 import { TopDetail } from "../../../components/TopDetail/TopDetail"
 import { Track }     from "../../../components/Track/Track"
 import { Message }   from "../../../components/Message/Message"
+import { NotFound }  from "../../../components/NotFound/NotFound"
 
 const Album = props => {
     const dispatch = useDispatch()
@@ -37,7 +38,6 @@ const Album = props => {
     const [showMessage , setShowMessage]          = useState(false)
     const [messageText , setMessageText]          = useState("")
 
-    const [isLoading, setIsLoading]               = useState(true)
     const [isPlaying, setIsPlaying]               = useState(false)
     const [isLiked, setIsLiked]                   = useState(false)
     const [isMyPlaylist, setIsMyPlaylist]         = useState(false)
@@ -97,9 +97,15 @@ const Album = props => {
                 setTimeout(() => dispatch(setLoading(false)), 1000)
             }
         } catch (err) {
-            // err.response.status === 401 && (window.location.href = "/login")
-            // err.response.status === 400 && (this.not_found = true)
-            console.log("AlbumDetail API Error!", err.response)
+            let { status } = err.response
+            
+            if (status === 400 || status === 404) {
+                setNotFound(true)
+            } else if(status === 401) {
+                // window.location.href = "/login"
+            } else {
+                console.log("AlbumDetail API Error!")
+            }
         }
 
         setTimeout(() => dispatch(setLoading(false)), 1000)
@@ -137,7 +143,9 @@ const Album = props => {
 
     return (
         <PageContainer>
-            {/* {!notFound && !isLoading && ( */}
+            {notFound ? (
+                <NotFound type="album" />
+            ) : (
                 <>
                     <TopDetail
                         pretitle    ="Album"
@@ -175,7 +183,7 @@ const Album = props => {
 
                     {showMessage && <Message text={messageText} />}
                 </>
-            {/* )} */}
+            )}
         </PageContainer>
     )
 }

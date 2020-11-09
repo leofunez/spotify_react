@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 
 // Styles
 import {
@@ -7,25 +7,16 @@ import {
     Title
 } from "./MiniCard.styles"
 
-export const MiniCard = props => {
-    const [cardId, setCardId]         = useState("")
-    const [CardTitle, setCardTitle]   = useState("")
-    const [cardAvatar, setCardAvatar] = useState("")
-    const [cardType, setCardType]     = useState("")
-    const [cardSize, setCardSize]     = useState("")
-
-    useEffect(() => {
-        setCardId(props.id)
-        setCardTitle(props.name)
-        setCardAvatar(props.avatar)
-        setCardType(props.type)
-        setCardSize(props.id)
-    }, [props])
-
+export const MiniCard = ({
+    id    : cardId,
+    name  : cardTitle,
+    avatar: cardAvatar,
+    type  : cardType
+}) => {
     return (
         <Container to={`/${cardType}/${cardId}`}>
             <Avatar src={cardAvatar} />
-            <Title>{CardTitle}</Title>
+            <Title>{cardTitle}</Title>
         </Container>
     )
 }

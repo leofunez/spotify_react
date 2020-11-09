@@ -1,4 +1,4 @@
-import { FETCH_PLAYLISTS, NEW_PLAYLIST } from "../actions/types"
+import { FETCH_PLAYLISTS } from "../actions/types"
 
 const initialState = {
     playlists: []

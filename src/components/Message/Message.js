@@ -1,12 +1,12 @@
-import React, { useState } from "react"
+import React from "react"
 
 // Styles
 import { Container } from "./Message.styles"
 
-export const Message = props => {
+export const Message = ({ text }) => {
     return (
         <Container>
-            {props.text}
+            {text}
         </Container>
     )
 }

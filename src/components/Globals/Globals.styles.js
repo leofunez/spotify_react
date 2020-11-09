@@ -27,7 +27,7 @@ export const BlockTitle = styled.h2`
 export const Divider = styled.div`
     width: 100%;
     height: 1px;
-    background: $gray;
+    background: ${COLORS.green};
     margin: 40px 0;
 `;
 
@@ -49,7 +49,7 @@ export const ProfileList = styled.div`
 
 export const Button = styled.button`
     background: ${COLORS.green};
-    color: $dark;
+    color: ${COLORS.dark};
     border: 0;
     padding: 12px 20px;
     font-size: 14px;
