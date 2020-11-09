@@ -12,7 +12,7 @@ import {
 } from "../../components/Globals/Globals.styles"
 
 // Components
-import { NotFound }  from "../../components/NotFound/NotFound"
+import NotFound from "../../components/NotFound/NotFound"
 
 const ErrorPage = props => {
     console.log(props)

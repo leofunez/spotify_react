@@ -31,7 +31,7 @@ import {
     Duration
 } from "./Track.styles"
 
-export const Track = memo(({
+const Track = memo(({
     track_id      : trackId, 
     track_index   : trackIndex, 
     track_name    : trackName,
@@ -349,3 +349,5 @@ export const Track = memo(({
         </Container>
     )
 })
+
+export default Track

@@ -17,9 +17,9 @@ import {
 } from "../../../components/Globals/Globals.styles"
 
 // Components
-import { Track as TrackComp } from "../../../components/Track/Track"
+import Track from "../../../components/Track/Track"
 import Card from "../../../components/Card/Card"
-import { NotFound }  from "../../../components/NotFound/NotFound"
+import NotFound from "../../../components/NotFound/NotFound"
 
 // Helpers
 import { timeFormatter } from "../../../helpers/timeFormatter"
@@ -38,7 +38,7 @@ import {
     AlbumsAuthor
 } from "./Track.styles"
 
-const Track = props => {
+const TrackPage = props => {
     const dispatch = useDispatch()
 
     // Local State
@@ -138,7 +138,7 @@ const Track = props => {
                     </TopContent>
 
                     <TrackList>
-                        <TrackComp
+                        <Track
                             key            ={trackDetail.track_id}
                             track_index    ={trackDetail.track_index}
                             track_id       ={trackDetail.track_id}
@@ -180,4 +180,4 @@ const Track = props => {
     )
 }
 
-export default Track
+export default TrackPage

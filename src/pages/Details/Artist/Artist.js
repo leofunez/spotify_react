@@ -36,10 +36,10 @@ import {
 } from "./Artist.styles"
 
 // Components
-import { TopDetail } from "../../../components/TopDetail/TopDetail"
-import { Track }     from "../../../components/Track/Track"
-import { MiniCard }  from "../../../components/MiniCard/MiniCard"
-import { NotFound }  from "../../../components/NotFound/NotFound"
+import TopDetail from "../../../components/TopDetail/TopDetail"
+import Track     from "../../../components/Track/Track"
+import MiniCard  from "../../../components/MiniCard/MiniCard"
+import NotFound  from "../../../components/NotFound/NotFound"
 
 const Artist = props => {
     const dispatch = useDispatch()

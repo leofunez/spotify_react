@@ -7,7 +7,7 @@ import {
     Title
 } from "./MiniCard.styles"
 
-export const MiniCard = ({
+const MiniCard = ({
     id    : cardId,
     name  : cardTitle,
     avatar: cardAvatar,
@@ -20,3 +20,5 @@ export const MiniCard = ({
         </Container>
     )
 }
+
+export default MiniCard

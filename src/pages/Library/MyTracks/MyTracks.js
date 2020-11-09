@@ -14,9 +14,9 @@ import {
 } from "../../../components/Globals/Globals.styles"
 
 // Components
-import { TopDetail } from "../../../components/TopDetail/TopDetail"
-import { Track } from "../../../components/Track/Track"
-import { Message } from "../../../components/Message/Message"
+import TopDetail from "../../../components/TopDetail/TopDetail"
+import Track     from "../../../components/Track/Track"
+import Message   from "../../../components/Message/Message"
 
 const MyTracks = () => {
     const dispatch = useDispatch()

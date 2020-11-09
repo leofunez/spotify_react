@@ -17,10 +17,10 @@ import {
 } from "../../../components/Globals/Globals.styles"
 
 // Components
-import { TopDetail } from "../../../components/TopDetail/TopDetail"
-import { Track }     from "../../../components/Track/Track"
-import { Message }   from "../../../components/Message/Message"
-import { NotFound }  from "../../../components/NotFound/NotFound"
+import TopDetail from "../../../components/TopDetail/TopDetail"
+import Track     from "../../../components/Track/Track"
+import Message   from "../../../components/Message/Message"
+import NotFound  from "../../../components/NotFound/NotFound"
 
 const Album = props => {
     const dispatch = useDispatch()

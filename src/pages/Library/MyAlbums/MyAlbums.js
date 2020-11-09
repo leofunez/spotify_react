@@ -16,8 +16,8 @@ import {
 } from "../../../components/Globals/Globals.styles"
 
 // Components
-import { TopDetail } from "../../../components/TopDetail/TopDetail"
-import Card          from "../../../components/Card/Card"
+import TopDetail from "../../../components/TopDetail/TopDetail"
+import Card      from "../../../components/Card/Card"
 
 const MyAlbums = () => {
     const dispatch = useDispatch()

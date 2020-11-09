@@ -27,7 +27,7 @@ import {
     ButtonLike
 } from "../Globals/Globals.styles"
 
-export const TopDetail = memo(({
+const TopDetail = memo(({
     pretitle,
     title,
     description,
@@ -87,3 +87,5 @@ export const TopDetail = memo(({
         </Container>
     )
 })
+
+export default TopDetail

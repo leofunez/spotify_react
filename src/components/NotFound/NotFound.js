@@ -8,7 +8,7 @@ import {
     LinkButton
 } from "./NotFound.styles"
 
-export const NotFound = ({ type }) => {
+const NotFound = ({ type }) => {
     return (
         <Container>
             <Title>404</Title>
@@ -17,3 +17,5 @@ export const NotFound = ({ type }) => {
         </Container>
     )
 }
+
+export default NotFound
