@@ -39,6 +39,7 @@ import {
 import { TopDetail } from "../../../components/TopDetail/TopDetail"
 import { Track }     from "../../../components/Track/Track"
 import { MiniCard }  from "../../../components/MiniCard/MiniCard"
+import { NotFound }  from "../../../components/NotFound/NotFound"
 
 const Artist = props => {
     const dispatch = useDispatch()
@@ -68,9 +69,15 @@ const Artist = props => {
             setArtistDesc(numFormatter(parseInt(data.followers.total)))
             setArtistImage(data.images[0] && data.images[0].url)
         } catch (err) {
-            // err.response.status === 401 && (window.location.href = "/login")
-            // err.response.status === 400 && (this.not_found = true)
-            console.log("GetArtist API Error!", err.response)
+            let { status } = err.response
+            
+            if (status === 400 || status === 404) {
+                setNotFound(true)
+            } else if(status === 401) {
+                // window.location.href = "/login"
+            } else {
+                console.log("ArtistDetail API Error!")
+            }
         }
 
         setTimeout(() => dispatch(setLoading(false)), 1000)
@@ -124,16 +131,15 @@ const Artist = props => {
         try {
             const response = await ApiSpotify.getArtistAlbums(artistId)
             const albums   = response.data.items
-            
-            let albumList = []
+            let albumList  = []
             
             albums.forEach( async album => {
-                const response = await ApiSpotify.getAlbumTracks(album.id)
+                const response  = await ApiSpotify.getAlbumTracks(album.id)
                 const { items } = response.data
 
-                // const tracksWithAudio = items.filter( track => track.preview_url !== undefined || track.preview_url !== null  )
+                const tracksWithAudio = items.filter( track => track.preview_url !== undefined || track.preview_url !== null  )
 
-                const trackList = await items.map( (track, index) => {
+                const trackList = await tracksWithAudio.map( (track, index) => {
                     const newTrack = {
                         track_index   : index,
                         track_id      : track.id,
@@ -184,104 +190,108 @@ const Artist = props => {
 
     return (
         <PageContainer>
-            {/* {!notFound && !isLoading && ( */}
-                <TopDetail
-                    pretitle    ="Artist"
-                    title       ={artistName}
-                    description ={`${artistDesc} followers`}
-                    image       ={artistImage}
-                    is_playing  ={isPlaying}
-                    is_liked    ={isLiked}
-                />
+            {notFound ? (
+                <NotFound type="album" />
+            ) : (
+                <>
+                    <TopDetail
+                        pretitle    ="Artist"
+                        title       ={artistName}
+                        description ={`${artistDesc} followers`}
+                        image       ={artistImage}
+                        is_playing  ={isPlaying}
+                        is_liked    ={isLiked}
+                    />
 
-                <TopContent isFullWidth={related.length === 0}>
-                    <TopPopular>
-                        <BlockTitle>Popular Tracks</BlockTitle>
-                        <TrackList>
-                            {populars.map( (track, index) => (
-                                <Track
-                                    key            ={`${track.track_id}-${index}`}
-                                    track_index    ={track.track_index}
-                                    track_id       ={track.track_id}
-                                    track_name     ={track.track_name}
-                                    track_url      ={track.track_url}
-                                    track_duration ={track.track_duration}
-                                    artist_id      ={track.artist_id}
-                                    artist_name    ={track.artist_name}
-                                    album_id       ={track.album_id}
-                                    album_name     ={track.album_name}
-                                    album_photo    ={track.album_photo}
-                                    
-                                    tracklist_id   ={artistId}
-                                    tracklist_type ="artist"
-                                />
-                            ))}
-                        </TrackList>
-                    </TopPopular>
-                    
-                    {related.length > 0 && (
-                        <TopRelated>
-                            <BlockTitle>Fans Also Like</BlockTitle>
-
-                            <ProfileList>
-                                {related.map( (artist, index) => (
-                                    <MiniCard
-                                        key    ={`${artist.id}-${index}`}
-                                        id     ={artist.id}
-                                        name   ={artist.name}
-                                        avatar ={artist.images[2].url}
-                                        type   ="artist"
+                    <TopContent isFullWidth={related.length === 0}>
+                        <TopPopular>
+                            <BlockTitle>Popular Tracks</BlockTitle>
+                            <TrackList>
+                                {populars.map( (track, index) => (
+                                    <Track
+                                        key            ={`${track.track_id}-${index}`}
+                                        track_index    ={track.track_index}
+                                        track_id       ={track.track_id}
+                                        track_name     ={track.track_name}
+                                        track_url      ={track.track_url}
+                                        track_duration ={track.track_duration}
+                                        artist_id      ={track.artist_id}
+                                        artist_name    ={track.artist_name}
+                                        album_id       ={track.album_id}
+                                        album_name     ={track.album_name}
+                                        album_photo    ={track.album_photo}
+                                        
+                                        tracklist_id   ={artistId}
+                                        tracklist_type ="artist"
                                     />
                                 ))}
-                            </ProfileList>
-                        </TopRelated>
-                    )}
-                </TopContent>
-                
-                {/* Albums */}
-                    <AlbumList>
-                        <BlockTitle>Albums</BlockTitle>
+                            </TrackList>
+                        </TopPopular>
+                        
+                        {related.length > 0 && (
+                            <TopRelated>
+                                <BlockTitle>Fans Also Like</BlockTitle>
 
-                        {artistAlbums.map( (item, index) => (
-                            <Album key={`${item.id}-${index}`}>
-                                <AlbumTop>
-                                    <AlbumPhoto
-                                        to={`/album/${item.id}`}
-                                        src={item.image}
-                                    />
-                                    <AlbumDate>{item.date}</AlbumDate>
-                                    <AlbumTitle to={`/album/${item.id}`}>{item.name}</AlbumTitle>
-                                </AlbumTop>
+                                <ProfileList>
+                                    {related.map( (artist, index) => (
+                                        <MiniCard
+                                            key    ={`${artist.id}-${index}`}
+                                            id     ={artist.id}
+                                            name   ={artist.name}
+                                            avatar ={artist.images[2].url}
+                                            type   ="artist"
+                                        />
+                                    ))}
+                                </ProfileList>
+                            </TopRelated>
+                        )}
+                    </TopContent>
+                    
+                    {/* Albums */}
+                        <AlbumList>
+                            <BlockTitle>Albums</BlockTitle>
 
-                                {/* Tracks */}
-                                    <AlbumTracks>
-                                        <TrackList>
-                                            {item.tracks.map( (track, index) => (
-                                                <Track
-                                                    key            ={`${track.track_id}-${index}`}
-                                                    track_index    ={track.track_index}
-                                                    track_id       ={track.track_id}
-                                                    track_name     ={track.track_name}
-                                                    track_url      ={track.track_url}
-                                                    track_duration ={track.track_duration}
-                                                    artist_id      ={track.artist_id}
-                                                    artist_name    ={track.artist_name}
-                                                    album_id       ={track.album_id}
-                                                    album_name     ={track.album_name}
-                                                    album_photo    ={track.album_photo}
-                                                    
-                                                    tracklist_id   ={track.album_id}
-                                                    tracklist_type ="album"
-                                                />
-                                            ))}
-                                        </TrackList>
-                                    </AlbumTracks>
-                                {/* .Tracks */}
-                            </Album>
-                        ))}
-                    </AlbumList>
-                {/* .Albums */}
-            {/* )} */}
+                            {artistAlbums.map( (item, index) => (
+                                <Album key={`${item.id}-${index}`}>
+                                    <AlbumTop>
+                                        <AlbumPhoto
+                                            to={`/album/${item.id}`}
+                                            src={item.image}
+                                        />
+                                        <AlbumDate>{item.date}</AlbumDate>
+                                        <AlbumTitle to={`/album/${item.id}`}>{item.name}</AlbumTitle>
+                                    </AlbumTop>
+
+                                    {/* Tracks */}
+                                        <AlbumTracks>
+                                            <TrackList>
+                                                {item.tracks.map( (track, index) => (
+                                                    <Track
+                                                        key            ={`${track.track_id}-${index}`}
+                                                        track_index    ={track.track_index}
+                                                        track_id       ={track.track_id}
+                                                        track_name     ={track.track_name}
+                                                        track_url      ={track.track_url}
+                                                        track_duration ={track.track_duration}
+                                                        artist_id      ={track.artist_id}
+                                                        artist_name    ={track.artist_name}
+                                                        album_id       ={track.album_id}
+                                                        album_name     ={track.album_name}
+                                                        album_photo    ={track.album_photo}
+                                                        
+                                                        tracklist_id   ={track.album_id}
+                                                        tracklist_type ="album"
+                                                    />
+                                                ))}
+                                            </TrackList>
+                                        </AlbumTracks>
+                                    {/* .Tracks */}
+                                </Album>
+                            ))}
+                        </AlbumList>
+                    {/* .Albums */}
+                </>
+            )}
         </PageContainer>
     )
 }
