@@ -167,6 +167,8 @@ const Playlist = props => {
                         isPlaying   ={isPlaying}
                         isLiked     ={isLiked}
                         showLike    ={!isMyPlaylist}
+                        type        ="playlist"
+                        typeId      ={playlistId}
                     />
 
                     <Input type="search" placeholder="Filter" isFilter={true} onKeyUp={(e) => filter(e.target.value)} />

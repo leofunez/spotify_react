@@ -199,8 +199,11 @@ const Artist = props => {
                         title       ={artistName}
                         description ={`${artistDesc} followers`}
                         image       ={artistImage}
-                        is_playing  ={isPlaying}
-                        is_liked    ={isLiked}
+                        isPlaying   ={isPlaying}
+                        isLiked     ={isLiked}
+                        showLike    ={true}
+                        type        ="artist"
+                        typeId      ={artistId}
                     />
 
                     <TopContent isFullWidth={related.length === 0}>

@@ -155,6 +155,8 @@ const Album = props => {
                         image       ={albumImage}
                         isPlaying   ={isPlaying}
                         isLiked     ={isLiked}
+                        type        ="album"
+                        typeId      ={albumId}
                     />
 
                     <Input type="search" placeholder="Filter" isFilter={true} onKeyUp={(e) => filter(e.target.value)} />
