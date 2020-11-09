@@ -1,5 +1,5 @@
 import React from "react"
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 
 // Components
 import MenuBar from "../components/MenuBar/MenuBar"
@@ -25,7 +25,7 @@ import MyPlaylists from "../pages/Favorites/MyPlaylists/MyPlaylists"
 import MyArtists   from "../pages/Favorites/MyArtists/MyArtists"
 
 // Errors
-// import NotFound from "../pages/Error/Error"
+import ErrorPage from "../pages/Error/Error"
 
 const Routes = (
     <Router>
@@ -37,7 +37,7 @@ const Routes = (
                 <ProfileBar />
 
                 <div className="wrapper">
-                    
+                    <Switch>
                         <Route component={Login}       path="/login" />
                         <Route component={Browse}      path="/" exact />
 
@@ -52,8 +52,8 @@ const Routes = (
                         <Route component={MyPlaylists} path="/favorites/playlists" />
                         <Route component={MyArtists}   path="/favorites/artists" />
                         
-                        {/* <Route path="/user/:id"     component={User} /> */}
-                    
+                        <Route path="*" component={ErrorPage} />
+                    </Switch>
                 </div>
             </section>
 
