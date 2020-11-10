@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { NavLink } from "react-router-dom"
+import { COLORS } from "../../helpers/colors"
 import { Wrapper, Input } from "../../components/Globals/Globals.styles"
 import AvatarIcon from "../../assets/img/icons/profile_green.svg"
 
@@ -19,6 +20,38 @@ export const Search = styled.div`
 `;
 
 export const SearchInput = styled(Input)``;
+
+export const SearchResult = styled.div`
+    background-color: ${COLORS.dark2};
+    border: 2px solid rgba($gray, 0.25);
+    color: ${COLORS.white};
+    width: max-content;
+    border-radius: 4px;
+    max-height: 230px;
+    overflow: hidden;
+    position: absolute;
+    box-shadow: 4px 4px 8px rgba(${COLORS.dark}, 0.2);
+    z-index: 5;
+    display: none;
+
+    ${({isActive}) => isActive && `
+        display: flex;
+    `}
+`;
+
+export const SearchResultList = styled.div`
+    width: 200px;
+`;
+
+export const SearchResultTitle = styled.h2`
+    font-size: 14px;
+    padding: 10px;
+`;
+
+export const SearchResultItems = styled.div`
+    overflow-y: scroll;
+    height: 100%;
+`;
 
 export const User = styled(NavLink)`
     display: flex;

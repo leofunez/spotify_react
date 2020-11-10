@@ -11,6 +11,10 @@ export const Container = styled(NavLink)`
             color: ${COLORS.green}
         }
     }
+
+    ${({padding}) => padding && `
+        padding: ${padding};
+    `}
 `;
 
 export const Avatar = styled.div`
