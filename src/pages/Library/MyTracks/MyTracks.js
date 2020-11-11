@@ -5,6 +5,11 @@ import { useDispatch, useSelector } from "react-redux"
 
 // Redux Actions
 import { setLoading } from "../../../redux/actions/loadingAction"
+import { setPlayerPlaying,
+         setPlayerCurrentTrack,
+         setTrackList,
+         setTrackListInfo
+} from "../../../redux/actions/playerActions"
 
 // Global Styles
 import {
@@ -22,14 +27,17 @@ const MyTracks = () => {
     const dispatch = useDispatch()
 
     // Redux State
-    const { fav_tracks: storeFavTracks } = useSelector( state => state.favorites )
-    const { loading   : storeLoading }   = useSelector( state => state.loading )
+    const { fav_tracks    : storeFavTracks }     = useSelector( state => state.favorites )
+    const { loading       : storeLoading }       = useSelector( state => state.loading )
+    const { is_playing    : storeIsPlaying,
+            tracklist_info: storeTracklistInfo } = useSelector( state => state.player )
 
     // Local State
-    const [tracks, setTracks] = useState([])
+    const [tracks      , setTracks]       = useState([])
+    const [description , setDescription]  = useState("")
     const [filterTracks, setFilterTracks] = useState([])
-    const [showMessage, setShowMessage] = useState(false)
-    const [messageText, setMessageText] = useState("")
+    const [showMessage , setShowMessage]  = useState(false)
+    const [messageText , setMessageText]  = useState("")
 
     // Methods
     const getFavTracks = () => {
@@ -59,6 +67,7 @@ const MyTracks = () => {
                 index++
             }
 
+            setDescription(`${trackList.length} ${trackList.length === 1 ? `track` : `tracks`}`)
             setTracks(trackList)
             setFilterTracks(trackList)
         } else {
@@ -70,6 +79,25 @@ const MyTracks = () => {
 
         // Turn off Loading
         setTimeout(() => dispatch(setLoading(false)), 1000)
+    }
+
+    const dispatchTracklist = () => {
+        dispatch(setTrackList(tracks))
+        dispatch(setPlayerCurrentTrack(tracks[0]))
+        dispatch(setTrackListInfo({id: "", type: "saved_tracks"}))
+        dispatch(setPlayerPlaying(true))
+    }
+
+    const handlePlayALl = () => {
+        if (storeTracklistInfo.type == undefined) {
+            dispatchTracklist()
+        } else {
+            if (storeTracklistInfo.type === "saved_tracks") {
+                dispatch(setPlayerPlaying(false))
+            } else {
+                dispatchTracklist()
+            }
+        }
     }
 
     const filter = (filterString) => {
@@ -95,7 +123,7 @@ const MyTracks = () => {
 
         // Turn on Loading
         return () => {
-            dispatch(setLoading(true))
+            //dispatch(setLoading(true))
         }
     }, [storeFavTracks])
 
@@ -104,8 +132,11 @@ const MyTracks = () => {
             <TopDetail
                 pretitle    ="Library"
                 title       ="Favorite tracks"
-                description =""
-                no_buttons  ={true}
+                description ={description}
+                showLike    ={false}
+                noButtons   ={tracks.length < 1}
+                type        ="saved_tracks"
+                playAll     ={() => handlePlayALl()}
             />
 
             <Input type="search" placeholder="Filter" isFilter={true} onKeyUp={(e) => filter(e.target.value)} />

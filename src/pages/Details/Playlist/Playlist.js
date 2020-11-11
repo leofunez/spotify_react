@@ -5,6 +5,11 @@ import { useDispatch, useSelector } from "react-redux"
 
 // Redux Actions
 import { setLoading } from "../../../redux/actions/loadingAction"
+import { setPlayerPlaying,
+         setPlayerCurrentTrack,
+         setTrackList,
+         setTrackListInfo
+} from "../../../redux/actions/playerActions"
 
 // Api
 import ApiSpotify from "../../../config/api"
@@ -26,7 +31,9 @@ const Playlist = props => {
     const dispatch = useDispatch()
 
     // Redux State
-    const { playlists : storeMyPlaylists } = useSelector( state => state.playlists )
+    const { playlists : storeMyPlaylists }       = useSelector( state => state.playlists )
+    const { is_playing: storeIsPlaying,
+            tracklist_info: storeTracklistInfo } = useSelector( state => state.player )
     const { user } = useSelector( state => state.user )
 
     // Local State
@@ -38,7 +45,6 @@ const Playlist = props => {
     
     const [tracks      , setTracks]       = useState([])
     const [filterTracks, setFilterTracks] = useState([])
-    // const [filterString, setFilterString] = useState("")
     
     const [isPlaying   , setIsPlaying]    = useState(false)
     const [isLiked     , setIsLiked]      = useState(false)
@@ -106,7 +112,6 @@ const Playlist = props => {
             }
         } catch (err) {
             let { status } = err.response
-            console.log(status)
             
             if (status === 400 || status === 404) {
                 setNotFound(true)
@@ -120,6 +125,27 @@ const Playlist = props => {
         // Turn off Loading
         setTimeout(() => dispatch(setLoading(false)), 1000)
     }
+
+    // When PlayAll on TopDetail component is clicked
+        const dispatchTracklist = () => {
+            dispatch(setTrackList(tracks))
+            dispatch(setPlayerCurrentTrack(tracks[0]))
+            dispatch(setTrackListInfo({id: playlistId, type: "playlist"}))
+            dispatch(setPlayerPlaying(true))
+        }
+
+        const handlePlayALl = () => {
+            if (storeTracklistInfo.type == undefined) {
+                dispatchTracklist()
+            } else {
+                if (storeTracklistInfo.type === "playlist" && storeTracklistInfo.id === playlistId) {
+                    dispatch(setPlayerPlaying(false))
+                } else {
+                    dispatchTracklist()
+                }
+            }
+        }
+    // .
 
     // Computed
     const filter = (filterString) => {
@@ -148,8 +174,6 @@ const Playlist = props => {
         return () => {
             dispatch(setLoading(true))
         }
-        
-        // this.SET_PLAYING && this.SET_CURRENT_TRACKLIST === this.playlist_id && (this.is_playing = true)
     }, [user])
 
     return (
@@ -167,8 +191,11 @@ const Playlist = props => {
                         isPlaying   ={isPlaying}
                         isLiked     ={isLiked}
                         showLike    ={!isMyPlaylist}
+                        
                         type        ="playlist"
                         typeId      ={playlistId}
+
+                        playAll     ={() => handlePlayALl()}
                     />
 
                     <Input type="search" placeholder="Filter" isFilter={true} onKeyUp={(e) => filter(e.target.value)} />

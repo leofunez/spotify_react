@@ -86,6 +86,7 @@ const Track = memo(({
                 album_name:     track.album_name,
                 album_photo:    track.album_photo,
             }
+            
             dispatch(setPlayerCurrentTrack(trackToPlay))
             dispatch(setPlayerPlaying(true))
         }

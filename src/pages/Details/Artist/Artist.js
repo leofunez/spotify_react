@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react"
 
 // Redux Hooks
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 // Redux Actions
 import { setLoading } from "../../../redux/actions/loadingAction"
+import { setPlayerPlaying,
+         setPlayerCurrentTrack,
+         setTrackList,
+         setTrackListInfo
+} from "../../../redux/actions/playerActions"
 
 // Api
 import ApiSpotify from "../../../config/api"
@@ -43,6 +48,10 @@ import NotFound  from "../../../components/NotFound/NotFound"
 
 const Artist = props => {
     const dispatch = useDispatch()
+
+    // Redux State
+    const { is_playing    : storeIsPlaying,
+            tracklist_info: storeTracklistInfo } = useSelector( state => state.player )
 
     // Local State
     const [artistId]                      = useState(props.match.params.id)
@@ -176,6 +185,27 @@ const Artist = props => {
         }
     }
 
+    // When PlayAll on TopDetail component is clicked
+        const dispatchTracklist = () => {
+            dispatch(setTrackList(populars))
+            dispatch(setPlayerCurrentTrack(populars[0]))
+            dispatch(setTrackListInfo({id: artistId, type: "artist"}))
+            dispatch(setPlayerPlaying(true))
+        }
+
+        const handlePlayALl = () => {
+            if (storeTracklistInfo.type == undefined) {
+                dispatchTracklist()
+            } else {
+                if (storeTracklistInfo.type === "artist" && storeTracklistInfo.id === artistId) {
+                    dispatch(setPlayerPlaying(false))
+                } else {
+                    dispatchTracklist()
+                }
+            }
+        }
+    // .
+
     useEffect(() => {
         getArtistInfo()
         getTopTracks()
@@ -202,8 +232,11 @@ const Artist = props => {
                         isPlaying   ={isPlaying}
                         isLiked     ={isLiked}
                         showLike    ={true}
+                        
                         type        ="artist"
                         typeId      ={artistId}
+                        
+                        playAll     ={() => handlePlayALl()}
                     />
 
                     <TopContent isFullWidth={related.length === 0}>

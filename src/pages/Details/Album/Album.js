@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react"
 
 // Redux Hooks
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 // Redux Actions
 import { setLoading } from "../../../redux/actions/loadingAction"
+import { setPlayerPlaying,
+         setPlayerCurrentTrack,
+         setTrackList,
+         setTrackListInfo
+} from "../../../redux/actions/playerActions"
 
 // Api
 import ApiSpotify from "../../../config/api"
@@ -24,6 +29,10 @@ import NotFound  from "../../../components/NotFound/NotFound"
 
 const Album = props => {
     const dispatch = useDispatch()
+
+    // Redux State
+    const { is_playing: storeIsPlaying,
+            tracklist_info: storeTracklistInfo } = useSelector( state => state.player )
 
     // Local State
     const [albumId]                               = useState(props.match.params.id)
@@ -111,6 +120,27 @@ const Album = props => {
         setTimeout(() => dispatch(setLoading(false)), 1000)
     }
 
+    // When PlayAll on TopDetail component is clicked
+        const dispatchTracklist = () => {
+            dispatch(setTrackList(albumTracks))
+            dispatch(setPlayerCurrentTrack(albumTracks[0]))
+            dispatch(setTrackListInfo({id: albumId, type: "album"}))
+            dispatch(setPlayerPlaying(true))
+        }
+
+        const handlePlayALl = () => {
+            if (storeTracklistInfo.type == undefined) {
+                dispatchTracklist()
+            } else {
+                if (storeTracklistInfo.type === "album" && storeTracklistInfo.id === albumId) {
+                    dispatch(setPlayerPlaying(false))
+                } else {
+                    dispatchTracklist()
+                }
+            }
+        }
+    // .
+
     const filter = (filterString) => {
         let trackListFiltered = filterTracks.filter( track => {
             const trackName = track.track_name.toLowerCase()
@@ -137,8 +167,6 @@ const Album = props => {
         return () => {
             dispatch(setLoading(true))
         }
-
-        // this.SET_PLAYING && this.SET_CURRENT_TRACKLIST === this.playlist_id && (this.is_playing = true)
     }, [])
 
     return (
@@ -155,8 +183,11 @@ const Album = props => {
                         image       ={albumImage}
                         isPlaying   ={isPlaying}
                         isLiked     ={isLiked}
+                        
                         type        ="album"
                         typeId      ={albumId}
+                        
+                        playAll     ={() => handlePlayALl()}
                     />
 
                     <Input type="search" placeholder="Filter" isFilter={true} onKeyUp={(e) => filter(e.target.value)} />

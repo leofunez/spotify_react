@@ -1,10 +1,7 @@
-import React, { memo, useState, useEffect } from "react"
+import React, { memo, useState, useEffect, useCallback } from "react"
 
 // Redux Hooks
 import { useDispatch, useSelector } from "react-redux"
-
-// Redux Actions
-import { setPlayerPlaying } from "../../redux/actions/playerActions"
 
 // Api
 import ApiSpotify from "../../config/api"
@@ -39,19 +36,27 @@ const TopDetail = memo(({
     noButtons = false,
     showLike  = true,
     type      = "",
-    typeId    = ""
+    typeId    = "",
+    playAll
 }, props) => {
     const dispatch = useDispatch()
 
     // Redux State
-    const { is_playing: storePlayerIsPlaying } = useSelector( state => state.player)
+    const { 
+        is_playing    : storeIsPlaying,
+        tracklist_info: storeTracklistInfo
+    } = useSelector( state => state.player )
 
     // Local State
-    const [isLiked, setIsLiked] = useState(false)
+    const [isLiked      , setIsLiked]       = useState(false)
+    const [isThisPlaying, setIsThisPlaying] = useState(false)
 
     // Methods
-    const playAll = () => {
-        dispatch(setPlayerPlaying(!storePlayerIsPlaying))
+    const handlePlayAll = () => {
+        setIsThisPlaying(true)
+        
+        // Function on parent: Playlist/Album/Artist or Favorite Tracks page
+        playAll && playAll()
     }
 
     const isAlreadyLiked = async () => {
@@ -79,7 +84,15 @@ const TopDetail = memo(({
         }
     }
 
-    const likeThis = async () => {
+    const isPlaying = useCallback(() => {
+        if (storeIsPlaying) {
+            if (storeTracklistInfo.type === type && storeTracklistInfo.id === typeId) {
+                setIsThisPlaying(true)
+            }
+        }
+    }, [isThisPlaying])
+
+    const likeThis = useCallback(async () => {
         if (type === "artist") {
             let JSONStorageArtists = JSON.parse(localStorage.getItem("spotifyReactArtists"))
             localStorage.removeItem("spotifyReactArtists")
@@ -114,10 +127,11 @@ const TopDetail = memo(({
         }
         
         setIsLiked(!isLiked)
-    }
+    }, [isLiked])
 
     useEffect(() => {
         isAlreadyLiked()
+        isPlaying()
     }, [props])
 
     return (
@@ -141,9 +155,9 @@ const TopDetail = memo(({
                     <Buttons>
                         <ButtonPlay
                             isRounded={true}
-                            isPlaying={storePlayerIsPlaying}
-                            onClick={() => playAll()}
-                        >{storePlayerIsPlaying ? "Pause" : "Play"}</ButtonPlay>
+                            isPlaying={isThisPlaying}
+                            onClick={() => handlePlayAll()}
+                        >{isThisPlaying ? "Pause" : "Play"}</ButtonPlay>
                         
                         {showLike && (
                             <ButtonLike isActive={isLiked} onClick={() => likeThis()}></ButtonLike>
