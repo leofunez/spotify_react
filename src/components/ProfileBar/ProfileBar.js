@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState, useCallback } from "react"
+import React, { memo, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 // Redux Actions
@@ -17,7 +17,6 @@ import {
     SearchResultList,
     SearchResultTitle,
     SearchResultItems,
-    SearchResultItem,
     User,
     UserName,
     Avatar
@@ -40,7 +39,7 @@ const ProfileBar = memo(() => {
     const [searchPlaylists , setSearchPlaylists]  = useState([])
 
     // Methods
-    const handleSearch = useCallback(async (searchQuery) => {
+    const handleSearch = async searchQuery => {
         if (searchQuery.length > 3) {
             try {
                 const response = await ApiSpotify.search(searchQuery)
@@ -55,8 +54,15 @@ const ProfileBar = memo(() => {
             } catch(err) {
                 console.log("Error searching", err.response)
             }
+        } else {
+            setSearchTracks([])
+            setSearchArtists([])
+            setSearchAlbums([])
+            setSearchPlaylists([])
+
+            setShowSearchResult(false)
         }
-    })
+    }
 
     useEffect(() => {
         dispatch(fecthUser())
@@ -66,7 +72,7 @@ const ProfileBar = memo(() => {
         <Container>
             <ContainerWrapper>
                 <Search>
-                    <SearchInput type="search" placeholder="Search..." onKeyUp={(e) => handleSearch(e.target.value)} />
+                    <SearchInput type="search" placeholder="Search..." onChange={(e) => handleSearch(e.target.value)} />
 
                     {/* Search Result */}
                         <SearchResult isActive={showSearchResult} onMouseLeave={() => setShowSearchResult(false)}>
