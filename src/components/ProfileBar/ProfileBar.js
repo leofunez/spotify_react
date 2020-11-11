@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react"
+import React, { memo, useEffect, useState, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 // Redux Actions
@@ -32,6 +32,7 @@ const ProfileBar = memo(() => {
     const user = useSelector( state => state.user.user || {} )
 
     // Local State
+    const [searchQuery     , setSearchQuery]      = useState("")
     const [showSearchResult, setShowSearchResult] = useState(false)
     const [searchTracks    , setSearchTracks]     = useState([])
     const [searchArtists   , setSearchArtists]    = useState([])
@@ -39,8 +40,8 @@ const ProfileBar = memo(() => {
     const [searchPlaylists , setSearchPlaylists]  = useState([])
 
     // Methods
-    const handleSearch = async searchQuery => {
-        if (searchQuery.length > 3) {
+    const handleSearch = useCallback(async () => {
+        if (searchQuery.length > 2) {
             try {
                 const response = await ApiSpotify.search(searchQuery)
                 const { data } = response
@@ -55,13 +56,22 @@ const ProfileBar = memo(() => {
                 console.log("Error searching", err.response)
             }
         } else {
-            setSearchTracks([])
-            setSearchArtists([])
-            setSearchAlbums([])
-            setSearchPlaylists([])
-
-            setShowSearchResult(false)
+            resetSearch()
         }
+    }, [searchQuery])
+
+    const resetSearch = () => {
+        setSearchTracks([])
+        setSearchArtists([])
+        setSearchAlbums([])
+        setSearchPlaylists([])
+
+        setShowSearchResult(false)
+        setSearchQuery("")
+    }
+
+    const handleMiniCardClick = () => {
+        resetSearch()
     }
 
     useEffect(() => {
@@ -72,7 +82,12 @@ const ProfileBar = memo(() => {
         <Container>
             <ContainerWrapper>
                 <Search>
-                    <SearchInput type="search" placeholder="Search..." onChange={(e) => handleSearch(e.target.value)} />
+                    <SearchInput
+                        type       ="search" 
+                        placeholder="Search..." 
+                        onChange   ={() => handleSearch()}
+                        onKeyUp    ={(e) => setSearchQuery(e.target.value)}
+                    />
 
                     {/* Search Result */}
                         <SearchResult isActive={showSearchResult} onMouseLeave={() => setShowSearchResult(false)}>
@@ -89,7 +104,7 @@ const ProfileBar = memo(() => {
                                                 type      ="track"
                                                 size      ="small"
                                                 padding   ="5px 10px"
-                                                onClick   ={() => setShowSearchResult(false)}
+                                                clickThis ={() => handleMiniCardClick()}
                                             />
                                         ))}
                                     </SearchResultItems>
@@ -109,7 +124,7 @@ const ProfileBar = memo(() => {
                                                 type      ="artist"
                                                 size      ="small"
                                                 padding   ="5px 10px"
-                                                onClick   ={() => setShowSearchResult(false)}
+                                                clickThis ={() => handleMiniCardClick()}
                                             />
                                         ))}
                                     </SearchResultItems>
@@ -129,7 +144,7 @@ const ProfileBar = memo(() => {
                                                 type      ="album"
                                                 size      ="small"
                                                 padding   ="5px 10px"
-                                                onClick   ={() => setShowSearchResult(false)}
+                                                clickThis ={() => handleMiniCardClick()}
                                             />
                                         ))}
                                     </SearchResultItems>
@@ -149,7 +164,7 @@ const ProfileBar = memo(() => {
                                                 size      ="small"
                                                 type      ="playlist"
                                                 padding   ="5px 10px"
-                                                onClick   ={() => setShowSearchResult(false)}
+                                                clickThis ={() => handleMiniCardClick()}
                                             />
                                         ))}
                                     </SearchResultItems>
