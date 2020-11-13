@@ -95,6 +95,7 @@ const MyTracks = () => {
             if (storeTracklistInfo.type === "saved_tracks") {
                 dispatch(setPlayerPlaying(false))
             } else {
+                dispatch(setPlayerPlaying(true))
                 dispatchTracklist()
             }
         }
