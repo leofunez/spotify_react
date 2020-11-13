@@ -198,6 +198,15 @@ const Player = () => {
         playTrack()
     }, [storeCurrentTrack])
 
+    useEffect(() => {
+        console.log(storeIsPlaying)
+        // if (!storeIsPlaying) {
+        //     pauseTrack()
+        // } else {
+        //     playTrack()
+        // }
+    }, [storeIsPlaying])
+
     return (
         <Container>
             <ProgressBar widthBar={currentBar}/>
