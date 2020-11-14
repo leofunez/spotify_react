@@ -310,6 +310,17 @@ const Track = memo(({
         isCurrentTrack()
     }, [storeCurrentTrack, storeFavTracks])
 
+    // Update track component playing state when store playing state changes from another component
+    useEffect(() => {
+        if (!storeIsPlaying) {
+            setIsPlaying(false)
+        } else {
+            if (trackId === storeCurrentTrack.track_id) {
+                setIsPlaying(true)
+            }
+        }
+    }, [storeIsPlaying])
+
     return (
         <Container>
             {!isPlaying ? (

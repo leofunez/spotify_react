@@ -198,13 +198,9 @@ const Player = () => {
         playTrack()
     }, [storeCurrentTrack])
 
+    // Pause track from another component
     useEffect(() => {
-        console.log(storeIsPlaying)
-        // if (!storeIsPlaying) {
-        //     pauseTrack()
-        // } else {
-        //     playTrack()
-        // }
+        (!storeIsPlaying) && pauseTrack()
     }, [storeIsPlaying])
 
     return (
