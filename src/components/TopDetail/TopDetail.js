@@ -3,6 +3,9 @@ import React, { memo, useState, useEffect, useCallback } from "react"
 // Redux Hooks
 import { useDispatch, useSelector } from "react-redux"
 
+// Redux Actions
+import { setPlayerPlaying } from "../../redux/actions/playerActions"
+
 // Api
 import ApiSpotify from "../../config/api"
 
@@ -53,7 +56,13 @@ const TopDetail = memo(({
 
     // Methods
     const handlePlayAll = () => {
-        setIsThisPlaying(true)
+        if (isThisPlaying) {
+            setIsThisPlaying(false)
+            dispatch(setPlayerPlaying(false))
+        } else {
+            setIsThisPlaying(true)
+            dispatch(setPlayerPlaying(true))
+        }
         
         // Function on parent: Playlist/Album/Artist or Favorite Tracks page
         playAll && playAll()
