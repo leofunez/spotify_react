@@ -93,10 +93,10 @@ const Track = memo(({
     }
 
     const newTrackList = async (type, id) => {
-        // This method should be exec when PLAYER_TRACKLIST has info
-        // and then refill PLAYER_TRACKLIST with the new one
+        // Fill new tracklist based on where the track is
         let newTracksList = []
 
+        // Validate where the track is, to set the new tracklist
         if (type === "playlist") {
             try {
                 const playlistTracks  = await ApiSpotify.getPlaylistTracks(id)
@@ -222,9 +222,16 @@ const Track = memo(({
                 index++
             }
         }
-
+        
+        // Set Tracklist and Info
         dispatch(setTrackList(newTracksList))
         dispatch(setTrackListInfo({id, type}))
+        
+        // Set Current Track based on TrackIndex prop
+        dispatch(setPlayerCurrentTrack(newTracksList[trackIndex]))
+
+        // Play Track
+        dispatch(setPlayerPlaying(true))
     }
 
     const pauseTrack = () => {
@@ -301,7 +308,6 @@ const Track = memo(({
 
         isAlreadyLiked()
         isCurrentTrack()
-        console.log("3. Track!")
     }, [storeCurrentTrack, storeFavTracks])
 
     return (
