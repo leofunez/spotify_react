@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
 
@@ -17,11 +17,22 @@ import {
     Add
 } from "./MenuBar.styles"
 
+// Components
+import Modal from "../Modal/Modal"
+
 const MenuBar = () => {
     const dispatch  = useDispatch()
 
     // Redux State
     const storePlaylists = useSelector( state => state.playlists.playlists || [])
+
+    // Local State
+    const [showModal, setShowModal] = useState(false)
+
+    // Methods
+    const openModal = () => {
+        setShowModal(true)
+    }
 
     useEffect(() => {
         dispatch(fetchPlaylists())
@@ -70,9 +81,21 @@ const MenuBar = () => {
                 </GroupScroll>
             </Group>
 
-            <Add>
+            <Add onClick={() => openModal()}>
                 <Icon size="360" posX="-213" posY="-121" />New playlist
             </Add>
+
+            {/* Modal */}
+                <Modal
+                    title    = "Create Playlist"
+                    body     = ""
+                    buttonYes= "Create"
+                    buttonNo = "Cancel"
+                    show     = {showModal}
+                >
+
+                </Modal>
+            {/* .Modal */}
         </Container>
     )
 }
