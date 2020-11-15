@@ -1,10 +1,21 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback, memo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
 
 // Redux Actions
 import { fetchPlaylists } from "../../redux/actions/playlistsAction"
 import { fetchFavoriteTracks } from "../../redux/actions/favoritesAction"
+
+// Api
+import ApiSpotify from "../../config/api"
+
+// Global Styles
+import {
+    FormItem,
+    Input,
+    InputMessage,
+    TextArea
+} from "../Globals/Globals.styles"
 
 // Styles
 import {
@@ -20,24 +31,71 @@ import {
 // Components
 import Modal from "../Modal/Modal"
 
-const MenuBar = () => {
+const MenuBar = memo(() => {
     const dispatch  = useDispatch()
 
     // Redux State
-    const storePlaylists = useSelector( state => state.playlists.playlists || [])
+    const { playlists: storePlaylists } = useSelector( state => state.playlists )
+    const { user     : storeUser }      = useSelector( state => state.user )
 
     // Local State
-    const [showModal, setShowModal] = useState(false)
+    const [newPlaylist   , setNewPlaylist]    = useState(false)
+    const [showModal     , setShowModal]      = useState(false)
+    const [modalInputName, setModalInputName] = useState("")
+    const [modalInputDesc, setModalInputDesc] = useState("")
+    const [modalInputPub , setModalInputPub]  = useState(true)
+    const [modalNameError, setModalNameError] = useState(false)
 
     // Methods
     const openModal = () => {
         setShowModal(true)
     }
 
-    useEffect(() => {
+    const getStorePlaylists = useCallback(() => {
         dispatch(fetchPlaylists())
+    }, [storePlaylists])
+
+    const getFavoriteTracks = () => {
         dispatch(fetchFavoriteTracks())
+    }
+
+    // From Modal components
+        const handleModalYes = () => {
+            if (modalInputName === "") {
+                setModalNameError(true)
+            } else {
+                setModalNameError(false)
+                createPlaylist()
+            }
+        }
+
+        const handleModalClose = () => {
+            setShowModal(false)
+            setModalInputName("")
+            setModalInputDesc("")
+        }
+
+        const createPlaylist = async () => {
+            try {
+                const userId     = storeUser.id
+                const response   = await ApiSpotify.createPlaylist(modalInputName, modalInputDesc, modalInputPub, userId)
+                if (response.status === 201) {
+                    handleModalClose()
+                    setNewPlaylist(true)
+                }
+            } catch(err) {
+                console.log("Error creating the playlist!", err)
+            }
+        }
+    //.
+
+    useEffect(() => {
+        getFavoriteTracks()
     }, []);
+
+    useEffect(() => {
+        getStorePlaylists()
+    }, [newPlaylist]);
 
     return (
         <Container>
@@ -87,17 +145,35 @@ const MenuBar = () => {
 
             {/* Modal */}
                 <Modal
-                    title    = "Create Playlist"
-                    body     = ""
-                    buttonYes= "Create"
-                    buttonNo = "Cancel"
-                    show     = {showModal}
+                    title          = "Create Playlist"
+                    body           = ""
+                    buttonYes      = "Create"
+                    buttonNo       = "Cancel"
+                    show           = {showModal}
+                    handleModalYes = {() => handleModalYes()}
+                    handleModalNo  = {() => handleModalClose()}
                 >
+                    <FormItem>
+                        <Input 
+                            placeholder="Name *" 
+                            hasError={modalNameError} 
+                            value={modalInputName} 
+                            onChange={(e) => setModalInputName(e.target.value)} 
+                        />
+                        <InputMessage isHide={modalNameError}>This field is required!</InputMessage>
+                    </FormItem>
 
+                    <FormItem>
+                        <TextArea 
+                            placeholder="Description" 
+                            value      ={modalInputDesc}
+                            onChange   ={(e) => setModalInputDesc(e.target.value)}
+                        />
+                    </FormItem>
                 </Modal>
             {/* .Modal */}
         </Container>
     )
-}
+})
 
 export default MenuBar

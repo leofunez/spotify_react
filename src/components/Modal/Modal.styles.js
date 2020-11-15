@@ -18,7 +18,7 @@ export const Container = styled.div`
 export const Content = styled.div`
     background: ${COLORS.dark4};
     width: calc(100vw - 40px);
-    max-width: 480px;
+    max-width: 640px;
     border-radius: 4px;
     overflow: hidden;
 `;
@@ -34,7 +34,7 @@ export const Title = styled.h2`
     font-weight: 500;
     align-self: center;
     margin: 0;
-    padding-left: 15px;
+    padding-left: 25px;
     color: ${COLORS.dark};
 
     span {

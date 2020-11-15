@@ -19,19 +19,19 @@ const Modal = ({
     body,
     buttonYes,
     buttonNo,
-    show = false
+    
+    show = false,
+    handleModalYes,
+    handleModalNo,
+    
+    children
 }) => {
+    // Local state
     const [showModal, setShowModal] = useState(show)
 
-    const closeModal = () => setShowModal(false)
-
-    const handleYes = () => {
-
-    }
-
-    const handleNo = () => {
-
-    }
+    // Methods
+    const handleYes  = () => handleModalYes && handleModalYes()
+    const handleNo   = () => handleModalNo  && handleModalNo()
 
     useEffect(() => {
         setShowModal(show)
@@ -44,10 +44,10 @@ const Modal = ({
                     <Content>
                         <Header>
                             <Title>{title}</Title>
-                            <Close onClick={() => closeModal()} />
+                            <Close onClick={() => handleNo()} />
                         </Header>
 
-                        <Body>{body}</Body>
+                        <Body>{children}</Body>
 
                         <Footer>
                             <Button isText={true} onClick={() => handleYes()}>{buttonYes}</Button>

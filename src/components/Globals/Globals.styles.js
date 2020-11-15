@@ -126,6 +126,45 @@ export const Input = styled.input`
         margin-bottom: 20px;
         border-radius: 25px;
     `}
+
+    ${({hasError}) => hasError &&`
+        border-color: ${COLORS.green};
+    `}
+`;
+
+export const TextArea = styled.textarea`
+    background-color: #0c1728;
+    border: 0;
+    border-radius: 10px;
+    width: 100%;
+    color: ${COLORS.white};
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    resize: none;
+    height: 200px;
+    padding: 20px 30px;
+
+    ${({hasError}) => hasError &&`
+        border-color: ${COLORS.green};
+    `}
+`;
+
+export const InputMessage = styled.span`
+    font-size: 12px;
+    text-align: left;
+    display: none;
+    margin-top: 10px;
+    padding-left: 5px;
+    color: ${COLORS.green};
+
+    ${({isHide}) => isHide && `
+        display: block;
+    `}
+`;
+
+export const FormItem = styled.div`
+    margin-bottom: 20px;
 `;
 
 export const Slider = styled.input.attrs({ type: "range" })`
