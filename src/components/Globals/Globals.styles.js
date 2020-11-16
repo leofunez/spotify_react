@@ -3,6 +3,9 @@ import { COLORS } from "../../helpers/colors"
 import { NavLink } from "react-router-dom"
 import IconsImage from "../../assets/img/icons/icons.svg"
 
+// Breakpoints
+import { breakpoint } from "../../helpers/breakpoint"
+
 export const Wrapper = styled.div`
     max-width: 1080px;
     margin: 0 auto;
@@ -41,8 +44,22 @@ export const Divider = styled.div`
 
 export const CardList = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 60px 30px;
+    grid-template-columns: 1fr;
+    grid-gap: 40px;
+
+    ${breakpoint.xs} {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 30px 10px;
+    }
+
+    ${breakpoint.sm} {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    ${breakpoint.lg} {
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 60px 30px;
+    }
 `;
 
 export const TrackList = styled.div`

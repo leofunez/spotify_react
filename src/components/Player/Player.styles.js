@@ -4,16 +4,24 @@ import { NavLink } from "react-router-dom"
 import IconsImage from "../../assets/img/icons/icons.svg"
 import { Slider, SliderBar } from "../Globals/Globals.styles"
 
+// Breakpoints
+import { breakpoint } from "../../helpers/breakpoint"
+
 export const Container = styled.section`
-    grid-column: menu-start / span 2;
+    grid-column: content-start / span 2;
+    grid-row: player-start;
+    display: grid;
+    grid-template-columns: 1fr 300px 1fr;
     background-color: ${COLORS.green};
     background-image: ${COLORS.greenGradient};
     box-shadow: inset 0 7px 18px -7px rgba(0, 0, 0, .8);
-    display: grid;
-    grid-template-columns: 1fr 300px 1fr;
     color: ${COLORS.dark};
     padding: 0 30px;
     position: relative;
+
+    ${breakpoint.md} {
+        grid-column: menu-start / span 2;
+    }
 `;
 
 export const ProgressBar = styled.div`

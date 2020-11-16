@@ -11,7 +11,6 @@ import ApiSpotify from "../../config/api"
 
 // Global Styles
 import {
-    Logo,
     FormItem,
     Input,
     InputMessage,
@@ -20,6 +19,7 @@ import {
 
 // Styles
 import {
+    StyledLogo,
     Container,
     Group,
     GroupTitle,
@@ -106,7 +106,7 @@ const MenuBar = memo(() => {
 
     return (
         <Container>
-            <NavLink to="/"><Logo /></NavLink>
+            <NavLink to="/"><StyledLogo /></NavLink>
             
             <Group>
                 <GroupTitle>Discover</GroupTitle>
