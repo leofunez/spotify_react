@@ -54,6 +54,7 @@ const Player = () => {
     // Methods
     const playPromise = async () => {
         await track.load()
+        track.volume = 0.50
         setTimeout(() => {
             track.play()
             dispatch(setPlayerPlaying(true))
@@ -74,9 +75,7 @@ const Player = () => {
                     resetPlayer()
                     
                     if (storeIsRepeat) {
-                        setTimeout( () => {
-                            // track.volume = (volume / 10)
-                            
+                        setTimeout( () => {                            
                             playPromise()
                         }, 500)
                     } else {
@@ -183,8 +182,13 @@ const Player = () => {
     }
     
     const muteVolume = () => {
-        setIsMuted(!isMuted)
-        track.volume = (volume / 100) ? !isMuted : 0
+        if (!isMuted) {
+            setIsMuted(true)
+            track.volume = 0
+        } else {
+            setIsMuted(false)
+            track.volume = volume / 100
+        }
     }
 
     const changeVolume = (e) => {

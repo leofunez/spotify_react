@@ -55,6 +55,10 @@ export const ArtistName = styled(NavLink)`
     font-size: 12px;
     font-weight: 500;
     color: ${COLORS.dark};
+
+    &:hover {
+        text-decoration: underline;
+    }
 `;
 
 export const Controls = styled.div`
