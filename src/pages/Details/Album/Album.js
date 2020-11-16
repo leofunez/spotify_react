@@ -99,8 +99,6 @@ const Album = props => {
 
                 setAlbumTracks(trackList)
                 setFilterTracks(trackList)
-
-                // this.fillTrackList()
             } else {
                 // Turn off Loading
                 setTimeout(() => dispatch(setLoading(false)), 1000)
@@ -111,7 +109,7 @@ const Album = props => {
             if (status === 400 || status === 404) {
                 setNotFound(true)
             } else if(status === 401) {
-                // window.location.href = "/login"
+                window.location.href = "/login"
             } else {
                 console.log("AlbumDetail API Error!")
             }

@@ -1,5 +1,13 @@
 import React from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { createBrowserHistory } from "history";
+
+// Root Styles
+import {
+    Main,
+    MainContent,
+    MainWrapper
+} from "../components/Main/Main.styles"
 
 // Components
 import MenuBar from "../components/MenuBar/MenuBar"
@@ -27,16 +35,21 @@ import MyArtists   from "../pages/Library/MyArtists/MyArtists"
 // Errors
 import ErrorPage from "../pages/Error/Error"
 
+const history = createBrowserHistory()
+const { pathname } = history.location
+const isNotLogin = pathname !== "/login"
+
 const Routes = (
     <Router>
-        <main className="app">
-            <MenuBar />
+        <Main isNotLogin={isNotLogin}>
+            {isNotLogin && <MenuBar />}
             
-            <section className="content">
+            <MainContent isNotLogin={isNotLogin}>
                 <Loader />
-                <ProfileBar />
-
-                <div className="wrapper">
+                
+                {isNotLogin && <ProfileBar />}
+                
+                <MainWrapper>
                     <Switch>
                         <Route component={Browse}      path="/" exact />
                         <Route component={Login}       path="/login" />
@@ -54,11 +67,11 @@ const Routes = (
                         
                         <Route component={ErrorPage}   path="*"/>
                     </Switch>
-                </div>
-            </section>
+                </MainWrapper>
+            </MainContent>
 
-            <Player />
-        </main>
+            {isNotLogin && <Player />}
+        </Main>
     </Router>
 )
 

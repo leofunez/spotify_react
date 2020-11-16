@@ -37,7 +37,13 @@ const MyAlbums = () => {
             // Set Description
             setDescription(`${items.length} ${items.length === 1 ? `album` : `albums`}`)
         } catch (err) {
-            console.log("Error getting MyAlbums!", err.response)
+            let { status } = err.response
+            
+            if(status === 401) {
+                window.location.href = "/login"
+            } else {
+                console.log("Error getting MyAlbums!")
+            }
         }
 
         // Turn off Loading

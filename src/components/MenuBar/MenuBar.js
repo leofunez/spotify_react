@@ -11,6 +11,7 @@ import ApiSpotify from "../../config/api"
 
 // Global Styles
 import {
+    Logo,
     FormItem,
     Input,
     InputMessage,
@@ -84,7 +85,13 @@ const MenuBar = memo(() => {
                     setNewPlaylist(true)
                 }
             } catch(err) {
-                console.log("Error creating the playlist!", err)
+                let { status } = err.response
+            
+                if(status === 401) {
+                    window.location.href = "/login"
+                } else {
+                    console.log("Error creating the playlist!")
+                }
             }
         }
     //.
@@ -99,15 +106,12 @@ const MenuBar = memo(() => {
 
     return (
         <Container>
-            <NavLink to="/" className="logo" />
+            <NavLink to="/"><Logo /></NavLink>
             
             <Group>
                 <GroupTitle>Discover</GroupTitle>
                 <MenuItem type="browse" to="/">
                     <Icon size="425" posX="-325" posY="-33" />Browse
-                </MenuItem>
-                <MenuItem type="radio" to="/radio">
-                    <Icon size="350" posX="-292" posY="-25" />Radio
                 </MenuItem>
             </Group>
 

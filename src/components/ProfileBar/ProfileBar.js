@@ -53,7 +53,13 @@ const ProfileBar = memo(() => {
 
                 setShowSearchResult(true)
             } catch(err) {
-                console.log("Error searching", err.response)
+                let { status } = err.response
+            
+                if(status === 401) {
+                    window.location.href = "/login"
+                } else {
+                    console.log("Error searching on Spotify!")
+                }
             }
         } else {
             resetSearch()

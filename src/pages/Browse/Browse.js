@@ -61,8 +61,13 @@ const Browse = () => {
                 
                 setFeaturedPlaylist(playlists.items)
             } catch (err) {
-                // err.response.status === 401 && (window.location.href = "/login")
-                console.log("FeaturedPlaylists API Error!", err.response)
+                let { status } = err.response
+            
+                if(status === 401) {
+                    window.location.href = "/login"
+                } else {
+                    console.log("FeaturedPlaylists API Error!", err.response)
+                }
             }
         }
 

@@ -82,8 +82,13 @@ const MyArtists = () => {
 
             setArtists(artistList)
         } catch(err) {
-            // err.response.status === 401 && (window.location.href = "/login")
-            console.log("Error getting Artists!", err.response)
+            let { status } = err.response
+            
+            if(status === 401) {
+                window.location.href = "/login"
+            } else {
+                console.log("Error getting Artists!")
+            }
         }
 
         // Turn off Loading

@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { COLORS } from "../../helpers/colors"
+import { NavLink } from "react-router-dom"
 import IconsImage from "../../assets/img/icons/icons.svg"
 
 export const Wrapper = styled.div`
@@ -22,6 +23,13 @@ export const PageTitle = styled.h1`
 export const BlockTitle = styled.h2`
     font-size: 20px;
     margin-bottom: 20px;
+`;
+
+export const Logo = styled.div`
+    background: url(${IconsImage}) no-repeat -174px -354px / 1058px;
+    width: 132px;
+    height: 40px;
+    display: block;
 `;
 
 export const Divider = styled.div`
@@ -90,6 +98,19 @@ export const Button = styled.button`
             opacity: 0.8;
         }
     `}
+`;
+
+export const ButtonLink = styled(NavLink)`
+    background: ${COLORS.green};
+    color: ${COLORS.dark};
+    border: 0;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 2px;
+    border: 0;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
 `;
 
 export const ButtonLike = styled(Button)`

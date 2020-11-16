@@ -83,7 +83,7 @@ const Artist = props => {
             if (status === 400 || status === 404) {
                 setNotFound(true)
             } else if(status === 401) {
-                // window.location.href = "/login"
+                window.location.href = "/login"
             } else {
                 console.log("ArtistDetail API Error!")
             }

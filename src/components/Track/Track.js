@@ -152,8 +152,14 @@ const Track = memo(({
                     newTracksList = [...newTracksList, trackObj]
                     index++
                 }
-            } catch (e) {
-                console.log("Album tracks API Errors", e)
+            } catch (err) {
+                let { status } = err.response
+            
+                if(status === 401) {
+                    window.location.href = "/login"
+                } else {
+                    console.log("Album tracks API Errors!")
+                }
             }
         } else if (type === "saved_tracks") {
             const tracksWithAudio = storeFavTracks.filter( track => track.track.preview_url !== null )
@@ -179,34 +185,12 @@ const Track = memo(({
                 index++
             }
         } else if (type === "track") {
-            const response = await ApiSpotify.getTrack(id)
-            const track    = response.data
+            try {
+                const response = await ApiSpotify.getTrack(id)
+                const track    = response.data
 
-            const trackObj = {
-                track_index   : 0,
-                track_id      : track.id,
-                track_name    : track.name,
-                track_duration: track.duration_ms,
-                track_url     : track.preview_url || "",
-                artist_id     : track.artists[0].id,
-                artist_name   : track.artists[0].name,
-                album_id      : track.album.id,
-                album_name    : track.album.name,
-                album_photo   : track.album.images[1].url || ""
-            }
-
-            newTracksList = [...newTracksList, trackObj]
-        } else if (type === "artist") {
-            const response        = await ApiSpotify.getArtistTopTracks(id)
-            const { data }        = response
-            const tracksWithAudio = data.tracks.filter( track => track.preview_url !== null )
-
-            let index = 0
-            while (index < tracksWithAudio.length) {
-                let track = tracksWithAudio[index]
-                
                 const trackObj = {
-                    track_index   : index,
+                    track_index   : 0,
                     track_id      : track.id,
                     track_name    : track.name,
                     track_duration: track.duration_ms,
@@ -219,7 +203,49 @@ const Track = memo(({
                 }
 
                 newTracksList = [...newTracksList, trackObj]
-                index++
+            } catch (err) {
+                let { status } = err.response
+            
+                if(status === 401) {
+                    window.location.href = "/login"
+                } else {
+                    console.log("Track detail API Errors!")
+                }
+            }
+        } else if (type === "artist") {
+            try {
+                const response        = await ApiSpotify.getArtistTopTracks(id)
+                const { data }        = response
+                const tracksWithAudio = data.tracks.filter( track => track.preview_url !== null )
+
+                let index = 0
+                while (index < tracksWithAudio.length) {
+                    let track = tracksWithAudio[index]
+                    
+                    const trackObj = {
+                        track_index   : index,
+                        track_id      : track.id,
+                        track_name    : track.name,
+                        track_duration: track.duration_ms,
+                        track_url     : track.preview_url || "",
+                        artist_id     : track.artists[0].id,
+                        artist_name   : track.artists[0].name,
+                        album_id      : track.album.id,
+                        album_name    : track.album.name,
+                        album_photo   : track.album.images[1].url || ""
+                    }
+
+                    newTracksList = [...newTracksList, trackObj]
+                    index++
+                }
+            } catch (err) {
+                let { status } = err.response
+            
+                if(status === 401) {
+                    window.location.href = "/login"
+                } else {
+                    console.log("Artist Track detail API Errors!")
+                }
             }
         }
         

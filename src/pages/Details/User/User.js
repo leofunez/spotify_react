@@ -30,16 +30,18 @@ import {
 
 // Components
 import Card from "../../../components/Card/Card"
+import NotFound from "../../../components/NotFound/NotFound"
 
 const User = props => {
     const dispatch = useDispatch()
 
     // Local State
     const [userId]                          = useState(props.match.params.id)
-    const [userPhoto, setUserPhoto]         = useState("")
-    const [userName, setUserName]           = useState("")
+    const [userPhoto    , setUserPhoto]     = useState("")
+    const [userName     , setUserName]      = useState("")
     const [userFollowers, setUserFollowers] = useState("")
     const [userPlaylists, setUserPlaylists] = useState([])
+    const [notFound     , setNotFound]      = useState(false)
 
     // Methods
     const getUserInfo = async () => {
@@ -51,9 +53,15 @@ const User = props => {
             setUserPhoto(data.images[0].url)
             setUserFollowers(numFormatter(parseInt(data.followers.total)))
         } catch(err) {
-            // err.response.status === 401 && (window.location.href = "/login")
-            // err.response.status === 404 && (this.not_found = true)
-            console.log("PlaylistDetail API Error!", err.response)
+            let { status } = err.response
+            
+            if (status === 400 || status === 404) {
+                setNotFound(true)
+            } else if(status === 401) {
+                window.location.href = "/login"
+            } else {
+                console.log("UserDetail API Error!")
+            }
         }
     }
 
@@ -90,7 +98,10 @@ const User = props => {
 
     return (
         <PageContainer>
-            {/* {!notFound && !isLoading && ( */}
+            {notFound ? (
+                <NotFound type="track" />
+            ) : (
+                <>
                 <UserTop>
                     {userPhoto.length > 0 && (
                         <UserPhoto src={userPhoto} />
@@ -114,7 +125,8 @@ const User = props => {
                         />
                     ))}
                 </CardList>
-            {/* )} */}
+                </>
+            )}
         </PageContainer>
     )
 }

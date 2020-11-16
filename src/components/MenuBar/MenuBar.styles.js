@@ -5,7 +5,7 @@ import IconsImage from "../../assets/img/icons/icons.svg"
 
 export const Container = styled.section`
     display: grid;
-    grid-template-rows: 40px 90px 160px 1fr 35px;
+    grid-template-rows: 40px 55px 160px 1fr 35px;
     grid-gap: 40px;
     width: 240px;
     max-height: calc(100vh - 80px);
