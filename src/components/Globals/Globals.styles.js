@@ -1,7 +1,9 @@
 import styled from "styled-components"
-import { COLORS } from "../../helpers/colors"
 import { NavLink } from "react-router-dom"
 import IconsImage from "../../assets/img/icons/icons.svg"
+
+// Helpers
+import { COLORS } from "../../helpers/colors"
 
 // Breakpoints
 import { breakpoint } from "../../helpers/breakpoint"
@@ -18,9 +20,14 @@ export const PageContainer = styled.div`
 `;
 
 export const PageTitle = styled.h1`
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 600;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+
+    ${breakpoint.xs} {
+        font-size: 24px;
+        margin-bottom: 40px;
+    }
 `;
 
 export const BlockTitle = styled.h2`
@@ -45,7 +52,7 @@ export const Divider = styled.div`
 export const CardList = styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    grid-gap: 40px;
+    grid-gap: 20px;
 
     ${breakpoint.xs} {
         grid-template-columns: repeat(2, 1fr);
@@ -154,9 +161,9 @@ export const Input = styled.input`
     border-radius: 10px;
     height: 46px;
     width: 100%;
-    padding: 10px 30px;
+    padding: 10px 15px;
     color: ${COLORS.white};
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     border: 1px solid transparent;
 
@@ -168,6 +175,11 @@ export const Input = styled.input`
     ${({hasError}) => hasError &&`
         border-color: ${COLORS.green};
     `}
+
+    ${breakpoint.xs} {
+        padding: 10px 30px;
+        font-size: 14px;
+    }
 `;
 
 export const TextArea = styled.textarea`
@@ -176,16 +188,21 @@ export const TextArea = styled.textarea`
     border-radius: 10px;
     width: 100%;
     color: ${COLORS.white};
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     border: 1px solid transparent;
     resize: none;
     height: 200px;
-    padding: 20px 30px;
+    padding: 20px 15px;
 
     ${({hasError}) => hasError &&`
         border-color: ${COLORS.green};
     `}
+
+    ${breakpoint.xs} {
+        padding: 20px 30px;
+        font-size: 14px;
+    }
 `;
 
 export const InputMessage = styled.span`

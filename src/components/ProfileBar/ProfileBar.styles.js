@@ -1,8 +1,15 @@
 import styled from "styled-components"
 import { NavLink } from "react-router-dom"
-import { COLORS } from "../../helpers/colors"
-import { Wrapper, Input } from "../../components/Globals/Globals.styles"
 import AvatarIcon from "../../assets/img/icons/profile_green.svg"
+
+// Helpers
+import { COLORS } from "../../helpers/colors"
+
+// Components
+import { Wrapper, Input } from "../../components/Globals/Globals.styles"
+
+// Breakpoints
+import { breakpoint } from "../../helpers/breakpoint"
 
 export const Container = styled.section`
     margin-bottom: 40px;
@@ -11,12 +18,19 @@ export const Container = styled.section`
 
 export const ContainerWrapper = styled(Wrapper)`
     display: grid;
-    grid-template-columns: 1fr minmax(145px, auto);
-    grid-gap: 20px;
+    grid-template-columns: 1fr auto;
+    grid-gap: 10px;
+
+    ${breakpoint.xs} {
+        grid-template-columns: 1fr minmax(145px, auto);
+        grid-gap: 20px;
+    }
 `;
 
 export const Search = styled.div`
-    width: 60%;
+    ${breakpoint.md} {
+        width: 60%;
+    }
 `;
 
 export const SearchInput = styled(Input)``;
@@ -60,13 +74,18 @@ export const User = styled(NavLink)`
     font-weight: 600;
 `;
 
-export const UserName = styled.span``;
+export const UserName = styled.span`
+    display: none;
+
+    ${breakpoint.xs} {
+        display: block;
+    }
+`;
 
 export const Avatar = styled.div`
     height: 40px;
     width: 40px;
     border-radius: 30%;
-    margin-left: 10px;
     filter: contrast(130%);
     cursor: pointer;
     
@@ -81,4 +100,8 @@ export const Avatar = styled.div`
             `
         } 
     }}
+
+    ${breakpoint.xs} {
+        margin-left: 10px;
+    }
 `;

@@ -1,8 +1,15 @@
 import styled from "styled-components"
-import { COLORS } from "../../../helpers/colors"
 import { NavLink } from "react-router-dom"
 import IconsImage from "../../../assets/img/icons/icons.svg"
+
+// Helpers
+import { COLORS } from "../../../helpers/colors"
+
+// Components
 import { BlockTitle } from "../../../components/Globals/Globals.styles"
+
+// Breakpoints
+import { breakpoint } from "../../../helpers/breakpoint"
 
 export const TopContent = styled.div`
     display: flex;
@@ -11,12 +18,23 @@ export const TopContent = styled.div`
 `;
 
 export const Photo = styled.div`
-    height: 150px;
-    width: 150px;
+    height: 100px;
+    width: 100px;
     border-radius: 20%;
-    margin-right: 20px;
+    margin-right: 10px;
 
     ${({src}) => src && `background: url(${src}) no-repeat center / cover;`}
+
+    ${breakpoint.xs}{
+        height: 120px;
+        width: 120px;
+        margin-right: 20px;
+    }
+
+    ${breakpoint.sm}{
+        height: 150px;
+        width: 150px;
+    }
 `;
 
 export const Info = styled.div`
@@ -24,7 +42,7 @@ export const Info = styled.div`
 `;
 
 export const Pretitle = styled.span`
-    font-size: 20px;
+    font-size: 16px;
     position: relative;
     display: flex;
     align-items: center;
@@ -37,11 +55,23 @@ export const Pretitle = styled.span`
         margin-left: 10px;
         background: url(${IconsImage}) no-repeat -9px -22px / 340px;
     }
+
+    ${breakpoint.sm}{
+        font-size: 20px;
+    }
 `;
 
 export const Title = styled.h1`
-    font-size: 45px;
+    font-size: 26px;
     margin: 10px 0;
+
+    ${breakpoint.sm}{
+        font-size: 35px;
+    }
+
+    ${breakpoint.md}{
+        font-size: 50px;
+    }
 `;
 
 export const Author = styled.div``;

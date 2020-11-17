@@ -1,17 +1,27 @@
 import styled from "styled-components"
+
+// Helpers
 import { COLORS } from "../../helpers/colors"
+
+// Breakpoints
+import { breakpoint } from "../../helpers/breakpoint"
 
 export const Tabs = styled.div``;
 
 export const TabsButtons = styled.div`
     display: flex;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
+
+    ${breakpoint.xs} {
+        margin-bottom: 40px;
+    }
 `;
 
 export const TabButton = styled.div`
     position: relative;
     cursor: pointer;
     padding: 0px 0 14px;
+    font-size: 14px;
 
     &:after {
         content: "";
@@ -40,6 +50,10 @@ export const TabButton = styled.div`
             }
         }
     `}
+
+    ${breakpoint.xs} {
+        font-size: 16px;
+    }
 `;
 
 export const TabsContent = styled.div``;

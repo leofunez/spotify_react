@@ -1,8 +1,15 @@
 import styled from "styled-components"
-import { COLORS } from "../../helpers/colors"
 import { NavLink } from "react-router-dom"
-import { ButtonLike } from "../../components/Globals/Globals.styles"
 import IconsImage from "../../assets/img/icons/icons.svg"
+
+// Helpers
+import { COLORS } from "../../helpers/colors"
+
+// Components
+import { ButtonLike } from "../../components/Globals/Globals.styles"
+
+// Breakpoints
+import { breakpoint } from "../../helpers/breakpoint"
 
 export const Container = styled.div`
     font-size: 14px;
@@ -10,11 +17,16 @@ export const Container = styled.div`
     padding: 8px 10px;
     background-color: ${COLORS.dark};
     display: grid;
-    grid-template-columns: 30px 25px 2fr 1fr 30px 40px;
-    grid-gap: 10px;
+    grid-template-columns: 30px 25px 2fr 30px;
+    grid-gap: 5px;
     align-items: center;
     color: ${COLORS.white};
     border-radius: 25px;
+
+    ${breakpoint.xs}{
+        grid-template-columns: 30px 25px 2fr 1fr 30px 40px;
+        grid-gap: 10px;
+    }
 `;
 
 export const Play = styled.button`
@@ -133,13 +145,17 @@ export const MoreText = styled.span`
 `;
 
 export const Name = styled.p`
-    font-size: 14px;  
+    font-size: 13px;  
     font-weight: 400;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
     ${({isActive}) => isActive && `color: ${COLORS.green};`}
+
+    ${breakpoint.xs}{
+        font-size: 14px;
+    }
 `;
 
 export const Artist = styled(NavLink)`
@@ -147,9 +163,14 @@ export const Artist = styled(NavLink)`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: none;
 
     &:hover {
         color: ${COLORS.green};
+    }
+
+    ${breakpoint.xs}{
+        display: block;
     }
 `;
 
@@ -178,4 +199,10 @@ export const Like = styled(ButtonLike)`
     `}
 `;
 
-export const Duration = styled.p``;
+export const Duration = styled.p`
+    display: none;
+    
+    ${breakpoint.xs}{
+        display: block;
+    }
+`;

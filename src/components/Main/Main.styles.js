@@ -1,5 +1,9 @@
 import styled from "styled-components"
+
+// Helpers
 import { COLORS } from "../../helpers/colors"
+
+// Components
 import { Wrapper } from "../Globals/Globals.styles"
 
 // Breakpoints
@@ -56,16 +60,24 @@ export const MainContent = styled.div`
     ${({isNotLogin}) => isNotLogin && `
         padding: 20px 10px 40px;
         overflow: auto;
-        max-height: calc(100vh - 160px);
+        max-height: calc(100vh - 140px);
         background-color: ${COLORS.dark2};
         position: relative;
         grid-row: content-start;
+
+        ${breakpoint.xs} {
+            max-height: calc(100vh - 160px);
+        }
 
         ${breakpoint.md} {
             padding: 40px 10px;
             grid-column: content-start;
             max-height: calc(100vh - 80px);
         }
+    `}
+
+    ${({isLoading}) => isLoading && `
+        overflow: hidden;
     `}
 `;
 

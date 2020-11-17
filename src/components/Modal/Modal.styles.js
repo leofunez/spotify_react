@@ -1,6 +1,11 @@
 import styled from "styled-components"
-import { COLORS } from "../../helpers/colors"
 import IconsImage from "../../assets/img/icons/icons.svg"
+
+// Helpers
+import { COLORS } from "../../helpers/colors"
+
+// Breakpoints
+import { breakpoint } from "../../helpers/breakpoint"
 
 export const Container = styled.div`
     position: fixed;
@@ -12,7 +17,13 @@ export const Container = styled.div`
     top: 0;
     display: grid;
     justify-content: center;
-    align-content: center;
+    align-content: flex-start;
+    padding-top: 20px;
+
+    ${breakpoint.sm} {
+        align-content: center;
+        padding-top: 0;
+    }
 `;
 
 export const Content = styled.div`
@@ -27,10 +38,11 @@ export const Header = styled.header`
     background: ${COLORS.greenGradient};
     display: grid;
     grid-template-columns: 1fr 40px;
+    text-align: left;
 `;
 
 export const Title = styled.h2`
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 500;
     align-self: center;
     margin: 0;
@@ -39,6 +51,10 @@ export const Title = styled.h2`
 
     span {
         font-weight: 700;
+    }
+
+    ${breakpoint.xs} {
+        font-size: 15px;
     }
 `;
 

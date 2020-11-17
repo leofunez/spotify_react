@@ -1,19 +1,25 @@
 import styled from "styled-components"
-import { COLORS } from "../../helpers/colors"
 import { NavLink } from "react-router-dom"
 import IconsImage from "../../assets/img/icons/icons.svg"
 
+// Helpers
+import { COLORS } from "../../helpers/colors"
+
 // Components
-import {
-    Button,
-    LikeButton
-} from "../../components/Globals/Globals.styles"
+import { Button } from "../../components/Globals/Globals.styles"
+
+// Breakpoints
+import { breakpoint } from "../../helpers/breakpoint"
 
 export const Container = styled.section`
-    padding: 10px 0 60px;
+    padding: 10px 0 40px;
     position: relative;
 
     ${({noButtons}) => noButtons && `padding-bottom: 20px;`}
+
+    ${breakpoint.sm}{
+        padding-bottom: 60px;
+    }
 `;
 
 export const Bg = styled.div`
@@ -39,7 +45,7 @@ export const Info = styled.div`
 `;
 
 export const Pretitle = styled.p`
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 8px;
     display: flex;
     align-items: center;
@@ -52,18 +58,30 @@ export const Pretitle = styled.p`
         display: block;
         margin-left: 10px;
     }
+
+    ${breakpoint.sm}{
+        font-size: 20px;
+    }
 `;
 
 export const Title = styled.h1`
-    font-size: 50px;
+    font-size: 32px;
     margin-bottom: 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    ${breakpoint.sm}{
+        font-size: 40px;
+    }
+
+    ${breakpoint.md}{
+        font-size: 50px;
+    }
 `;
 
 export const Description = styled.p`
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 10px;
 
     a {
@@ -73,11 +91,19 @@ export const Description = styled.p`
             text-decoration: underline;
         }
     }
+
+    ${breakpoint.sm}{
+        font-size: 16px;
+    }
 `;
 
 export const Owner = styled.div`
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
+
+    ${breakpoint.sm}{
+        font-size: 14px;
+    }
 `;
 
 export const OwnerText = styled.span``;
@@ -92,8 +118,16 @@ export const OwnerLink = styled(NavLink)`
 `;
 
 export const Buttons = styled.div`
-    margin-top: 30px;
+    margin-top: 15px;
     display: flex;
+
+    ${breakpoint.xs}{
+        margin-top: 20px;
+    }
+
+    ${breakpoint.sm}{
+        margin-top: 30px;
+    }
 `;
 
 export const ButtonPlay = styled(Button)`
