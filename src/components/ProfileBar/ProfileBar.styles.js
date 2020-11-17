@@ -36,21 +36,37 @@ export const Search = styled.div`
 export const SearchInput = styled(Input)``;
 
 export const SearchResult = styled.div`
-    background-color: ${COLORS.dark2};
+    background-color: #091424;
     border: 2px solid rgba($gray, 0.25);
     color: ${COLORS.white};
-    width: max-content;
+    width: 100%;
     border-radius: 4px;
     max-height: 230px;
-    overflow: hidden;
+    overflow: auto;
     position: absolute;
-    box-shadow: 4px 4px 8px rgba(${COLORS.dark}, 0.2);
+    box-shadow: 4px 4px 8px #05102378;
     z-index: 5;
     display: none;
 
     ${({isActive}) => isActive && `
         display: flex;
     `}
+
+    ${breakpoint.sm} {
+        width: max-content;
+    }
+`;
+
+export const SearchResultScroll = styled.div`
+    min-width: 800px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    display: flex;
+
+    ${breakpoint.sm} {
+        width: max-content;
+        width: 100%;
+    }
 `;
 
 export const SearchResultList = styled.div`
@@ -64,7 +80,7 @@ export const SearchResultTitle = styled.h2`
 
 export const SearchResultItems = styled.div`
     overflow-y: scroll;
-    height: 100%;
+    height: calc(100% - 36px);
 `;
 
 export const User = styled(NavLink)`
