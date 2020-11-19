@@ -1,8 +1,14 @@
 import styled from "styled-components"
-import { COLORS } from "../../helpers/colors"
-import IconsImage from "../../assets/img/icons/icons.svg"
 import LoginBg from "../../assets/img/bg/login.jpg"
-import { Button, ButtonLink, Logo } from "../../components/Globals/Globals.styles"
+
+// Helpers
+import { COLORS } from "../../helpers/colors"
+
+// Components
+import { Button, Logo } from "../../components/Globals/Globals.styles"
+
+// Breakpoints
+import { breakpoint } from "../../helpers/breakpoint"
 
 export const Container = styled.div`
     background: ${COLORS.dark};
@@ -27,14 +33,18 @@ export const Wrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background: ${COLORS.dark};
     height: 420px;
-    width: 420px;
+    max-width: 420px;
+    width: calc(100% - 20px);
     color: ${COLORS.white};
     z-index: 1;
     position: relative;
     overflow: hidden;
+
+    ${breakpoint.sm}{
+        border-radius: 50%;
+        background: ${COLORS.dark};
+    }
 `;
 
 export const LoginLogo = styled(Logo)`
@@ -82,7 +92,14 @@ export const Author = styled.div`
     position: absolute;
     bottom: 0;
     font-size: 13px;
+    line-height: 18px;
     padding: 20px;
+    text-align: center;
+    width: 290px;
+
+    ${breakpoint.sm}{
+        width: 100%;
+    }
 `;
 
 export const AuthorLink = styled.a`
