@@ -36,7 +36,7 @@ export const Search = styled.div`
 export const SearchInput = styled(Input)``;
 
 export const SearchResult = styled.div`
-    background-color: #091424;
+    background-color: ${COLORS.dark1};
     border: 2px solid rgba($gray, 0.25);
     color: ${COLORS.white};
     width: 100%;
