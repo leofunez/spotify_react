@@ -47,17 +47,25 @@ export const Group = styled.div `
     display: grid;
     font-size: 14px;
     align-content: center;
+    width: 100%;
+    position: relative;
+    overflow: initial;
+    z-index: 2;
 
     ${({hasScroll}) => {
         if (hasScroll) {
             return `
-                overflow: hidden;
-                padding-bottom: 0;
+                ${breakpoint.md} {
+                    overflow: hidden;
+                    padding-bottom: 0;
+                }
             `
         }
     }}
 
     ${breakpoint.md} {
+        z-index: 1;
+        position: initial;
         align-content: start;
     }
 `;
@@ -72,6 +80,10 @@ export const GroupTitle = styled.h2 `
     font-size: 10px;
     position: relative;
 
+    ${({showInDesktop}) => showInDesktop && `
+        display: none;
+    `}
+
     ${breakpoint.xs} {
         font-size: 12px;
     }
@@ -79,6 +91,7 @@ export const GroupTitle = styled.h2 `
     ${breakpoint.md} {
         padding-left: 35px;
         margin-bottom: 10px;
+        display: block;
 
         &:before {
             content: "";
@@ -93,8 +106,49 @@ export const GroupTitle = styled.h2 `
     }
 `;
 
+export const MenuItems = styled.div`
+    display: none;
+    position: absolute;
+    border-radius: 4px;
+    z-index: 1;
+    box-shadow: 0 0 9px #050e1e;
+    
+    ${({isOpen}) => isOpen && `
+        display: grid;
+        background: ${COLORS.dark1};
+        text-align: left;
+        padding: 10px;
+        max-height: 300px;
+        overflow: scroll;
+        top: 60px;
+        width: 200px;
+        left: calc(50% - 100px);
+    `}
+
+    ${({showInMobile}) => showInMobile && `
+        display: grid;
+        text-transform: uppercase;
+        font-size: 12px;
+        position: initial;
+    `}
+
+    ${({isRelative}) => isRelative && `
+        position: relative;
+    `}
+    
+    ${breakpoint.md} {
+        box-shadow: none;
+        overflow: initial;
+        position: initial;
+        display: grid;
+        border-radius: 0;
+        width: auto;
+        background: transparent;
+    }
+`;
+
 export const MenuItem = styled(NavLink)`
-    padding: 10px 0 10px 35px;
+    padding: 10px;
     height: 35px;
     color: ${COLORS.white};
     transition: color .2s ease-in-out;
@@ -102,19 +156,20 @@ export const MenuItem = styled(NavLink)`
     overflow: hidden;
     text-overflow: ellipsis;
     position: relative;
-    display: none;
+    font-size: 12px;
 
     &.active {
         color: ${COLORS.green}
     }
 
     ${breakpoint.md} {
-        display: block;
+        font-size: 14px;
+        padding: 10px 0 10px 35px;
     }
 `;
 
 export const Icon = styled.i`
-    display: block;
+    display: none;
     height: 20px;
     width: 20px;
     position: absolute;
@@ -126,6 +181,10 @@ export const Icon = styled.i`
     background-size: ${({size}) => size && `${size}px`};
     background-position-x: ${({posX}) => posX && `${posX}px`};
     background-position-y: ${({posY}) => posY && `${posY}px`};
+
+    ${breakpoint.md} {
+        display: block;
+    }
 `;
 
 export const StyledLogo = styled(Logo)`
