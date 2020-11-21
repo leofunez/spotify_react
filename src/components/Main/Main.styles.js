@@ -27,13 +27,13 @@ export const Main = styled.main`
         grid-template-rows: 
         [header-start] 60px
         [content-start] 1fr
-        [player-start] 120px;
+        [player-start] 90px;
 
         ${breakpoint.xs} {
             grid-template-rows: 
             [header-start] 80px
             [content-start] 1fr
-            [player-start] 120px;
+            [player-start] 90px;
         }
 
         ${breakpoint.sm} {
@@ -63,21 +63,17 @@ export const Main = styled.main`
     `}
 `;
 
-export const MainContent = styled.div`
+export const MainContent = styled.section`
     ${({isNotLogin}) => isNotLogin && `
         padding: 20px 10px 40px;
         overflow: auto;
-        max-height: calc(100vh - 180px);
+        max-height: calc(100vh - 150px);
         background-color: ${COLORS.dark2};
         position: relative;
         grid-row: content-start;
 
         ${breakpoint.xs} {
-            max-height: calc(100vh - 200px);
-        }
-
-        ${breakpoint.sm} {
-            max-height: calc(100vh - 160px);
+            max-height: calc(100vh - 170px);
         }
         
         ${breakpoint.md} {

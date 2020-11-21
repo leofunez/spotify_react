@@ -16,7 +16,11 @@ export const Wrapper = styled.div`
 `;
 
 export const PageContainer = styled.div`
-    padding-bottom: 60px;
+    padding-bottom: 30px;
+    
+    ${breakpoint.sm} {
+        padding-bottom: 60px;
+    }
 `;
 
 export const PageTitle = styled.h1`

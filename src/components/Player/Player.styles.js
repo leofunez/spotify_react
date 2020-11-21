@@ -12,17 +12,15 @@ export const Container = styled.section`
     grid-row: player-start;
     display: grid;
     grid-template-rows: 
-        [player-top] 50px 
+        [player-top] 25px 
         [player-bottom] 50px;
-    grid-template-columns:
-        [player-left] 1fr
-        [player-right] 40%;
+    grid-template-columns: 1fr;
     
     background-color: ${COLORS.green};
     background-image: ${COLORS.greenGradient};
     box-shadow: inset 0 7px 18px -7px rgba(0, 0, 0, .8);
     color: ${COLORS.dark};
-    padding: 10px;
+    padding: 10px 10px 0 10px;
     position: relative;
 
     ${breakpoint.sm} {
@@ -53,24 +51,29 @@ export const ProgressBar = styled.div`
 export const Track = styled.div`
     display: flex;
     align-items: center;
+    text-align: center;
     grid-row: player-top;
-    grid-column: player-left;
+    justify-content: center;
 
     ${breakpoint.sm} {
-        grid-column: player-left;
         grid-row: 1;
+        justify-content: flex-start;
+        text-align: left;
     }
 `;
 
 export const Photo = styled.div`
-    height: 50px;
-    width: 50px;
-    border-radius: 30%;
+    height: 30px;
+    width: 30px;
+    border-radius: 10%;
     margin-right: 10px;
+    display: none;
 
     ${({src}) => src && `background: url(${src}) no-repeat center / cover ${COLORS.white};`}
 
     ${breakpoint.sm} {
+        display: block;
+        border-radius: 30%;
         height: 55px;
         width: 55px;
     }
@@ -90,9 +93,14 @@ export const ArtistName = styled(NavLink)`
     font-size: 12px;
     font-weight: 500;
     color: ${COLORS.dark};
+    opacity: 0.6;
 
     &:hover {
         text-decoration: underline;
+    }
+
+    ${breakpoint.sm} {
+        opacity: 1;
     }
 `;
 
@@ -102,10 +110,8 @@ export const Controls = styled.div`
     align-self: center;
 
     grid-row: player-bottom;
-    grid-column: player-left / span 2;
 
     ${breakpoint.sm} {
-        grid-column: player-center;
         grid-row: 1;
     }
 `;
@@ -171,15 +177,16 @@ export const Control = styled.button`
 export const Volume = styled.div`
     width: 100%;
     max-width: 175px;
-    display: flex;
-    align-items: center;
-    justify-self: end;
     position: relative;
 
     grid-row: player-top;
     grid-column: player-right;
+    display: none;
 
     ${breakpoint.sm} {
+        display: flex;
+        align-items: center;
+        justify-self: end;
         grid-column: player-right;
         grid-row: 1;
     }
