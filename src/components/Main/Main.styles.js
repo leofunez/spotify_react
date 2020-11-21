@@ -27,9 +27,16 @@ export const Main = styled.main`
         grid-template-rows: 
         [header-start] 60px
         [content-start] 1fr
-        [player-start] 80px;
+        [player-start] 120px;
 
         ${breakpoint.xs} {
+            grid-template-rows: 
+            [header-start] 80px
+            [content-start] 1fr
+            [player-start] 120px;
+        }
+
+        ${breakpoint.sm} {
             grid-template-rows: 
             [header-start] 80px
             [content-start] 1fr
@@ -60,19 +67,23 @@ export const MainContent = styled.div`
     ${({isNotLogin}) => isNotLogin && `
         padding: 20px 10px 40px;
         overflow: auto;
-        max-height: calc(100vh - 140px);
+        max-height: calc(100vh - 180px);
         background-color: ${COLORS.dark2};
         position: relative;
         grid-row: content-start;
 
         ${breakpoint.xs} {
-            max-height: calc(100vh - 160px);
+            max-height: calc(100vh - 200px);
         }
 
+        ${breakpoint.sm} {
+            max-height: calc(100vh - 160px);
+        }
+        
         ${breakpoint.md} {
+            max-height: calc(100vh - 80px);
             padding: 40px 10px;
             grid-column: content-start;
-            max-height: calc(100vh - 80px);
         }
     `}
 
