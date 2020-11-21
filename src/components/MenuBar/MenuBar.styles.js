@@ -130,6 +130,10 @@ export const MenuItems = styled.div`
         text-transform: uppercase;
         font-size: 12px;
         position: initial;
+
+        ${breakpoint.md} {
+            text-transform: capitalize;
+        }
     `}
 
     ${({isRelative}) => isRelative && `
