@@ -131,7 +131,7 @@ const MenuBar = memo(() => {
             <Group>
                 <GroupTitle showInDesktop={true}>Discover</GroupTitle>
                 <MenuItems showInMobile={true} isRelative={true}>
-                    <MenuItem type="browse" to="/">
+                    <MenuItem type="browse" to="/" exact>
                         <Icon size="425" posX="-325" posY="-33" />Browse
                     </MenuItem>
                 </MenuItems>
