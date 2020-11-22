@@ -78,7 +78,7 @@ const Login = () => {
                 <LoginLogo />
 
                 <Description>
-                    This app is a Spotify concept using <a href="https://vuejs.org/" target="_blank">VueJS</a> and <a href="https://developer.spotify.com" target="_blank">Spotify's API.</a>
+                    This app is a Spotify concept using <a href="https://reactjs.org/" target="_blank">ReactJS</a> and <a href="https://developer.spotify.com" target="_blank">Spotify's API.</a>
                 </Description>
 
                 <Buttons>
@@ -92,7 +92,7 @@ const Login = () => {
             </Wrapper>
 
             <Author>
-                Designed on <AuthorLink href="https://www.figma.com" target="_blank">Figma</AuthorLink> and built on <AuthorLink href="https://vuejs.org/" target="_blank">VueJS</AuthorLink> with <AuthorHeart>❤</AuthorHeart> by <AuthorLink href="https://www.leonardofunez.com" title="Leonardo Funez">Leonardo Funez</AuthorLink>
+                Designed on <AuthorLink href="https://www.figma.com" target="_blank">Figma</AuthorLink> and built on <AuthorLink href="https://reactjs.org/" target="_blank">ReactJS</AuthorLink> with <AuthorHeart>❤</AuthorHeart> by <AuthorLink href="https://www.leonardofunez.com" title="Leonardo Funez">Leonardo Funez</AuthorLink>
             </Author>
         </Container>
     )
