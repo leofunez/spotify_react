@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { withRouter } from "react-router-dom"
 
 // Redux Hooks
 import { useDispatch, useSelector } from "react-redux"
@@ -55,7 +54,7 @@ const Artist = props => {
             tracklist_info: storeTracklistInfo } = useSelector( state => state.player )
 
     // Local State
-    const [artistId]                      = useState(props.match.params.id)
+    const [artistId, setArtistId]         = useState(props.match.params.id)
     const [artistName, setArtistName]     = useState("")
     const [artistDesc, setArtistDesc]     = useState("")
     const [artistImage, setArtistImage]   = useState("")
@@ -200,6 +199,7 @@ const Artist = props => {
     // .
 
     useEffect(() => {
+        setArtistId(props.match.params.id)
         getArtistInfo()
         getTopTracks()
         getRelatedArtists()
@@ -209,7 +209,7 @@ const Artist = props => {
         return () => {
             dispatch(setLoading(true))
         }
-    }, [props])
+    }, [props, artistId])
 
     return (
         <PageContainer>
@@ -327,4 +327,4 @@ const Artist = props => {
     )
 }
 
-export default withRouter(Artist)
+export default Artist
