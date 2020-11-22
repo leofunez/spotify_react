@@ -111,15 +111,7 @@ const Playlist = props => {
                 setTimeout(() => dispatch(setLoading(false)), 1000)
             }
         } catch (err) {
-            let { status } = err.response
-            
-            if (status === 400 || status === 404) {
-                setNotFound(true)
-            } else if(status === 401) {
-                window.location.href = "/login"
-            } else {
-                console.log("PlaylistDetail API Error!")
-            }
+            window.location.href = "/login"
         }
         
         // Turn off Loading

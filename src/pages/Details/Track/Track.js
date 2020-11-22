@@ -85,15 +85,7 @@ const TrackPage = props => {
 
             getAlbums(data.artists[0].id)
         } catch(err) {
-            let { status } = err.response
-            
-            if (status === 400 || status === 404) {
-                setNotFound(true)
-            } else if(status === 401) {
-                window.location.href = "/login"
-            } else {
-                console.log("TrackDetail API Error!")
-            }
+            window.location.href = "/login"
         }
 
         setTimeout(() => dispatch(setLoading(false)), 1000)

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { withRouter } from "react-router-dom"
 
 // Redux Hooks
 import { useDispatch, useSelector } from "react-redux"
@@ -78,18 +79,8 @@ const Artist = props => {
             setArtistDesc(numFormatter(parseInt(data.followers.total)))
             setArtistImage(data.images[0] && data.images[0].url)
         } catch (err) {
-            let { status } = err.response
-            
-            if (status === 400 || status === 404) {
-                setNotFound(true)
-            } else if(status === 401) {
-                window.location.href = "/login"
-            } else {
-                console.log("ArtistDetail API Error!")
-            }
+            window.location.href = "/login"
         }
-
-        //setTimeout(() => dispatch(setLoading(false)), 1000)
     }
 
     const getTopTracks = async () => {
@@ -120,7 +111,7 @@ const Artist = props => {
 
             setPopulars(trackList)
         } catch (err) {
-            console.log("GetArtistTopTracks API Error!", err.response)
+            window.location.href = "/login"
         }
     }
 
@@ -132,7 +123,7 @@ const Artist = props => {
             
             setRelated(lastArtist)
         } catch (err) {
-            console.log("GetArtistRelated API Error!", err.response)
+            window.location.href = "/login"
         }
     }
 
@@ -181,7 +172,7 @@ const Artist = props => {
 
             setTimeout(() => dispatch(setLoading(false)), 1000)
         } catch (err) {
-            console.log("GetArtistAlbums API Error!", err.response)
+            window.location.href = "/login"
         }
 
         setTimeout(() => dispatch(setLoading(false)), 1000)
@@ -336,4 +327,4 @@ const Artist = props => {
     )
 }
 
-export default Artist
+export default withRouter(Artist)

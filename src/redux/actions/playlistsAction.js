@@ -13,12 +13,6 @@ export const fetchPlaylists = () => async dispatch => {
             playlists: items
         })
     } catch(err) {
-        const { status } = err.response
-        
-        if (status === 401) {
-            window.location.href = "/login"
-        } else {
-            console.log(err.response)
-        }
+        window.location.href = "/login"
     }
 }
