@@ -14,3 +14,4 @@ export const appScopes = `
 export const clientID = `b3cde7321c9a469bbe14bd07256dc2fe`;
 
 export const redirectURI = "http://localhost:3000/login"
+// https://spotify-v2-react.netlify.app
