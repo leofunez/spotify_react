@@ -59,12 +59,13 @@ export const Track = styled.div`
         grid-row: 1;
         justify-content: flex-start;
         text-align: left;
+        min-width: 0;
     }
 `;
 
 export const Photo = styled.div`
     height: 30px;
-    width: 30px;
+    min-width: 30px;
     border-radius: 10%;
     margin-right: 10px;
     display: none;
@@ -75,7 +76,7 @@ export const Photo = styled.div`
         display: block;
         border-radius: 30%;
         height: 55px;
-        width: 55px;
+        min-width: 55px;
     }
 `;
 
@@ -87,6 +88,9 @@ export const Info = styled.div`
 
 export const SongName = styled.p`
     font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export const ArtistName = styled(NavLink)`

@@ -61,6 +61,13 @@ const Player = () => {
         }, 500)
     }
 
+    const playSameTrack = () => {
+        if (track.src) {
+            track.play()
+            dispatch(setPlayerPlaying(true))
+        }
+    }
+
     const playTrack = () => {
         if (storeCurrentTrack.album_id !== undefined) {
             track.src = storeCurrentTrack.track_url
@@ -226,7 +233,7 @@ const Player = () => {
                 {storeIsPlaying ? (
                     <Control posX="-97"  posY="-8" size="650" noPadding={true} title="Pause" onClick={() => pauseTrack()} />
                 ) : (
-                    <Control posX="-53"  posY="-8" size="650" noPadding={true} title="Play" onClick={() => playTrack()}/>
+                    <Control posX="-53"  posY="-8" size="650" noPadding={true} title="Play" onClick={() => playSameTrack()}/>
                 )}
                 
                 <Control posX="-95"  posY="-4" size="340" title="Next" onClick={() => nextTrack()} />
