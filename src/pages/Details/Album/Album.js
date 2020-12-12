@@ -32,25 +32,25 @@ const Album = props => {
 
     // Redux State
     const { is_playing: storeIsPlaying,
-            tracklist_info: storeTracklistInfo } = useSelector( state => state.player )
+            tracklist_info: storeTracklistInfo } = useSelector( state => state?.player )
 
     // Local State
-    const [albumId]                               = useState(props.match.params.id)
-    const [albumTitle, setAlbumTitle]             = useState("")
+    const [albumId, setAlbumId]                   = useState(props.match.params.id)
+    const [albumTitle      , setAlbumTitle]       = useState("")
     const [albumDescription, setAlbumDescription] = useState("")
-    const [albumImage, setAlbumImage]             = useState("")
-    const [owner, setOwner]                       = useState([])
+    const [albumImage      , setAlbumImage]       = useState("")
+    const [owner           , setOwner]            = useState([])
 
-    const [albumTracks, setAlbumTracks]           = useState([])
-    const [filterTracks, setFilterTracks]         = useState([])
+    const [albumTracks , setAlbumTracks]  = useState([])
+    const [filterTracks, setFilterTracks] = useState([])
 
-    const [showMessage , setShowMessage]          = useState(false)
-    const [messageText , setMessageText]          = useState("")
+    const [showMessage , setShowMessage] = useState(false)
+    const [messageText , setMessageText] = useState("")
 
-    const [isPlaying, setIsPlaying]               = useState(false)
-    const [isLiked, setIsLiked]                   = useState(false)
-    const [isMyPlaylist, setIsMyPlaylist]         = useState(false)
-    const [notFound, setNotFound]                 = useState(false)
+    const [isPlaying]    = useState(false)
+    const [isLiked]      = useState(false)
+    const [isMyPlaylist] = useState(false)
+    const [notFound]     = useState(false)
 
     // Methods
     const getAlbumDetail = async () => {
@@ -59,16 +59,16 @@ const Album = props => {
             const response_tracks = await ApiSpotify.getAlbumTracks(albumId)
 
             const { data }   = response
-            const dataTracks = response_tracks.data.items
+            const dataTracks = response_tracks?.data?.items
             
-            setAlbumTitle(data.name)
-            setAlbumDescription(data.label)
-            setAlbumImage(data.images.length > 0 && data.images[0].url)
+            setAlbumTitle(data?.name)
+            setAlbumDescription(data?.label)
+            setAlbumImage(data?.images?.length && data?.images[0]?.url)
 
-            if (dataTracks.length > 0) {
+            if (dataTracks?.length) {
                 setOwner({
-                    id    : data.artists[0].id,
-                    name  : data.artists[0].name,
+                    id    : data?.artists[0]?.id,
+                    name  : data?.artists[0]?.name,
                     track : dataTracks.length,
                     type  : "artist"
                 })
@@ -150,14 +150,15 @@ const Album = props => {
     }
 
     useEffect(() => {
-        // this.isLiked()
+        setAlbumId(props.match.params.id)
+
         getAlbumDetail()
 
         // Turn on Loading
         return () => {
             dispatch(setLoading(true))
         }
-    }, [])
+    }, [albumId, props])
 
     return (
         <PageContainer>
@@ -185,17 +186,17 @@ const Album = props => {
                     <TrackList>
                         {albumTracks.map( (track, index) => (
                             <Track
-                                key            ={`${track.track_id}-${index}`}
-                                track_index    ={track.track_index}
-                                track_id       ={track.track_id}
-                                track_name     ={track.track_name}
-                                track_url      ={track.track_url}
-                                track_duration ={track.track_duration}
-                                artist_id      ={track.artist_id}
-                                artist_name    ={track.artist_name}
-                                album_id       ={track.album_id}
-                                album_name     ={track.album_name}
-                                album_photo    ={track.album_photo}
+                                key            ={`${track?.track_id}-${index}`}
+                                track_index    ={track?.track_index}
+                                track_id       ={track?.track_id}
+                                track_name     ={track?.track_name}
+                                track_url      ={track?.track_url}
+                                track_duration ={track?.track_duration}
+                                artist_id      ={track?.artist_id}
+                                artist_name    ={track?.artist_name}
+                                album_id       ={track?.album_id}
+                                album_name     ={track?.album_name}
+                                album_photo    ={track?.album_photo}
                                 show_remove    ={isMyPlaylist}
 
                                 tracklist_id   ={albumId}

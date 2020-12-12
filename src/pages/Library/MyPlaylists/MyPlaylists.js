@@ -47,10 +47,10 @@ const MyPlaylists = () => {
                 const playlist = response.data
                 
                 const newPlaylist = {
-                    id    : playlist.id,
-                    name  : playlist.name,
-                    image : playlist.images[0].url,
-                    tracks: `${playlist.tracks.total} tracks`
+                    id    : playlist?.id,
+                    name  : playlist?.name,
+                    image : playlist?.images[0]?.url,
+                    tracks: `${playlist?.tracks?.total} tracks`
                 }
                 
                 playlistsList = [...playlistsList, newPlaylist]
@@ -90,11 +90,11 @@ const MyPlaylists = () => {
                 {playlists.map( (playlist, index) => (
                     <Card
                         key      ={index}
-                        id       ={playlist.id}
-                        title    ={playlist.name}
-                        subtitle ={playlist.tracks}
-                        image    ={playlist.image}
-                        url      ={`/playlist/${playlist.id}`}
+                        id       ={playlist?.id}
+                        title    ={playlist?.name}
+                        subtitle ={playlist?.tracks}
+                        image    ={playlist?.image}
+                        url      ={`/playlist/${playlist?.id}`}
                     />
                 ))}
             </CardList>

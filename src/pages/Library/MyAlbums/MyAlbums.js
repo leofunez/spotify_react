@@ -30,7 +30,7 @@ const MyAlbums = () => {
     const getSavedAlbums = async () => {
         try {
             const response  = await ApiSpotify.getSavedAlbums()
-            const { items } = response.data
+            const { items } = response?.data
             
             setAlbums(items)
 
@@ -69,14 +69,14 @@ const MyAlbums = () => {
             />
 
             <CardList>
-                {albums.map( (album, index) => (
+                {albums?.map( (album, index) => (
                     <Card
                         key      ={index}
-                        id       ={album.album.id}
-                        title    ={album.album.name}
-                        subtitle ={album.album.tracks.total + ' tracks'}
-                        image    ={album.album.images[0].url}
-                        url      ={`/album/${album.album.id}`}
+                        id       ={album?.album?.id}
+                        title    ={album?.album?.name}
+                        subtitle ={album?.album?.tracks?.total + ' tracks'}
+                        image    ={album?.album?.images[0]?.url}
+                        url      ={`/album/${album?.album?.id}`}
                     />
                 ))}
             </CardList>

@@ -37,8 +37,8 @@ const MenuBar = memo(() => {
     const dispatch  = useDispatch()
 
     // Redux State
-    const { playlists: storePlaylists } = useSelector( state => state.playlists )
-    const { user     : storeUser }      = useSelector( state => state.user )
+    const { playlists: storePlaylists } = useSelector( state => state?.playlists )
+    const { user     : storeUser }      = useSelector( state => state?.user )
 
     // Local State
     const [newPlaylist   , setNewPlaylist]    = useState(false)
@@ -98,7 +98,7 @@ const MenuBar = memo(() => {
 
         const createPlaylist = async () => {
             try {
-                const userId     = storeUser.id
+                const userId     = storeUser?.id
                 const response   = await ApiSpotify.createPlaylist(modalInputName, modalInputDesc, modalInputPub, userId)
                 if (response.status === 201) {
                     handleModalClose()
@@ -160,9 +160,9 @@ const MenuBar = memo(() => {
                 
                 <GroupScroll>
                     <MenuItems isOpen={menuPlaylistsState}>
-                        {storePlaylists && storePlaylists.map( (playlist, index) => (
-                            <MenuItem type="playlist" to={`/playlist/${playlist.id}`} key={`${playlist.id}-${index}`}>
-                                <Icon size="360" posX="-203" posY="-25" />{playlist.name}
+                        {storePlaylists?.map( (playlist, index) => (
+                            <MenuItem type="playlist" to={`/playlist/${playlist?.id}`} key={`${playlist?.id}-${index}`}>
+                                <Icon size="360" posX="-203" posY="-25" />{playlist?.name}
                             </MenuItem>
                         ))}
                     </MenuItems>

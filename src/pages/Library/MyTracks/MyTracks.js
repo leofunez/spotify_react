@@ -52,15 +52,15 @@ const MyTracks = () => {
 
                 const newTrack = {
                     track_index   : index,
-                    track_id      : track.id,
-                    track_name    : track.name,
-                    track_duration: track.duration_ms,
-                    track_url     : track.preview_url,
-                    artist_id     : track.artists[0].id,
-                    artist_name   : track.artists[0].name,
-                    album_id      : track.album.id,
-                    album_name    : track.album.name,
-                    album_photo   : track.album.images[1].url || ""
+                    track_id      : track?.id,
+                    track_name    : track?.name,
+                    track_duration: track?.duration_ms,
+                    track_url     : track?.preview_url,
+                    artist_id     : track?.artists[0]?.id,
+                    artist_name   : track?.artists[0]?.name,
+                    album_id      : track?.album?.id,
+                    album_name    : track?.album?.name,
+                    album_photo   : track?.album?.images[1]?.url || ""
                 }
 
                 trackList = [...trackList, newTrack]
@@ -135,7 +135,7 @@ const MyTracks = () => {
                 title       ="Favorite tracks"
                 description ={description}
                 showLike    ={false}
-                noButtons   ={tracks.length < 1}
+                noButtons   ={!tracks?.length}
                 type        ="saved_tracks"
                 playAll     ={() => handlePlayALl()}
             />
@@ -143,19 +143,19 @@ const MyTracks = () => {
             <Input type="search" placeholder="Filter" isFilter={true} onKeyUp={(e) => filter(e.target.value)} />
 
             <TrackList>
-                {tracks.map( (track, index) => (
+                {tracks?.map( (track, index) => (
                     <Track
-                        key            ={`${track.track_id}-${index}`}
-                        track_index    ={track.track_index}
-                        track_id       ={track.track_id}
-                        track_name     ={track.track_name}
-                        track_url      ={track.track_url}
-                        track_duration ={track.track_duration}
-                        artist_id      ={track.artist_id}
-                        artist_name    ={track.artist_name}
-                        album_id       ={track.album_id}
-                        album_name     ={track.album_name}
-                        album_photo    ={track.album_photo}
+                        key            ={`${track?.track_id}-${index}`}
+                        track_index    ={track?.track_index}
+                        track_id       ={track?.track_id}
+                        track_name     ={track?.track_name}
+                        track_url      ={track?.track_url}
+                        track_duration ={track?.track_duration}
+                        artist_id      ={track?.artist_id}
+                        artist_name    ={track?.artist_name}
+                        album_id       ={track?.album_id}
+                        album_name     ={track?.album_name}
+                        album_photo    ={track?.album_photo}
                         
                         tracklist_id   =""
                         tracklist_type ="saved_tracks"

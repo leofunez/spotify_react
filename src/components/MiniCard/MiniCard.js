@@ -17,6 +17,7 @@ const MiniCard = memo(({
 }) => {
     const handleClick = () => clickThis && clickThis()
 
+    if (!cardTitle) return null;
     return (
         <Container to={`/${cardType}/${cardId}`} padding={padding} onClick={() => handleClick()}>
             <Avatar src={cardAvatar} />

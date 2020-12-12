@@ -37,7 +37,7 @@ const Playlist = props => {
     const { user } = useSelector( state => state.user )
 
     // Local State
-    const [playlistId]                    = useState(props.match.params.id)
+    const [playlistId , setPlaylistId]       = useState(props.match.params.id)
     const [title      , setTitle]         = useState("")
     const [description, setDescription]   = useState("")
     const [image      , setImage]         = useState("")
@@ -73,12 +73,12 @@ const Playlist = props => {
                 tracks: dataTracks.length
             })
  
-            if (dataTracks.length > 0) {
+            if (dataTracks?.length) {
                 // Show "Remove from this Playlist" option on Track component menu
                 user.id && (data.owner.id === user.id) && (setIsMyPlaylist(true))
                 
                 // Filter tracks that have preview_url value
-                const tracksWithAudio = dataTracks.filter( track => (track.track !== null) && (track.track.preview_url !== null) )
+                const tracksWithAudio = dataTracks.filter( track => (track?.track !== null) && (track?.track?.preview_url !== null) )
                 
                 let index = 0
                 let trackList = []
@@ -87,15 +87,15 @@ const Playlist = props => {
 
                     let newTrack = {
                         track_index   : index,
-                        track_id      : trackItem.id,
-                        track_name    : trackItem.name,
-                        track_duration: trackItem.duration_ms,
-                        track_url     : trackItem.preview_url || "",
-                        artist_id     : trackItem.artists[0].id,
-                        artist_name   : trackItem.artists[0].name,
-                        album_id      : trackItem.album.id,
-                        album_name    : trackItem.album.name,
-                        album_photo   : data.images[0].url || ""
+                        track_id      : trackItem?.id,
+                        track_name    : trackItem?.name,
+                        track_duration: trackItem?.duration_ms,
+                        track_url     : trackItem?.preview_url || "",
+                        artist_id     : trackItem?.artists[0].id,
+                        artist_name   : trackItem?.artists[0].name,
+                        album_id      : trackItem?.album.id,
+                        album_name    : trackItem?.album.name,
+                        album_photo   : data?.images[0]?.url || ""
                     }
                     
                     trackList = [...trackList, newTrack]
@@ -159,6 +159,8 @@ const Playlist = props => {
     }
 
     useEffect(() => {
+        setPlaylistId(props.match.params.id)
+
         // this.isLiked()
         getPlaylistDetail()
         
@@ -166,7 +168,7 @@ const Playlist = props => {
         return () => {
             dispatch(setLoading(true))
         }
-    }, [user])
+    }, [user, playlistId, props])
 
     return (
         <PageContainer>

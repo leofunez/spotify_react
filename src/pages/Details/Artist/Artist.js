@@ -236,7 +236,7 @@ const Artist = props => {
                         <TopPopular>
                             <BlockTitle>Popular Tracks</BlockTitle>
                             <TrackList>
-                                {populars.map( (track, index) => (
+                                {populars?.map( (track, index) => (
                                     <Track
                                         key            ={`${track.track_id}-${index}`}
                                         track_index    ={track.track_index}
@@ -257,7 +257,7 @@ const Artist = props => {
                             </TrackList>
                         </TopPopular>
                         
-                        {related.length > 0 && (
+                        {related?.length && (
                             <TopRelated>
                                 <BlockTitle>Fans Also Like</BlockTitle>
 
@@ -281,35 +281,35 @@ const Artist = props => {
                             <AlbumList>
                                 <BlockTitle>Albums</BlockTitle>
 
-                                {artistAlbums.map( (item, index) => (
-                                    <Album key={`${item.id}-${index}`}>
+                                {artistAlbums?.map( (item, index) => (
+                                    <Album key={`${item?.id}-${index}`}>
                                         <AlbumTop>
                                             <AlbumPhoto
-                                                to={`/album/${item.id}`}
-                                                src={item.image}
+                                                to={`/album/${item?.id}`}
+                                                src={item?.image}
                                             />
-                                            <AlbumDate>{item.date}</AlbumDate>
-                                            <AlbumTitle to={`/album/${item.id}`}>{item.name}</AlbumTitle>
+                                            <AlbumDate>{item?.date}</AlbumDate>
+                                            <AlbumTitle to={`/album/${item?.id}`}>{item?.name}</AlbumTitle>
                                         </AlbumTop>
 
                                         {/* Tracks */}
                                             <AlbumTracks>
                                                 <TrackList>
-                                                    {item.tracks.map( (track, index) => (
+                                                    {item?.tracks?.map( (track, index) => (
                                                         <Track
-                                                            key            ={`${track.track_id}-${index}`}
-                                                            track_index    ={track.track_index}
-                                                            track_id       ={track.track_id}
-                                                            track_name     ={track.track_name}
-                                                            track_url      ={track.track_url}
-                                                            track_duration ={track.track_duration}
-                                                            artist_id      ={track.artist_id}
-                                                            artist_name    ={track.artist_name}
-                                                            album_id       ={track.album_id}
-                                                            album_name     ={track.album_name}
-                                                            album_photo    ={track.album_photo}
+                                                            key            ={`${track?.track_id}-${index}`}
+                                                            track_index    ={track?.track_index}
+                                                            track_id       ={track?.track_id}
+                                                            track_name     ={track?.track_name}
+                                                            track_url      ={track?.track_url}
+                                                            track_duration ={track?.track_duration}
+                                                            artist_id      ={track?.artist_id}
+                                                            artist_name    ={track?.artist_name}
+                                                            album_id       ={track?.album_id}
+                                                            album_name     ={track?.album_name}
+                                                            album_photo    ={track?.album_photo}
                                                             
-                                                            tracklist_id   ={track.album_id}
+                                                            tracklist_id   ={track?.album_id}
                                                             tracklist_type ="album"
                                                         />
                                                     ))}

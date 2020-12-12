@@ -42,12 +42,12 @@ const Browse = () => {
         const getNewReleases = async () => {
             try {
                 const response   = await ApiSpotify.getNewReleases()
-                const { albums } = response.data
+                const { albums } = response?.data
                 
-                setNewReleases(albums.items)
+                setNewReleases(albums?.items)
             } catch (err) {
                 // err.response.status === 401 && (window.location.href = "/login")
-                console.log("NewReleases API Error!", err.response)
+                console.log("NewReleases API Error!", err?.response)
             }
 
             // Turn off Loading
@@ -57,16 +57,16 @@ const Browse = () => {
         const getFeaturedPlaylists = async () => {
             try {
                 const response      = await ApiSpotify.getFeaturedPlaylists()
-                const { playlists } = response.data
+                const { playlists } = response?.data
                 
-                setFeaturedPlaylist(playlists.items)
+                setFeaturedPlaylist(playlists?.items)
             } catch (err) {
-                let { status } = err.response
+                let { status } = err?.response
             
                 if(status === 401) {
                     window.location.href = "/login"
                 } else {
-                    console.log("FeaturedPlaylists API Error!", err.response)
+                    console.log("FeaturedPlaylists API Error!", err?.response)
                 }
             }
         }
@@ -102,11 +102,11 @@ const Browse = () => {
                             {featuredPlaylist.map( (playlist, index) => (
                                 <Card
                                     key      ={index}
-                                    id       ={playlist.id}
-                                    title    ={playlist.name}
-                                    subtitle ={`${playlist.tracks.total} tracks`}
-                                    image    ={playlist.images[0].url}
-                                    url      ={`/playlist/${playlist.id}`}
+                                    id       ={playlist?.id}
+                                    title    ={playlist?.name}
+                                    subtitle ={`${playlist?.tracks?.total} tracks`}
+                                    image    ={playlist?.images[0].url}
+                                    url      ={`/playlist/${playlist?.id}`}
                                 />
                             ))}
                         </CardList>
@@ -117,11 +117,11 @@ const Browse = () => {
                             {newReleases.map( (album, index) => (
                                 <Card
                                     key      ={index}
-                                    id       ={album.id}
-                                    title    ={album.name}
-                                    subtitle ={`${album.total_tracks} tracks`}
-                                    image    ={album.images[0].url}
-                                    url      ={`/album/${album.id}`}
+                                    id       ={album?.id}
+                                    title    ={album?.name}
+                                    subtitle ={`${album?.total_tracks} tracks`}
+                                    image    ={album?.images[0]?.url}
+                                    url      ={`/album/${album?.id}`}
                                 />
                             ))}
                         </CardList>

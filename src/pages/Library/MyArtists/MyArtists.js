@@ -60,7 +60,7 @@ const MyArtists = () => {
     const getArtists = async ids => {
         try {
             const response    = await ApiSpotify.getArtists(ids)
-            const { artists } = response.data
+            const { artists } = response?.data
 
             let index      = 0
             let artistList = []
@@ -69,10 +69,10 @@ const MyArtists = () => {
                 let artist = artists[index]
 
                 const newArtist = {
-                    id       : artist.id,
-                    name     : artist.name,
-                    image    : artist.images[1].url,
-                    followers: `${numFormatter(parseInt(artist.followers.total))} Followers`
+                    id       : artist?.id,
+                    name     : artist?.name,
+                    image    : artist?.images[1].url,
+                    followers: `${numFormatter(parseInt(artist?.followers?.total))} Followers`
                 }
 
                 artistList = [...artistList, newArtist]
@@ -114,14 +114,14 @@ const MyArtists = () => {
             />
 
             <CardList>
-                {artists.map( (artist, index) => (
+                {artists?.map( (artist, index) => (
                     <Card
                         key      ={index}
-                        id       ={artist.id}
-                        title    ={artist.name}
-                        subtitle ={artist.followers}
-                        image    ={artist.image}
-                        url      ={`/artist/${artist.id}`}
+                        id       ={artist?.id}
+                        title    ={artist?.name}
+                        subtitle ={artist?.followers}
+                        image    ={artist?.image}
+                        url      ={`/artist/${artist?.id}`}
                     />
                 ))}
             </CardList>
