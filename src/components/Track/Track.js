@@ -67,6 +67,19 @@ const Track = memo(({
     const [openMenu     , setOpenMenu]      = useState(false)
 
     const playTrack = () => {
+        if (storeCurrentTrack.track_id) {
+            if (tracklistId === storeCurrentTrack.track_id) {
+                dispatch(setPlayerPlaying(true))
+            } else {
+                loadNewTrack()
+            }
+        } else {
+            console.log("2")
+            loadNewTrack()
+        }
+    }
+
+    const loadNewTrack = () => {
         // Setting new tracklist
         (tracklistId !== storeTracklistInfo.id) && newTrackList(tracklistType, tracklistId) 
 
