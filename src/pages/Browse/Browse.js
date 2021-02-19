@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 
 // Redux Hooks
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 // Redux Actions
 import { setLoading } from "../../redux/actions/loadingAction"
@@ -36,7 +36,6 @@ const Browse = () => {
     const [tabFeatured, setTabFeatured] = useState(true)
     const [featuredPlaylist, setFeaturedPlaylist] = useState([])
     const [newReleases, setNewReleases] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
 
     // Methods
         const getNewReleases = async () => {
