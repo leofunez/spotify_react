@@ -9,6 +9,9 @@ import { setLoading } from "../../../redux/actions/loadingAction"
 // Api
 import ApiSpotify from "../../../config/api"
 
+// Helpers
+import { goToLogin } from "../../../helpers/goToLogin"
+
 // Global Styles
 import {
     PageContainer,
@@ -40,7 +43,7 @@ const MyAlbums = () => {
             let { status } = err.response
             
             if(status === 401) {
-                window.location.href = "/login"
+                goToLogin()
             } else {
                 console.log("Error getting MyAlbums!")
             }

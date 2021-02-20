@@ -3,6 +3,9 @@ import { FETCH_PLAYLISTS } from "./types"
 // Api
 import ApiSpotify from "../../config/api"
 
+// Helpers
+import { goToLogin } from "../../helpers/goToLogin"
+
 export const fetchPlaylists = () => async dispatch => {
     try {
         const response  = await ApiSpotify.getMyPlaylists()
@@ -13,6 +16,6 @@ export const fetchPlaylists = () => async dispatch => {
             playlists: items
         })
     } catch(err) {
-        window.location.href = "/login"
+        goToLogin()
     }
 }

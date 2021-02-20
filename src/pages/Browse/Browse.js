@@ -9,6 +9,9 @@ import { setLoading } from "../../redux/actions/loadingAction"
 // Api
 import ApiSpotify from "../../config/api"
 
+// Helpers
+import { goToLogin } from "../../helpers/goToLogin"
+
 // Styles
 import {
     Tabs,
@@ -45,8 +48,7 @@ const Browse = () => {
                 
                 setNewReleases(albums?.items)
             } catch (err) {
-                // err.response.status === 401 && (window.location.href = "/login")
-                console.log("NewReleases API Error!", err?.response)
+                err?.response && console.log("NewReleases API Error!", err?.response)
             }
 
             // Turn off Loading
@@ -60,13 +62,13 @@ const Browse = () => {
                 
                 setFeaturedPlaylist(playlists?.items)
             } catch (err) {
-                let { status } = err?.response
-            
-                if(status === 401) {
-                    window.location.href = "/login"
-                } else {
-                    console.log("FeaturedPlaylists API Error!", err?.response)
+                if (err?.response) {
+                    let { status } = err?.response
+                    status === 401 && goToLogin()
+                    return
                 }
+                
+                console.log("FeaturedPlaylists API Error!", {err})
             }
         }
 

@@ -14,6 +14,9 @@ import { setPlayerPlaying,
 // Api
 import ApiSpotify from "../../../config/api"
 
+// Helpers
+import { goToLogin } from "../../../helpers/goToLogin"
+
 // Global Styles
 import {
     PageContainer,
@@ -111,7 +114,7 @@ const Playlist = props => {
                 setTimeout(() => dispatch(setLoading(false)), 1000)
             }
         } catch (err) {
-            window.location.href = "/login"
+            goToLogin()
         }
         
         // Turn off Loading

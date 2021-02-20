@@ -11,6 +11,7 @@ import ApiSpotify from "../../../config/api"
 
 // Helpers
 import { numFormatter }  from "../../../helpers/numFormatter"
+import { goToLogin } from "../../../helpers/goToLogin"
 
 // Global Styles
 import { 
@@ -58,7 +59,7 @@ const User = props => {
             if (status === 400 || status === 404) {
                 setNotFound(true)
             } else if(status === 401) {
-                window.location.href = "/login"
+                goToLogin()
             } else {
                 console.log("UserDetail API Error!")
             }

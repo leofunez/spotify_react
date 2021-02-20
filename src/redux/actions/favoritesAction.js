@@ -6,6 +6,9 @@ import {
 // Api
 import ApiSpotify from "../../config/api"
 
+// Helpers
+import { goToLogin } from "../../helpers/goToLogin"
+
 export const fetchFavoriteTracks = () => async dispatch => {
     try {
         const response = await ApiSpotify.getSavedTracks()
@@ -19,7 +22,7 @@ export const fetchFavoriteTracks = () => async dispatch => {
         const { status } = err.response
         
         if (status === 401) {
-            window.location.href = "/login"
+            goToLogin()
         } else {
             console.log(err.response)
         }

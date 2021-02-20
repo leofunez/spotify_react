@@ -7,9 +7,6 @@ import { useDispatch } from "react-redux"
 import { setLoading } from "../../redux/actions/loadingAction"
 import fecthUser from "../../redux/actions/userAction"
 
-// API
-import { appScopes, clientID, redirectURI } from "../../config/appInfo"
-
 // Styles
 import {
     Container,
@@ -24,13 +21,28 @@ import {
     AuthorHeart
 } from "./Login.styles"
 
+export const appScopes = `
+    user-read-private
+    user-read-email
+    user-library-read
+    user-library-modify
+    user-follow-read
+    user-follow-modify
+
+    playlist-read-private
+    playlist-modify-private
+    playlist-modify-public
+`;
+
 const Login = () => {
     const dispatch = useDispatch()
 
     // Methods
     const SignIn = () => {
+        const clientID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
+        const redirectURI = process.env.REACT_APP_SPOTIFY_CALLBACK_HOST;
         const baseUrl = `https://accounts.spotify.com/authorize/?client_id=${clientID}&response_type=token&redirect_uri=${encodeURIComponent(redirectURI)}&scope=${encodeURIComponent(appScopes)}&state=34fFs29kd09`;
-        window.location.href = baseUrl;        
+        window.location.href = baseUrl;     
     }
 
     const getUrlParam = () => {
@@ -54,7 +66,7 @@ const Login = () => {
     }
 
     const setNewToken = () => {
-        const spotifyToken = getUrlParam().access_token
+        const spotifyToken = getUrlParam()?.access_token
         
         if (spotifyToken) {
             dispatch(setLoading(true))

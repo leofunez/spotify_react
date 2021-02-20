@@ -9,6 +9,9 @@ import { fetchFavoriteTracks } from "../../redux/actions/favoritesAction"
 // Api
 import ApiSpotify from "../../config/api"
 
+// Helpers
+import { goToLogin } from "../../helpers/goToLogin"
+
 // Global Styles
 import {
     FormItem,
@@ -108,7 +111,7 @@ const MenuBar = memo(() => {
                 let { status } = err.response
             
                 if(status === 401) {
-                    window.location.href = "/login"
+                    goToLogin()
                 } else {
                     console.log("Error creating the playlist!")
                 }

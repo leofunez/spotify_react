@@ -7,6 +7,9 @@ import fecthUser from "../../redux/actions/userAction"
 // Api
 import ApiSpotify from "../../config/api"
 
+// Helpers
+import { goToLogin } from "../../helpers/goToLogin"
+
 // Styles
 import {
     Container,
@@ -60,7 +63,7 @@ const ProfileBar = memo(() => {
                 let { status } = err.response
             
                 if(status === 401) {
-                    window.location.href = "/login"
+                    goToLogin()
                 } else {
                     console.log("Error searching on Spotify!")
                 }

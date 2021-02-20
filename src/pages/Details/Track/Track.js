@@ -23,6 +23,7 @@ import NotFound from "../../../components/NotFound/NotFound"
 
 // Helpers
 import { timeFormatter } from "../../../helpers/timeFormatter"
+import { goToLogin } from "../../../helpers/goToLogin"
 
 // Styles
 import {
@@ -85,7 +86,7 @@ const TrackPage = props => {
 
             getAlbums(data.artists[0].id)
         } catch(err) {
-            window.location.href = "/login"
+            goToLogin()
         }
 
         setTimeout(() => dispatch(setLoading(false)), 1000)

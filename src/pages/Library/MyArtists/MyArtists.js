@@ -11,6 +11,7 @@ import ApiSpotify from "../../../config/api"
 
 // Helpers
 import { numFormatter }  from "../../../helpers/numFormatter"
+import { goToLogin } from "../../../helpers/goToLogin"
 
 // Global Styles
 import {
@@ -85,7 +86,7 @@ const MyArtists = () => {
             let { status } = err.response
             
             if(status === 401) {
-                window.location.href = "/login"
+                goToLogin()
             } else {
                 console.log("Error getting Artists!")
             }

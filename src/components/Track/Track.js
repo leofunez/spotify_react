@@ -15,6 +15,9 @@ import { fetchFavoriteTracks, setFavoriteTracks } from "../../redux/actions/favo
 // Api
 import ApiSpotify from "../../config/api"
 
+// Helpers
+import { goToLogin } from "../../helpers/goToLogin"
+
 // Styles
 import {
     Container,
@@ -169,7 +172,7 @@ const Track = memo(({
                 let { status } = err.response
             
                 if(status === 401) {
-                    window.location.href = "/login"
+                    goToLogin()
                 } else {
                     console.log("Album tracks API Errors!")
                 }
@@ -220,7 +223,7 @@ const Track = memo(({
                 let { status } = err.response
             
                 if(status === 401) {
-                    window.location.href = "/login"
+                    goToLogin()
                 } else {
                     console.log("Track detail API Errors!")
                 }
@@ -255,7 +258,7 @@ const Track = memo(({
                 let { status } = err.response
             
                 if(status === 401) {
-                    window.location.href = "/login"
+                    goToLogin()
                 } else {
                     console.log("Artist Track detail API Errors!")
                 }

@@ -17,6 +17,7 @@ import ApiSpotify from "../../../config/api"
 // Helpers
 import { numFormatter }  from "../../../helpers/numFormatter"
 import { dateFormatter } from "../../../helpers/dateFormatter"
+import { goToLogin } from "../../../helpers/goToLogin"
 
 // Global Styles
 import {
@@ -78,7 +79,7 @@ const Artist = props => {
             setArtistDesc(numFormatter(parseInt(data.followers.total)))
             setArtistImage(data.images[0] && data.images[0].url)
         } catch (err) {
-            window.location.href = "/login"
+            goToLogin()
         }
     }
 
@@ -110,7 +111,7 @@ const Artist = props => {
 
             setPopulars(trackList)
         } catch (err) {
-            window.location.href = "/login"
+            goToLogin()
         }
     }
 
@@ -122,7 +123,7 @@ const Artist = props => {
             
             setRelated(lastArtist)
         } catch (err) {
-            window.location.href = "/login"
+            goToLogin()
         }
     }
 
@@ -171,7 +172,7 @@ const Artist = props => {
 
             setTimeout(() => dispatch(setLoading(false)), 1000)
         } catch (err) {
-            window.location.href = "/login"
+            goToLogin()
         }
 
         setTimeout(() => dispatch(setLoading(false)), 1000)
