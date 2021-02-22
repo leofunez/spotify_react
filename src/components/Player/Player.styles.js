@@ -33,7 +33,7 @@ export const Container = styled.section`
     }
 
     ${breakpoint.md} {
-        grid-column: menu-start / span 2;
+        grid-column: menu-start / -1;
     }
 `;
 

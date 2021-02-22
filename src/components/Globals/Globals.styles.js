@@ -67,7 +67,7 @@ export const CardList = styled.div`
         grid-template-columns: repeat(3, 1fr);
     }
 
-    ${breakpoint.lg} {
+    ${breakpoint.xl} {
         grid-template-columns: repeat(4, 1fr);
         grid-gap: 60px 30px;
     }

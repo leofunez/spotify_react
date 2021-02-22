@@ -2,9 +2,6 @@ import styled from "styled-components"
 import { COLORS } from "../../helpers/colors"
 import loaderSVG from "../../assets/img/loaders/green.svg"
 
-// Breakpoints
-import { breakpoint } from "../../helpers/breakpoint"
-
 export const Container = styled.div`
     position: absolute;
     width: 100%;
@@ -14,14 +11,6 @@ export const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url(${loaderSVG}) no-repeat center / 70px ${COLORS.dark};
+    background: url(${loaderSVG}) no-repeat center / 70px ${COLORS.dark2};
     z-index: 2;
-
-    ${breakpoint.md} {
-        background-position: calc(50% - 100px) center;
-    }
-
-    ${breakpoint.lg} {
-        background-position: calc(50% - 110px) center;
-    }
 `;

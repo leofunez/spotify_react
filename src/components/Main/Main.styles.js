@@ -58,7 +58,8 @@ export const Main = styled.main`
         ${breakpoint.lg} {
             grid-template-columns:
             [menu-start] 240px
-            [content-start] 1fr;
+            [content-start] 1fr
+            [aside] 240px;
         }
     `}
 `;

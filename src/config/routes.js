@@ -13,6 +13,7 @@ import {
 import MenuBar from "../components/MenuBar/MenuBar"
 import ProfileBar from "../components/ProfileBar/ProfileBar"
 import Player from "../components/Player/Player"
+import Aside from "../components/Aside/Aside"
 import Loader from "../components/Loader/Loader"
 
 // Main
@@ -69,6 +70,8 @@ const Routes = (
                     </Switch>
                 </MainWrapper>
             </MainContent>
+
+            {isNotLogin && <Aside />}
 
             {isNotLogin && <Player />}
         </Main>
