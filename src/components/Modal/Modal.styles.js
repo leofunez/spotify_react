@@ -77,7 +77,7 @@ export const Close = styled.button`
 `;
 
 export const Body = styled.div`
-    padding: 30px 20px;
+    padding: 30px 20px 10px 20px;
     text-align: center;
 `;
 

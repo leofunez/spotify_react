@@ -181,7 +181,7 @@ export const Input = styled.input`
     `}
 
     ${breakpoint.xs} {
-        padding: 10px 30px;
+        padding: 10px 20px;
         font-size: 14px;
     }
 `;
@@ -198,13 +198,14 @@ export const TextArea = styled.textarea`
     resize: none;
     height: 200px;
     padding: 20px 15px;
+    margin-bottom: 0;
 
     ${({hasError}) => hasError &&`
         border-color: ${COLORS.green};
     `}
 
     ${breakpoint.xs} {
-        padding: 20px 30px;
+        padding: 20px;
         font-size: 14px;
     }
 `;
@@ -223,7 +224,9 @@ export const InputMessage = styled.span`
 `;
 
 export const FormItem = styled.div`
-    margin-bottom: 20px;
+    &:not(:last-of-type) {
+        margin-bottom: 20px;
+    }
 `;
 
 export const Slider = styled.input.attrs({ type: "range" })`

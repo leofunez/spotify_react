@@ -35,6 +35,10 @@ const Modal = ({
 
     useEffect(() => {
         setShowModal(show)
+
+        window.addEventListener("keyup", event => {
+            (event?.keyCode === 27) && handleModalNo()
+        }, false);
     }, [show])
 
     return (
