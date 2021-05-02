@@ -66,3 +66,17 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+
+# Environment files
+Create two files with this parameters like this:
+
+1. .env.development
+
+    REACT_APP_SPOTIFY_CLIENT_ID=THISISMYCLIENTID123232
+    REACT_APP_SPOTIFY_CALLBACK_HOST=http://localhost:3000/login
+
+2. .env.production
+    REACT_APP_SPOTIFY_CLIENT_ID=THISISMYCLIENTID123232
+    REACT_APP_SPOTIFY_CALLBACK_HOST=https://spotify-v2-react.netlify.app/login
