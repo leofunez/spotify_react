@@ -20,6 +20,7 @@ Live demo: `https://spotify-v2-react.netlify.app` (see `public/index.html` `og:u
 
 ## Table of Contents
 
+- [Screenshots](#screenshots)
 - [Features](#features)
 - [Tech Stack / Frameworks](#tech-stack--frameworks)
 - [Dependencies](#dependencies)
@@ -32,7 +33,20 @@ Live demo: `https://spotify-v2-react.netlify.app` (see `public/index.html` `og:u
 - [State Management (Redux)](#state-management-redux)
 - [Key Components](#key-components)
 - [Auth, Player & Theming Notes](#auth-player--theming-notes)
-- [Screenshots](#screenshots)
+
+## Screenshots
+
+### Dark mode — Artist detail (The Weeknd)
+
+Artist header with 72M followers, Top Tracks list (`Popular`, `Die for you`, `Starboy`, `Creepin'`, `Blinding lights`), Related Artists sidebar (6LACK, Brent Faiyaz, Bryson Tiller…), left Discover/Library/My Playlists nav, and green bottom player bar playing `Die For You`.
+
+![Dark mode - The Weeknd artist page with top tracks and player](docs/screenshots/screenshot-dark.png)
+
+### Light mode — Search / Artist detail (Milli Vanilli)
+
+Light theme search for `Shakira` resolving to Milli Vanilli (341K followers), Top Tracks (`Girl you know it's true`, `I'm gonna miss you`, `Baby don't forget my number`…), Related Artists (Exposé, Taylor Dayne, Debbie Gibson…), same library sidebar and green player bar playing `Baby Don't Forget My Number`.
+
+![Light mode - Milli Vanilli artist page with search and player](docs/screenshots/screenshot-light.png)
 
 ## Features
 
@@ -252,17 +266,3 @@ Only tracks with non-null `preview_url` are playable.
 - Implicit Grant only, no refresh handling; token in plain `localStorage`.
 - Player previews are ~30s MP3s (`track.preview_url`).
 - Default theme is dark (`globals.scss: $dark`, `COLORS.dark #051023`). `src/assets/scss/_ligth.scss` (`.app--is-light`) exists but is currently dead code (no toggle found).
-
-## Screenshots
-
-### Dark mode — Artist detail (The Weeknd)
-
-Artist header with 72M followers, Top Tracks list (`Popular`, `Die for you`, `Starboy`, `Creepin'`, `Blinding lights`), Related Artists sidebar (6LACK, Brent Faiyaz, Bryson Tiller…), left Discover/Library/My Playlists nav, and green bottom player bar playing `Die For You`.
-
-![Dark mode - The Weeknd artist page with top tracks and player](docs/screenshots/screenshot-dark.png)
-
-### Light mode — Search / Artist detail (Milli Vanilli)
-
-Light theme search for `Shakira` resolving to Milli Vanilli (341K followers), Top Tracks (`Girl you know it's true`, `I'm gonna miss you`, `Baby don't forget my number`…), Related Artists (Exposé, Taylor Dayne, Debbie Gibson…), same library sidebar and green player bar playing `Baby Don't Forget My Number`.
-
-![Light mode - Milli Vanilli artist page with search and player](docs/screenshots/screenshot-light.png)
